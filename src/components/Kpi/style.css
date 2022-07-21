@@ -1,0 +1,119 @@
+.kpi-value-section {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  padding-top: 13px;
+    padding-bottom: 13px;
+  
+}
+
+.kpi-container{
+  color:var(--chart-font-color);
+  text-align: center;
+  padding-top: 10px;
+}
+
+.kpi-variances {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.kpi-value,
+.kpi-variance {
+  display: flex;
+  justify-content: left;
+    align-items: center;
+}
+
+.kpi-title {
+  white-space: nowrap;
+  
+}
+
+.kpi-value {
+  font-weight: 600;
+    flex-shrink: 1;
+    font-size: 1.3em;
+    margin-right: 10px;
+    /* color: #3E8DDD; */
+ 
+}
+
+.variance-label {
+  margin-right: 3px;
+  display: flex;
+  flex-grow: 1;
+  white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* display: inline-block; */
+    max-width: 175px;
+    /* background-color: red; */
+  
+}
+
+.neutral {
+  display: none;
+}
+
+.viewMore{
+  text-decoration: none;
+    color:#3E8DDD;
+    /* #131213; */
+    text-align: left;
+    background-color:snow; 
+     /* #e9eaee; */
+    border: 9px red;
+    padding-left: 8px;
+    height: 27px;
+    position: relative;
+    top: -4px;
+    margin: 2px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    font-weight: bolder;
+}
+/* .viewMore:hover{
+  background-color: #3E8DDD;
+  color:white;
+} */
+
+/* .note.variance-label.kpiv2 {
+  margin-right: 45px;
+} */
+
+@media (max-width: 920px) {
+  .kpi-value.display.kpiv2 {
+    min-width: 97px;
+    margin-right: 5px;
+  }
+  .note.variance-label.kpiv2 {
+    margin-right: 25px;
+  }
+}
+
+@media (max-width: 800px) {
+  .variance-label {
+      max-width: 35px;
+      /* background-color: rgb(255, 111, 0); */
+  }
+  .kpi-value {
+    font-size: 16px;
+  }
+  }
+
+@media (max-width: 1100px) {
+.variance-label {
+  display: flex;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    max-width: 75px;
+    /* background-color: blue; */
+  
+}
+}
+/* 
+break points 920,800,1100 */

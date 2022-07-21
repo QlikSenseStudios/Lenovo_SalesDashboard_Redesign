@@ -1,0 +1,71 @@
+svg {
+    overflow: visible;
+}
+.field{
+    color: red;
+}
+
+.leapkpi-value-section {
+    display: flex;
+    flex-direction: row;
+}
+
+.leapkpi-display {
+    font-size: 40px;
+    font-weight: normal;
+    
+}
+.leapkpi-bottom-container {
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    /* padding: 15px; */
+    color: black;
+    padding-left: 30px;
+    /* padding-bottom: 21px; */
+    padding-right: 15px;
+    padding-top: 25px;
+}
+.leapkpi{
+    display: contents;
+}
+.tick text{
+    font-size: 12px;
+}
+.tick line{
+    opacity: 0.5;
+    stroke-dasharray: 3 5; 
+}
+ 
+/*HTML Horizonal Legend*/
+
+.key-dot {
+    display: inline-block;
+    height: 10px;
+    /* margin-right: .5em; */
+    width: 10px;
+}
+#leapkpi-legend{
+    overflow:hidden;
+}
+
+.leapkpi-legend {
+    float:left;
+    margin-right: 1em;    
+    font-size: 11px;
+    font-family: sans-serif;
+}
+
+.leaptitle{
+    margin-bottom: 10px;
+   
+}
+
+.leapbar-kpi{
+    margin-bottom: 20px;
+}
+.leapbar-kpi .leapkpi-value-section, .leapbar-kpi .subtitle {
+    padding-left: 8px;
+    font-size: 10px;
+    white-space: normal;
+}

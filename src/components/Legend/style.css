@@ -1,0 +1,27 @@
+.Legend{
+    text-align: center;
+    top: 93%;
+    width: 100%;
+}
+
+.Legend span{
+    padding: 3px 5px;
+    color: snow;
+    border-radius: 4px;
+    font-weight: bolder;
+    font-size: 14px;
+}
+.Sales-Legend{
+    text-align: center;
+    top: 93%;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.Sales-Legend span{
+    padding: 3px 5px;
+  
+    color: black;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 13px;
+}

@@ -1,0 +1,183 @@
+.sales-gauge {
+  .utilization_container {
+    max-width: 250px;
+    height: 100%;
+  }
+
+  .circle-block {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    // cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin-left: 6px;
+    height: 100%;
+  }
+
+  .circle-block svg {
+    width: 225px;
+  }
+
+  .svg {
+    height: 100%;
+  }
+
+  .percentage {
+    position: absolute;
+    color: #f70065;
+    top: 60px;
+    left: 0;
+    bottom: 0;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .percentage h1 {
+    font-size: 55px;
+    line-height: 41px;
+  }
+
+  .percentage p {
+    font-size: 11px;
+  }
+
+  .percentage2 {
+    color: black;
+  }
+
+  .circle-max {
+    fill: none;
+    stroke-width: 6px;
+    stroke: #445a6a;
+    stroke-linejoin: round;
+  }
+
+  .circle-current {
+    fill: none;
+    stroke: #ff6a00;
+    stroke-linejoin: round;
+    stroke-width: 6px;
+  }
+
+  .percentage.percentage2 .subtitle {
+    max-width: 128px;
+    text-align: center;
+    height: 40.5px;
+  }
+
+  .percentage.percentage2 .display {
+    line-height: 80px;
+  }
+
+  @media (max-width: 1100px) {
+    .percentage.percentage2 .display {
+      line-height: 84px;
+    }
+    .circle-current {
+      stroke-width: 5px;
+    }
+    .circle-max {
+      stroke-width: 5px;
+    }
+    .circle-block svg {
+      width: 250px;
+    }
+  }
+
+  @media (max-width: 1000px) {
+    .percentage.percentage2 .display {
+      line-height: 76px;
+    }
+  }
+
+  @media (max-width: 995px) {
+    .percentage.percentage2 .display {
+      line-height: 64px;
+    }
+    .circle-block svg {
+      width: 190px;
+    }
+    .percentage {
+      top: 50px;
+    }
+  }
+
+  @media (max-width: 940px) {
+    .percentage.percentage2 .display {
+      line-height: 56px;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .percentage.percentage2 .display {
+      line-height: 48px;
+    }
+  }
+
+  @media (max-width: 865px) {
+    .percentage {
+      top: 30px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .circle-block svg {
+      width: 170px;
+    }
+    .percentage.percentage2 .subtitle {
+      padding-top: 5px;
+    }
+  }
+
+  @media (max-width: 415px) {
+    .percentage.percentage2 .subtitle {
+      height: 28.5px;
+    }
+  }
+
+  @media (max-width: 385px) {
+    .circle-block svg {
+      width: 150px;
+    }
+    .percentage.percentage2 .display {
+      line-height: 55px;
+    }
+    .percentage {
+      top: 20px;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .percentage.percentage2 .subtitle {
+      padding-top: 14px;
+    }
+    .circle-block svg {
+      width: 140px;
+    }
+    .percentage {
+      top: 12px;
+    }
+  }
+
+  @media (max-width: 320px) {
+    .circle-block svg {
+      width: 125px;
+    }
+    .percentage.percentage2 .display {
+      line-height: 50px;
+    }
+    .percentage.percentage2 .subtitle {
+      padding-left: 5px;
+    }
+    .percentage {
+      top: 8px;
+    }
+  }
+}

@@ -1,0 +1,21 @@
+export const drillDownMappingException = [
+  "DCG-BR-9",
+  "DCG-EMEA-9",
+  "DCG-LAS-9",
+  "DCG-NA-9",
+  "PCSD-AP-14",
+  "PCSD-BR-14",
+  "PCSD-EMEA-14",
+  "PCSD-LAS-14",
+  "PCSD-NA-14",
+  "DCG-BR-10",
+  "DCG-EMEA-10",
+  "DCG-LAS-10",
+  "DCG-NA-10",
+  "PCSD-AP-15",
+  "PCSD-BR-15",
+  "PCSD-EMEA-15",
+  "PCSD-LAS-15",
+  "PCSD-NA-15",
+];
+export default drillDownMappingException;
