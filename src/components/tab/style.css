@@ -9,7 +9,8 @@
   }
   .tab-content {
     overflow-y: auto;
-    /* height: 650px; */
+     /* disable height onlyin dev to enable scroll bar*/
+    /* height: 650px;  */
     /* width: 69.8%; */
   }
 
