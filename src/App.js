@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo } from "react";
+import React, { useMemo } from "react";
 import "./App.css";
 
 // Shared Components
@@ -8,7 +8,7 @@ import Page from "./Pages/PerformancePage";
 //import { filter, flow, sortBy } from "lodash/fp";
 import { flow, sortBy } from "lodash/fp";
 import PlaceHolder from "./components/PlaceHolder";
-import Legend from "./components/Legend";
+//import Legend from "./components/Legend";
 import Loader from "./components/Loader";
 import { useSession, useAppData, useGetSheetData } from "./hooks/index";
 
@@ -78,14 +78,14 @@ const App = () => {
   //connectionError.doc.error ="Error"
 
   //let legend = <div><span>Click on a KPI object to access detailed data of the KPI</span></div>;
-  var noDataCondition = tabTitles.length==0 || groups == undefined || connectionError.doc.error;
+  var noDataCondition = tabTitles.length===0 || groups === undefined || connectionError.doc.error;
   return (
     <div  className={noDataCondition ? "noAccessBg": ""} > 
         {accessDenied || connectionError.doc.error !== null ? (
           <PlaceHolder message="No data available for the partner logged-in, Please try with a different partner" />
         ) : connectionError.session.error !== null ? (
           <PlaceHolder message="Connection Failed" />
-        ) :  tabTitles.length==0  || groups == undefined ?
+        ) :  tabTitles.length===0  || groups === undefined ?
         (<PlaceHolder message="No data available for the partner logged-in, Please try with a different partner" />):
         
         ( 

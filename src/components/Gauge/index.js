@@ -14,10 +14,10 @@ var debug = false;
     });
   
    //sort rows based on the valueType - Actual in index 0 and Targer in index 1   
-   var order = ["ACTUAL","TARGET"];
-   var sorted = row.sort(function(a, b) {
-    return order.indexOf((a.valueType)) - order.indexOf((b.valueType));
- });
+  // var order = ["ACTUAL","TARGET"];
+  //  var sorted = row.sort(function(a, b) {
+  //   return order.indexOf((a.valueType)) - order.indexOf((b.valueType));
+  //   });
   
     if(debug){
         console.log(row);

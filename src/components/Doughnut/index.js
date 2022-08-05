@@ -23,7 +23,7 @@ let DataRows = objDef.map((items)=>{
             title:items[3].qText,
             val:items[12].qNum,
             f_val:items[13].qText,
-            lbl:items[14].qText=="IDG"?"PCSD":items[14].qText}  
+            lbl:items[14].qText === "IDG"?"PCSD":items[14].qText}  
   });
 
   //console.log("Dougnut",DataRows); 
@@ -98,8 +98,7 @@ const data = {
   
 ],
 title: chartTitle, //row[0].title.split(row.[0].lbl),
-total: row[0].val + row[1].val + row[2].val,
-currency: ""
+total: row[0].val + row[1].val + row[2].val
 }
 
 const container = useDoughnutContainer(data.dataPoints);
@@ -108,10 +107,7 @@ const container = useDoughnutContainer(data.dataPoints);
 
   const {
      dataPoints,
-     title,
-     total,
-     currency
-
+     title
   } = data;
 
   return (
@@ -125,7 +121,7 @@ const container = useDoughnutContainer(data.dataPoints);
         </svg>
 
         {/* <div className="total midpoint">
-          <div className="subtitle">{ nFormatter(total==7540?1854:total)}</div>
+          <div className="subtitle">{ nFormatter(total===7540?1854:total)}</div>
       
         </div> */}
         <div className="donut-legend">

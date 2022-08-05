@@ -75,7 +75,7 @@ const Line = ({
 
       return y;
     }
-  }, [height, d3Data.data]);
+  }, [height, d3Data.data, d3Data.referenceLineData]);
 
   useEffect(() => {
     if (width && height !== 0) {

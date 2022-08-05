@@ -31,7 +31,7 @@ export default () => {
       });
       setSheetData(sheets.data);
     }
-  }, [apps, sheets]);
+  }, [apps, sheets, config]);
 
   return sheetData;
 };

@@ -52,7 +52,7 @@ export default () => {
       setAppData(appLayout.data);
       setPreLoader(false)
     }
-  }, [chartControl]);
+  }, [chartControl, appLayout]);
 
 
 const tabOrder = ['PCSD Sales Overview',

@@ -14,7 +14,7 @@ export default ({ page: page }) => {
         message = languages.filter((d, i) => d.key === 'EN_US')[0].legendMsg;
     }
     let classes = ['Legend'];
-    if (page == 'sales') {
+    if (page === 'sales') {
         classes = ['Sales-Legend']
     }
     return (

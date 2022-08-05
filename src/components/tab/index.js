@@ -34,9 +34,9 @@ const Tab = ({ children, active = 0 }) => {
 // console.log("activeTab",activeTab);
 
 
-    if(tabsData[activeTab] !=undefined){
+    if(tabsData[activeTab] !== undefined){
     //  console.log("children",tabsData[activeTab].children[1].props.data.length);
-      if(tabsData[activeTab].children[1].props.data.length==0){
+      if(tabsData[activeTab].children[1].props.data.length === 0){
       SetdataAvailalbe(false)
       }else{ SetdataAvailalbe(true)}
     }

@@ -1,4 +1,4 @@
-import React, { useMemo,useCallback,useState } from "react";
+import React, { useMemo,useCallback } from "react";
 import { Gauge, Kpi, Line, LeapKpi, Bar, Doughnut } from "../components";
 import { usePageData } from "../hooks/index";
 import PlaceHolder from "../components/PlaceHolder";
@@ -6,8 +6,6 @@ import DrillDownUrl  from "../DrillDownUrl";
 import { isNull } from "lodash";
 import ViewMore from "../components/ViewMore";
 import { groupBy as lodashGroupBy } from "lodash";
-//import { color } from "d3";
-
 
 const Page = ({ data, sheetData,tabName }) => {
 // console.log("tabName",tabName)
@@ -23,11 +21,6 @@ const Page = ({ data, sheetData,tabName }) => {
 // console.log("kpiTopRowCount",kpiTopRowCount)
 // console.log("Top KPI", groupedKpis.filter((d, i) => d[0][1].qNum < 2)) 
 // console.log("bottom KPI", groupedKpis.filter((d, i) => d[0][1].qNum > 2)) 
-const [datah, setData] = useState('');
-  
-  const childToParent = (childdata) => {
-    setData(childdata);
-  }
 
 // console.log("Top KPI", groupedKpis.filter((d, i) => d[0][1].qNum < 2)) 
 // console.log("bottom KPI", groupedKpis.filter((d, i) => d[0][1].qNum > 2)) 
@@ -77,7 +70,7 @@ let subTitle="";
                 {/* <div style={{color:"red"}}>   {"KPI"+qDef[0][1].qNum} </div> */}
                 </div>
               
-                    <ViewMore drillDownUrl= {drillDownUrl} childToParent={childToParent} ></ViewMore>
+                    <ViewMore drillDownUrl= {drillDownUrl}></ViewMore>
                 </div>
           )       
         });
@@ -111,13 +104,13 @@ let subTitle="";
                 <Kpi qDef={qDef} />
                 {/* <div style={{color:"red"}}>   {"KPI"+qDef[0][1].qNum} </div> */}
               </div>
-              <ViewMore drillDownUrl= {drillDownUrl} ></ViewMore>
+              <ViewMore drillDownUrl= {drillDownUrl}></ViewMore>
              </div>
           );
         });
        
     }
-  }, [groupedKpis , sheetData,bottomRowCount]);
+  }, [groupedKpis, sheetData, tabName]);
 
   // // map through gauge defs
   const GaugeColumns = useMemo(() => {
@@ -148,7 +141,7 @@ let subTitle="";
         });
        // return <div>Guage</div>;
     }
-  }, [groupedGauges, sheetData]);
+  }, [groupedGauges, sheetData, tabName]);
 
   // // map through line defs
   const LineColumns = useMemo(() => {
@@ -181,7 +174,7 @@ let subTitle="";
       });
      // return <div>Line Columns</div>;
     }
-  }, [groupedLines, GaugeColumns.length, KpiColumnsBottomRow.length , sheetData]);
+  }, [groupedLines, GaugeColumns.length, KpiColumnsBottomRow.length, sheetData, tabName]);
 
   // // map through line defs
   const BarColumns = useMemo(() => {
@@ -215,7 +208,7 @@ let subTitle="";
       });
      return <div>Bar Columns</div>;
     }
-  }, [groupedBars, GaugeColumns, KpiColumnsBottomRow , sheetData]);
+  }, [groupedBars, GaugeColumns, KpiColumnsBottomRow, sheetData, tabName]);
 
    // // map through kpi defs for the bottom row of objects
    const LeapKpiColums = useMemo(() => {
@@ -251,7 +244,7 @@ let subTitle="";
         });
         //return <div> LeapKpiColums</div>;
     }
-  }, [groupedLeaps, GaugeColumns , KpiColumnsBottomRow,sheetData]);
+  }, [groupedLeaps, GaugeColumns, KpiColumnsBottomRow, sheetData, tabName]);
 
   const DoughnnutColums = useMemo(() => {
     if (groupedDoughnut !== undefined) {
@@ -288,7 +281,7 @@ let subTitle="";
         });
         //return <div> LeapKpiColums</div>;
     }
-  }, [groupedDoughnut, GaugeColumns , KpiColumnsBottomRow,sheetData]);
+  }, [groupedDoughnut, GaugeColumns , KpiColumnsBottomRow,sheetData, tabName]);
 
 
   // Rearrange the bottom row to make sure line chart is positioned correctly
@@ -312,12 +305,12 @@ let groupedGridRows = groupBy(sortedBottomRow);
     
  //console.log(window.innerWidth);
 //mobile rendering. Only show a 2 X 2 matrix when screen width is less than 500px
-if (window.innerWidth < 770 && KpiColumnsTopRow.length === 4 && 1==2) {
+if (window.innerWidth < 770 && KpiColumnsTopRow.length === 4 && 1===2) {
   //console.log("window.innerWidth < 750")
  //KpiColumnsTopRow.length = 2;
      
 }
-if (window.innerWidth < 770 && sortedBottomRow.length >= 2 && 1==2) {
+if (window.innerWidth < 770 && sortedBottomRow.length >= 2 && 1===2) {
  sortedBottomRow = [].concat(KpiColumnsBottomRow, GaugeColumns);
 // sortedBottomRow.length = 2;
 }
@@ -359,7 +352,7 @@ if (window.innerWidth < 770 && groupedGridRows.length){
                        if(i>0 && tabName.includes("Lenovo")){
                          // console.log("PREV TITEL",groupedGridRows[i-1][0].props.rowtitle);
                          // console.log("CUR TITEL",rowItems[0].props.rowtitle);
-                         title= groupedGridRows[i-1][0].props.rowtitle == rowItems[0].props.rowtitle ? "" : rowItems[0].props.rowtitle
+                         title= groupedGridRows[i-1][0].props.rowtitle === rowItems[0].props.rowtitle ? "" : rowItems[0].props.rowtitle
                        }
                     }
 

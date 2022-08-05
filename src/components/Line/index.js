@@ -1,5 +1,4 @@
 
-import { line } from "d3";
 import { isNull } from "lodash";
 import React, { useCallback, useRef } from "react";
 import { useHyperCubeData, useChartSpec } from "../../hooks/index";
@@ -114,8 +113,8 @@ var debug = false;
 if(data && row.length){
 
   if(debug){
-    console.debug("data",data); 
-    console.debug("lineData",lineData);
+    // console.debug("data",data); 
+    // console.debug("lineData",lineData);
     }
 
     
@@ -123,21 +122,21 @@ if(data && row.length){
  // (item)=>item.kpi_value_type=='ACTUAL'
     lines = data.filter((item)=> item.week !== "-"? !isNaN(item.week):true)
     .filter((item)=> item.pos === row[0].pos)
-    .filter((item)=>(item.kpi_value_type).toUpperCase()=='ACTUAL')
+    .filter((item)=>(item.kpi_value_type).toUpperCase()==='ACTUAL')
     .map(function(r){ return  [{"qNum": parseInt(r.val)},{"qNum":parseInt(r.week) },{"qNum":parseInt(r.val)}];
   });
   
   var lineData= {
     title: row.find(o => (o.kpi_Val_type).toUpperCase() === 'ACTUAL').lbl,
     lineChart:lines,
-    upperTarget: data.filter((item)=>(item.kpi_value_type).toUpperCase()=='UPPER TARGET').length ? data.filter((item)=>(item.kpi_value_type).toUpperCase()=='UPPER TARGET')[0].val:null,
-    lowerTarget: data.filter((item)=>(item.kpi_value_type).toUpperCase()=='LOWER TARGET').length ? data.filter((item)=>(item.kpi_value_type).toUpperCase()=='LOWER TARGET')[0].val:null ,
+    upperTarget: data.filter((item)=>(item.kpi_value_type).toUpperCase()==='UPPER TARGET').length ? data.filter((item)=>(item.kpi_value_type).toUpperCase()==='UPPER TARGET')[0].val:null,
+    lowerTarget: data.filter((item)=>(item.kpi_value_type).toUpperCase()==='LOWER TARGET').length ? data.filter((item)=>(item.kpi_value_type).toUpperCase()==='LOWER TARGET')[0].val:null ,
   };
 
   if(debug)
   console.log(lineData)
 
-  var refLine = isNull(lineData.upperTarget)?false: isNull(lineData.lowerTarget)?false:true;
+ refLine = isNull(lineData.upperTarget)?false: isNull(lineData.lowerTarget)?false:true;
 //  refLine = isNull(lineData.upperTarget)?false: isNull(lineData.lowerTarget)?false:true;
 //  console.log(refLine)
 }

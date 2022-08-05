@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./style.css";
-import { FaStaylinked, FiLink, AiFillDashboard, FaFileInvoiceDollar,FaPoll } from 'react-icons/fa';
 
 export default ({ qDef: objDef }) => {
  //console.log("KPI DEF", objDef);
@@ -24,8 +23,6 @@ export default ({ qDef: objDef }) => {
     console.error("Custom error", row);
     console.table(row);
   }
-
-const [iconColor, setIconColor] = React.useState("");
 
 var colors =["#E1140A","#00cc44"]
 
@@ -87,14 +84,9 @@ var colors =["#E1140A","#00cc44"]
     variance2Title,
     variance3Title
   } = data;
-  
-
-
-
 
   return (
-    <div className="kpi-container" onMouseEnter={()=>setIconColor("#3E8DDD")}
-    onMouseLeave={() => setIconColor("")}>
+    <div className="kpi-container">
       <div className={`subtitle`}>{title}</div>
       <div className="kpi-value-section">
         <div

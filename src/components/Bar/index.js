@@ -6,7 +6,6 @@ import Bar from "./bar";
 
 export default ({ qDef: objDef }) => {
  //console.log("Bar qDef",objDef);
-  var objQid;
   var debug = false;
   let row = objDef.map((items)=>{
     return {pos:items[1].qText, //
