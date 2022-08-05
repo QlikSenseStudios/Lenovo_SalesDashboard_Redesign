@@ -6,7 +6,7 @@ import DrillDownUrl  from "../DrillDownUrl";
 import { isNull } from "lodash";
 import ViewMore from "../components/ViewMore";
 import { groupBy as lodashGroupBy } from "lodash";
-import { color } from "d3";
+//import { color } from "d3";
 
 
 const Page = ({ data, sheetData,tabName }) => {

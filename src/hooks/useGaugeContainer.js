@@ -54,7 +54,7 @@ export default (data) => {
         .attr("transform", "translate(48,48) rotate(225)")
         .attr("d", (d) => {
           if (d.note2Value < 0) {
-            return arc({
+            return arc({ 
               endAngle: 0,
               startAngle: 0,
               innerRadius: 45,

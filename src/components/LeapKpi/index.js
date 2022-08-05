@@ -76,8 +76,8 @@ if(debug){
     leapkpititle,
     leapkpivalue
   } = data;
-  console.log(data);
-  const values = Object.entries(colors);
+  //console.log(data);
+ //const values = Object.entries(colors);
 
   return (
     <div className="leapkpi">

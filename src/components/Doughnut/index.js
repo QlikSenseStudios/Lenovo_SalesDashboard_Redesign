@@ -1,5 +1,5 @@
 import React   from "react";
- import { useDoughnutContainer } from "../../hooks/index";
+import { useDoughnutContainer } from "../../hooks/index";
 import "./style.css";
 
 export default ({ qDef: objDef  }) => {
@@ -10,7 +10,15 @@ export default ({ qDef: objDef  }) => {
 // }
 //console.log("DougnutDEf",objDef);
 
-let row = objDef.map((items)=>{
+function search(nameKey, myArray){
+  for (var i=0; i < myArray.length; i++) {
+      if (myArray[i].lbl === nameKey) {
+          return myArray[i];
+      }
+  }
+}
+
+let DataRows = objDef.map((items)=>{
   return { valueType:(items[4].qText).toUpperCase(),
             title:items[3].qText,
             val:items[12].qNum,
@@ -18,8 +26,18 @@ let row = objDef.map((items)=>{
             lbl:items[14].qText=="IDG"?"PCSD":items[14].qText}  
   });
 
-  //console.log("Dougnut",row); 
+  //console.log("Dougnut",DataRows); 
 
+let row = [];  
+let chartTitle = DataRows[0].title.split("IDG");
+let currency_abb = DataRows[0].f_val.substr(DataRows[0].f_val.length - 3);
+var chartColors = ["#FF7675","#8246AF","#F04187"];
+
+  row[0] = search("PCSD", DataRows) ? search("PCSD", DataRows) : {f_val: "0.0 " + currency_abb, lbl: "PCSD", title: null, val: 0, valueType: "ACTUAL" };
+  row[1] = search("ISG", DataRows) ? search("ISG", DataRows) : {f_val: "0.0 " + currency_abb , lbl: "ISG", title: null, val: 0, valueType: "ACTUAL" };
+  row[2] = search("Services", DataRows) ? search("Services", DataRows) : {f_val: "0.0 " + currency_abb, lbl: "Services", title: null, val: 0, valueType: "ACTUAL" };
+  
+//console.log("chk", row);
 
 function nFormatter(num) {
   if (num >= 999999999) {
@@ -33,12 +51,6 @@ function nFormatter(num) {
   }
   return Math.sign(num)*Math.abs(num);
 }
-
-//var chartColors = ["#FF6A00","#8246AF","#F04187"]; 
-//var chartColors = ["#FF6A00","#3e4b55","#F04187"]; 
-//var chartColors = ["#FF6A00","#bfbfbf","#0099e6"];
-// var chartColors = ["#FF6A00","#3e4b55","#0099e6"]; 
-var chartColors = ["#FF7675","#8246AF","#F04187"];
 
 
 // var currency_symbols = {
@@ -62,32 +74,31 @@ var chartColors = ["#FF7675","#8246AF","#F04187"];
 
 const data = {
   dataPoints:[
-  {
-      "bu": 0,
-      "value": row[0].val,
-      "f_val": row[0].f_val,
-      "lbl": row[0].lbl,
-      "color": "red"
+    {
+        "bu": 0,
+        "value": row[0].val,
+        "f_val": row[0].f_val,
+        "lbl": row[0].lbl,
+        "color": "red"
+    },
+    {
+        "bu": 1,
+        "value":row[1].val,
+        "f_val": row[1].f_val,
+        "lbl": row[1].lbl,
+        "color":"blue"
+    },
+    {
+      "bu": 2,
+      "value": row[2].val,
+      "f_val":  row[2].f_val,
+      "lbl": row[2].lbl,
+      "color":"green"
   },
-  {
-      "bu": 1,
-      "value":row[1].val,
-      "f_val": row[1].f_val,
-      "lbl": row[1].lbl,
-      "color":"blue"
-  },
-  {
-    "bu": 2,
-    "value": row[2].val,
-    "f_val": row[2].f_val,
-    "lbl": row[2].lbl,
-    "color":"green"
-},
   
 ],
-title: row[1].title.split(row[1].lbl),
-//title: row[1].title,
-total: row[0].val + row[1].val + row[2].val ,
+title: chartTitle, //row[0].title.split(row.[0].lbl),
+total: row[0].val + row[1].val + row[2].val,
 currency: ""
 }
 
