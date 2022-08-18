@@ -1,4 +1,4 @@
-import React, { useMemo,useCallback } from "react";
+import React, { useMemo,useCallback,useRef,useEffect } from "react";
 import { Gauge, Kpi, Line, LeapKpi, Bar, Doughnut } from "../components";
 import { usePageData } from "../hooks/index";
 import PlaceHolder from "../components/PlaceHolder";
@@ -328,6 +328,20 @@ if (window.innerWidth < 770 && groupedGridRows.length){
 
 
 
+const ref = useRef(null);
+useEffect(() => {
+  if(ref.current){
+   let message = { 
+        //height:ref.current.clientHeight,
+        height:ref.current.closest('#root').clientHeight,
+        rows:ref.current.children.length,
+        tabName:tabName
+       }
+       window.parent.postMessage(message,"*");
+  }
+
+}, [tabName,groupedGridRows]);
+
   return (
     <div className={"App"}>
       <div className="App-header" >
@@ -337,7 +351,7 @@ if (window.innerWidth < 770 && groupedGridRows.length){
          // </div>
         ) : 
         (
-          <div className="container-fluid">
+          <div  ref={ref} className="container-fluid">
             { groupedGridRows.length > 0 ? groupedGridRows
                   .map( (rowItems,i)=>{
                     let title = "";
