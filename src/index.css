@@ -1,11 +1,12 @@
 body {
   margin: 0;
-  font-family: "Lato", sans-serif;
+  /* font-family: "Lato", sans-serif; */
+  font-family: "Montserrat";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
-  background-color: #333F48;
- 
+  /* background-color: #333F48; */
+  background-color: var(--primary-bg-color);
 }
 
 /* .App {

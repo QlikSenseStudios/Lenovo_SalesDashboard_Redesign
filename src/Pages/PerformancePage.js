@@ -1,4 +1,4 @@
-import React, { useMemo,useCallback,useRef,useEffect } from "react";
+import React, { useMemo,useCallback,useRef,useEffect, useState } from "react";
 import { Gauge, Kpi, Line, LeapKpi, Bar, Doughnut } from "../components";
 import { usePageData } from "../hooks/index";
 import PlaceHolder from "../components/PlaceHolder";
@@ -8,7 +8,7 @@ import ViewMore from "../components/ViewMore";
 import { groupBy as lodashGroupBy } from "lodash";
 
 const Page = ({ data, sheetData,tabName }) => {
-// console.log("tabName",tabName)
+ console.log("tabName change",tabName)
 // console.log("data",data)
 // console.log("Sheet data",sheetData)
   const { groupedKpis, groupedGauges, groupedLines, groupedBars, groupedLeaps, groupedDoughnut } = usePageData(data,tabName);
@@ -326,21 +326,25 @@ if (window.innerWidth < 770 && groupedGridRows.length){
   // groupedGridRows[3].length=1;
 }
 
-
-
-const ref = useRef(null);
+const container_ref = useRef(null);
 useEffect(() => {
-  if(ref.current){
+  if(container_ref.current){
+   // console.log("effect Tabname",tabName)
    let message = { 
         //height:ref.current.clientHeight,
-        height:ref.current.closest('#root').clientHeight,
-        rows:ref.current.children.length,
+        height:container_ref.current.closest('#root').clientHeight,
+        //height:ref.current.closest('#root').getBoundingClientRect().height,
+        rows:container_ref.current.children.length,
         tabName:tabName
        }
-       window.parent.postMessage(message,"*");
+       if(message.height!=="undefined" && tabName !== "undefined"){
+        // console.log("height:",message.height);
+        // console.log("tabName:",message.tabName);
+        console.log("props:",message);
+        window.parent.postMessage(message,"*");
+       }
   }
-
-}, [tabName,groupedGridRows]);
+});
 
   return (
     <div className={"App"}>
@@ -351,14 +355,14 @@ useEffect(() => {
          // </div>
         ) : 
         (
-          <div  ref={ref} className="container-fluid">
+          <div ref={container_ref} className="container-fluid">
             { groupedGridRows.length > 0 ? groupedGridRows
                   .map( (rowItems,i)=>{
                     let title = "";
                     if(!isNull(rowItems)){
                      // console.log(rowItems);
                      title =  rowItems[0].props.rowtitle
-                     // console.log("rowp",rowItems[0].props.rowtitle);
+                    //  console.log("rowp",rowItems[0].props.rowtitle);
                       
                       //temporary fix for lenvov 360 tab - 
                       //issue -if same bp subType is associated with two rows, both the rows will have same titel 
@@ -370,7 +374,7 @@ useEffect(() => {
                        }
                     }
 
-                    return (<div key={i}> {!isNull(rowItems)?<div className="page-subTitle">{rowItems.length? title :"ddasdad"}</div> : null}
+                    return (<div key={i}> {!isNull(rowItems)?<div className="page-subTitle">{rowItems.length? title :""}</div> : null}
                                 <div className="row align-items-center justify-content-around bottom-row">
                                    { rowItems }
                                 </div>
@@ -382,7 +386,7 @@ useEffect(() => {
         )}
       </div>
     </div>
-  );
+  )
 }
     
 export default Page;
