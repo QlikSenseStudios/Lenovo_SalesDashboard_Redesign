@@ -1,6 +1,7 @@
 .utilization_container {
   max-width: 250px;
   height: 100%;
+  margin-top: 5px;
 }
 
 .circle-block {
@@ -27,7 +28,7 @@
 
 .percentage {
   position: absolute;
-  top: 40px;
+  top: 65px;
   left: 0;
   bottom: 0;
   right: 10px;
@@ -78,10 +79,10 @@
 }
 
 .percentage.percentage2 .subtitle {
-  /* max-width: 135px; */
+  max-width: 135px;
   text-align: center;
   height: 40.5px;
-  width: 60%;
+  width: 70%;
 }
 
 .percentage.percentage2 .display {

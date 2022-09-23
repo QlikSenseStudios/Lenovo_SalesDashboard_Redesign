@@ -49,8 +49,8 @@ body {
 }
 
 .display {
-  font-size: 40px;
-  font-weight: normal;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 .note {
@@ -144,10 +144,10 @@ body {
 }
 
 @media (max-width: 1280px) {
-  .display {
+  /* .display {
     font-size: 34px;
     font-weight: normal;
-  }
+  } */
   .subtitle {
     font-size: 13px;
   }
@@ -157,9 +157,9 @@ body {
 }
 
 @media (max-width: 1024px) {
-  .display {
+  /* .display {
     font-size: 24px;
-  }
+  } */
   .subtitle {
     font-size: 13px;
   }
@@ -177,9 +177,9 @@ body {
   }
 
   
-  .display {
+  /* .display {
     font-size: 20px;
-  }
+  } */
   .subtitle {
     font-size: 12px;
   }
@@ -189,9 +189,9 @@ body {
 }
 
 @media (max-width: 480px) {
-  .display {
+  /* .display {
     font-size: 20px;
-  }
+  } */
   .subtitle {
     font-size: 12px;
   }
@@ -201,9 +201,9 @@ body {
 }
 
 @media (max-width: 415px) {
-  .display {
+  /* .display {
     font-size: 17px;
-  }
+  } */
   .note {
     font-size: 6px;
   }
@@ -223,7 +223,7 @@ body {
 
 @media (max-width: 360px) {
   .display {
-    font-size: 14px;
+    font-size: 12px;
   }
   .subtitle {
     font-size: 7px;

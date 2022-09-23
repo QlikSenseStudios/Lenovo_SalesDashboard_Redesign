@@ -17,13 +17,43 @@ const Bar = ({
   const lineRef = useRef();
   const textRef = useRef();
 
-  if(window.innerWidth > 1400){
-    height=250
-  }
+  var Title_y= 40;
+
+ // if(window.innerWidth > 1400){
+  //   height=250;
+  //  // Title_y= 40;
+  // }
   if(window.innerWidth < 1200){
     // alert(window.innerWidth)
-    height=200
+    height=200;
+  //  Title_y= 40;
    }
+   if(window.innerWidth < 1200){
+    // alert(window.innerWidth)
+    height=210;
+  //  Title_y= 40;
+   }
+   if(window.innerWidth < 769){
+    // alert(window.innerWidth)
+    height=170;
+    Title_y= 15;
+   }
+
+  //  if(window.innerWidth < 425){
+  //   // alert(window.innerWidth)
+  //   height=170;
+  // //  Title_y= 15;
+  //  }
+  //  if(window.innerWidth < 376){
+  //   // alert(window.innerWidth)
+  //   height=150;
+  //   //Title_y= 15;
+  //  }
+  //  if(window.innerWidth < 320){
+  //   // alert(window.innerWidth)
+  //   height=130;
+  //   //Title_y= 15;
+  //  }
    
   const xScale = useMemo(() => {
     if (width !== undefined) {
@@ -57,11 +87,11 @@ const Bar = ({
       width={"90%"}
       height={height}
       className="svg"
-      style={{ overflow: "visible", color:"black" }}
+      style={{ overflow: "visible", color:"black", paddingLeft:"30px", paddingTop:"10px" }}
     >
       <g>
         {width !== undefined && width > 0 ? (
-          <text x={10} y={40} fill="black" className="subtitle">
+          <text x={10} y={Title_y} fill="black" className="subtitle">
             {title}
           </text>
         ) : null}
@@ -104,7 +134,7 @@ const Bar = ({
       <g ref={textRef} className="textContainer">
         {width !== undefined && width > 0 ? (
           <text
-            x={xScale(target) - 70}
+            // x={xScale(target) - 70}
             y={height / 3 - 10}
             fill="black"
             className="subtitle"

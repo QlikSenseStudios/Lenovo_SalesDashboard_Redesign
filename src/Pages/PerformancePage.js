@@ -8,7 +8,7 @@ import ViewMore from "../components/ViewMore";
 import { groupBy as lodashGroupBy } from "lodash";
 
 const Page = ({ data, sheetData,tabName }) => {
- console.log("tabName change",tabName)
+ //console.log("tab change triggered",tabName)
 // console.log("data",data)
 // console.log("Sheet data",sheetData)
   const { groupedKpis, groupedGauges, groupedLines, groupedBars, groupedLeaps, groupedDoughnut } = usePageData(data,tabName);
@@ -327,6 +327,13 @@ if (window.innerWidth < 770 && groupedGridRows.length){
 }
 
 const container_ref = useRef(null);
+
+useEffect(() => {
+  if(container_ref.current){
+  console.log("Qlik Dashboard Mounting")
+  }
+},[]);
+
 useEffect(() => {
   if(container_ref.current){
    // console.log("effect Tabname",tabName)
@@ -340,11 +347,13 @@ useEffect(() => {
        if(message.height!=="undefined" && tabName !== "undefined"){
         // console.log("height:",message.height);
         // console.log("tabName:",message.tabName);
-        console.log("props:",message);
+        console.log("Height info from Dahboard:",message);
         window.parent.postMessage(message,"*");
        }
   }
 });
+
+
 
   return (
     <div className={"App"}>

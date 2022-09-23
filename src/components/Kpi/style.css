@@ -33,9 +33,9 @@
 }
 
 .kpi-value {
-  font-weight: 600;
+  /* font-weight: 600;
     flex-shrink: 1;
-    font-size: 1.3em;
+    font-size: 1.3em; */
     margin-right: 10px;
     /* color: #3E8DDD; */
  

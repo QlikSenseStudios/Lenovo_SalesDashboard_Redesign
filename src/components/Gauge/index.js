@@ -61,8 +61,8 @@ if(debug){
     <div className="circle-block circle_2">
       <div className="utilization_container">
         <svg viewBox="0 0 100 100" height={"100%"} className="svg">
-          <g className="background-container"></g>
-          <g ref={container} className="foreground-container"></g>
+          <g className="background-container" transform="translate(0,6)"></g>
+          <g ref={container} className="foreground-container" transform="translate(0,6)"></g>
         </svg>
 
         <div className="percentage percentage2">

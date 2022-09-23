@@ -52,7 +52,7 @@ function LeapKpi({ data, keys, colors}) {
       .attr("x", sequence => xScale(sequence.data.points))
       .attr("width", xScale.bandwidth())
       .attr("y", sequence => yScale(sequence[1]))
-      .attr("height", sequence => yScale(sequence[0]) - yScale(sequence[1]) );
+      .attr("height", sequence => yScale(isNaN(sequence[0])?0 : sequence[0]) - yScale(isNaN(sequence[1]) ?0 :sequence[1]) );
 
     // axes
     const xAxis = d3.axisBottom(xScale);
@@ -75,7 +75,7 @@ function LeapKpi({ data, keys, colors}) {
   return (
     <React.Fragment>
       <div ref={wrapperRef} style={{ marginBottom: "2rem" }}>
-        <svg ref={svgRef}  height={110}>
+        <svg ref={svgRef}  height={110} style={{ marginLeft:"20px" }}>
           <g className="x-axis" />
           <g className="y-axis" />        
         </svg>       
