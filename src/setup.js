@@ -59,32 +59,32 @@ const setup = async (name) => {
     console.log("PRD");
   }
  
-  // const tenant ="lenovo-lph-ai.us.qlikcloud.com";
-  // const webIntegrationId = "9Qj-tLrexDWjKAoOJRx9Gnh6a0z7oTmA";
-  // const spaceID = "61327a6341b8a9e9a21a53eb";
+    const tenant ="lenovo-lph-ai.us.qlikcloud.com";
+    const webIntegrationId = "9Qj-tLrexDWjKAoOJRx9Gnh6a0z7oTmA";
+    const spaceID = "61327a6341b8a9e9a21a53eb";
 
-//   (function() {
-//     var qtm = document.createElement('script'); qtm.type = 'text/javascript'; qtm.async = 1;
-//     qtm.src = 'https://cdn.quantummetric.com/qscripts/quantum-lenovopartnerhub.js';
-//     var d = document.getElementsByTagName('script')[0];
-//     !window.QuantumMetricAPI && d.parentNode.insertBefore(qtm, d);
-// })();
+    (function() {
+      var qtm = document.createElement('script'); qtm.type = 'text/javascript'; qtm.async = 1;
+      qtm.src = 'https://cdn.quantummetric.com/qscripts/quantum-lenovopartnerhub.js';
+      var d = document.getElementsByTagName('script')[0];
+      !window.QuantumMetricAPI && d.parentNode.insertBefore(qtm, d);
+  })();
 
   //for UAT
-  if(host==="dyq9uf3gawydx.cloudfront.net"){
-    console.log("UAT");
-  }
+  // if(host==="dyq9uf3gawydx.cloudfront.net"){
+  //   console.log("UAT");
+  // }
   
-  const tenant ="mbq71d0rz7otbdf.eu.qlikcloud.com";
-  const webIntegrationId = "pBw85_j9m_Thz5A6U5tDm37BiFmouLrH";
-  const spaceID = "618bd084eac3bd232c7a07ec";
+  // const tenant ="mbq71d0rz7otbdf.eu.qlikcloud.com";
+  // const webIntegrationId = "pBw85_j9m_Thz5A6U5tDm37BiFmouLrH";
+  // const spaceID = "618bd084eac3bd232c7a07ec";
 
-  (function() {
-    var qtm = document.createElement('script'); qtm.type = 'text/javascript'; qtm.async = 1;
-    qtm.src = 'https://cdn.quantummetric.com/qscripts/quantum-lenovopartnerhub-test.js';
-    var d = document.getElementsByTagName('script')[0];
-    !window.QuantumMetricAPI && d.parentNode.insertBefore(qtm, d);
-  })();
+  // (function() {
+  //   var qtm = document.createElement('script'); qtm.type = 'text/javascript'; qtm.async = 1;
+  //   qtm.src = 'https://cdn.quantummetric.com/qscripts/quantum-lenovopartnerhub-test.js';
+  //   var d = document.getElementsByTagName('script')[0];
+  //   !window.QuantumMetricAPI && d.parentNode.insertBefore(qtm, d);
+  // })();
 
   // show connecting message
   ReactDOM.render( 

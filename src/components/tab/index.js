@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./style.css";
 
 const Tab = ({ children, active = 0 }) => {
   const [activeTab, setActiveTab] = useState(active);
   const [tabsData, setTabsData] = useState([]);
   const [dataAvailalbe, SetdataAvailalbe] = useState([]);
-
 
 // if(tabsData[activeTab] !=undefined);
 // console.log("tbd",(tabsData[activeTab])?children:"")
@@ -23,9 +22,9 @@ const Tab = ({ children, active = 0 }) => {
       data.push({ tab, children });
    // c.push({children })
     });
-
    
     setTabsData(data);
+
   }, [children]);
 
   useEffect(() => {
@@ -42,8 +41,29 @@ const Tab = ({ children, active = 0 }) => {
     }
   },[activeTab,children,tabsData]);
 
+  const container_refZ = useRef(null);
+      useEffect(() => {
+           //console.log("-",container_refZ.current.closest('#root').clientHeight);
+       if(tabsData.length !=0  )    
+       {
+          // console.log("active tab",activeTab)
+          // console.log("tab data",tabsData)
+            if(container_refZ.current){
+
+              let message = { 
+                    height:container_refZ.current.closest('#root').clientHeight,
+                    rows:container_refZ.current.children.length,
+                    tabName:tabsData[activeTab].tab
+                  }
+                  if(message.height!=="undefined" ){
+                  //  console.log("*Height info from Dahboard:",message);
+                    window.parent.postMessage(message,"*");
+                  }
+            }
+        }
+      });
+
   return (
-    
     <div className={dataAvailalbe?"":"noAccessBg"}>
       <ul className="nav nav-tabs nav-justified">
         {tabsData.map(({ tab }, idx) => {
@@ -62,7 +82,7 @@ const Tab = ({ children, active = 0 }) => {
         })}
       </ul>
     
-      <div className={"tab-content p-3"}>
+      <div ref={container_refZ} className={"tab-content p-3"}>
         {tabsData[activeTab] && tabsData[activeTab].children}
       </div>
     </div>

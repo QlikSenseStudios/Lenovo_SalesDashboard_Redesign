@@ -327,36 +327,28 @@ if (window.innerWidth < 770 && groupedGridRows.length){
 }
 
 const container_ref = useRef(null);
-
-useEffect(() => {
-  if(container_ref.current){
-  console.log("Qlik Dashboard Mounting")
-  }
-},[]);
-
-useEffect(() => {
-  if(container_ref.current){
-   // console.log("effect Tabname",tabName)
-   let message = { 
-        //height:ref.current.clientHeight,
-        height:container_ref.current.closest('#root').clientHeight,
-        //height:ref.current.closest('#root').getBoundingClientRect().height,
-        rows:container_ref.current.children.length,
-        tabName:tabName
-       }
-       if(message.height!=="undefined" && tabName !== "undefined"){
-        // console.log("height:",message.height);
-        // console.log("tabName:",message.tabName);
-        console.log("Height info from Dahboard:",message);
-        window.parent.postMessage(message,"*");
-       }
-  }
-});
-
-
+// useEffect(() => {
+//   if(container_ref.current){
+//    //console.log("**effect Tabname",tabName);
+//   //  console.log(groupedGridRows);
+//    let message = { 
+//         //height:ref.current.clientHeight,
+//         height:container_ref.current.closest('#root').clientHeight,
+//         //height:ref.current.closest('#root').getBoundingClientRect().height,
+//         rows:container_ref.current.children.length,
+//         tabName:tabName
+//        }
+//        if(message.height!=="undefined" && tabName !== "undefined"){
+//         // console.log("height:",message.height);
+//         // console.log("tabName:",message.tabName);
+//         console.log("Height info from Dahboard:",message);
+//         window.parent.postMessage(message,"*");
+//        }
+//   }
+// });
 
   return (
-    <div className={"App"}>
+    <div ref={container_ref} className={"App"}>
       <div className="App-header" >
         {data.length === 0 ? (
          // <div className="noAccessBg">
@@ -364,7 +356,7 @@ useEffect(() => {
          // </div>
         ) : 
         (
-          <div ref={container_ref} className="container-fluid">
+          <div  className="container-fluid">
             { groupedGridRows.length > 0 ? groupedGridRows
                   .map( (rowItems,i)=>{
                     let title = "";
@@ -379,7 +371,9 @@ useEffect(() => {
                        if(i>0 && tabName.includes("Lenovo")){
                          // console.log("PREV TITEL",groupedGridRows[i-1][0].props.rowtitle);
                          // console.log("CUR TITEL",rowItems[0].props.rowtitle);
-                         title= groupedGridRows[i-1][0].props.rowtitle === rowItems[0].props.rowtitle ? "" : rowItems[0].props.rowtitle
+                        //  console.log("adding sub titles");
+                        // console.log(container_ref.current);
+                         title= groupedGridRows[i-1][0].props.rowtitle === rowItems[0].props.rowtitle ? "" : rowItems[0].props.rowtitle;
                        }
                     }
 
