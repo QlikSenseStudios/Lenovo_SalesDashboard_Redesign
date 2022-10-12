@@ -2,7 +2,7 @@
   "name": "lenovo-velocity",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/new-lenovo-sales-performance/",
+  "homepage": "/lenovo-sales-performance/",
   "dependencies": {
     "@babel/core": "7.6.0",
     "@svgr/webpack": "4.3.2",

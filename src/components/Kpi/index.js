@@ -50,24 +50,24 @@ var colors =["#E1140A","#00cc44"]
       }
 }
 
-//  if(params.includes("%"))
-//  {
-//        let d = params.split("%")
-//       // console.log(d);
-//       // console.log(d[0]);
-//       let f = Math.sign(parseInt(d[0]));
-//       // console.log("f",f);
+ if(params.includes("%"))
+ {
+       let d = params.split("%")
+      // console.log(d);
+      // console.log(d[0]);
+      let f = Math.sign(parseInt(d[0]));
+      // console.log("f",f);
 
-//       if(f==-1){
-//         s.color=colors[0]
-//       }
-//       else{
-//         s.color=colors[1]
-//       }
+      if(f==-1){
+        s.color=colors[0]
+      }
+      else{
+        s.color=colors[1]
+      }
     
-//  }
+ }
 
- //console.log("s",s)
+ 
  return s;
  
 }

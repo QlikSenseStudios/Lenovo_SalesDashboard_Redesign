@@ -56,7 +56,7 @@ const Tab = ({ children, active = 0 }) => {
                     tabName:tabsData[activeTab].tab
                   }
                   if(message.height!=="undefined" ){
-                  //  console.log("*Height info from Dahboard:",message);
+                   console.log("*Height info from Dahboard:",message);
                     window.parent.postMessage(message,"*");
                   }
             }

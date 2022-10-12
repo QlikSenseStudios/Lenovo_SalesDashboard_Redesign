@@ -146,8 +146,18 @@ if(data && row.length){
 //set state with chart width
   const lineChartRef = useRef();
   const { width, height } = useChartSpec(lineChartRef, data);
-console.log("chart spec",width, height)
+// console.log("chart spec",width, height)
 
+let message = { 
+  height:document.getElementById('root').clientHeight,
+  rows:"dummy",
+  tabName:"dummy"
+}
+
+if(message.height!=="undefined" ){
+//  console.log("*Height info from line:",message);
+  window.parent.postMessage(message,"*");
+}
 
   if (data !== null) {
     return (
