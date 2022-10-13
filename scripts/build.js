@@ -57,6 +57,12 @@ checkBrowsers(paths.appPath, isInteractive)
   .then((previousFileSizes) => {
     // Remove all content but keep the directory so that
     // if you're in it, you don't end up in Trash
+    console.log(
+        chalk.yellow(
+          "emptying Build Directory"
+        )
+    );
+    
     fs.emptyDirSync(paths.appBuild);
     // Merge with the public folder
     copyPublicFolder();
