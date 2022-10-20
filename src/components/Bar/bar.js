@@ -39,21 +39,6 @@ const Bar = ({
     Title_y= 15;
    }
 
-  //  if(window.innerWidth < 425){
-  //   // alert(window.innerWidth)
-  //   height=170;
-  // //  Title_y= 15;
-  //  }
-  //  if(window.innerWidth < 376){
-  //   // alert(window.innerWidth)
-  //   height=150;
-  //   //Title_y= 15;
-  //  }
-  //  if(window.innerWidth < 320){
-  //   // alert(window.innerWidth)
-  //   height=130;
-  //   //Title_y= 15;
-  //  }
    
   const xScale = useMemo(() => {
     if (width !== undefined) {

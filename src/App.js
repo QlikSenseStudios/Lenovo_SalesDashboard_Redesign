@@ -121,13 +121,3 @@ const App = () => {
 };
 
 export default App;
-//className
-//style={groups[idx].length==0? {"background":"red"}:"blue"}
-//className={groups[idx].length === 0? "noAccessBg":""}
-//style ={{"border":"2px solid red"}}
-
-
-// {groups[idx].length!= 0? (
-//   <Page data={groups[idx]} chartControlData={chartControlData} sheetData={sheetData} tabName={tabN}/>
-//   ): <div className="noAccessBg"><PlaceHolder message="Test" /></div>
-// }
