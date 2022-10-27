@@ -51,10 +51,8 @@ async function getQCSHeaders({ webIntegrationId, url }) {
 
 //make an ajax call to dynamically get the appID once the app list has been filtered by tag name
 const setup = async (name) => {
-   console.log("process",process.env)
-  console.log(window.location.hostname);
-  var host= window.location.hostname
- 
+   //console.log("process",process.env)
+
   //for PRD
   // if(host==="ddwiel1pyau3r.cloudfront.net"){
   //   console.log("PRD");
@@ -84,11 +82,20 @@ const setup = async (name) => {
   const webIntegrationId = process.env.webIntegrationId;
   const spaceID = process.env.spaceID;
 
+  if(process.env.Qlik_ENV === "UAT")
   (function() {
     var qtm = document.createElement('script'); qtm.type = 'text/javascript'; qtm.async = 1;
     qtm.src = 'https://cdn.quantummetric.com/qscripts/quantum-lenovopartnerhub-test.js';
     var d = document.getElementsByTagName('script')[0];
     !window.QuantumMetricAPI && d.parentNode.insertBefore(qtm, d);
+  })();
+
+  if(process.env.Qlik_ENV === "PRD")
+   (function() {
+      var qtm = document.createElement('script'); qtm.type = 'text/javascript'; qtm.async = 1;
+      qtm.src = 'https://cdn.quantummetric.com/qscripts/quantum-lenovopartnerhub.js';
+      var d = document.getElementsByTagName('script')[0];
+      !window.QuantumMetricAPI && d.parentNode.insertBefore(qtm, d);
   })();
 
   // show connecting message

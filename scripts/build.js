@@ -71,7 +71,7 @@ checkBrowsers(paths.appPath, isInteractive)
   })
   .then(
     ({ stats, previousFileSizes, warnings }) => {
-      if (warnings.length) {
+      if (warnings.length & 1===2) {
         console.log(chalk.yellow("Compiled with warnings.\n"));
         console.log(warnings.join("\n\n"));
         console.log(
@@ -136,8 +136,9 @@ function build(previousFileSizes) {
     );
     console.log();
   }
-
-  console.log("Creating an optimized production build...");
+  console.log(
+  chalk.green(("Creating an optimized build for "+ process.env.Qlik_ENV + " Environment"))
+  )
 
   const compiler = webpack(config);
   return new Promise((resolve, reject) => {
