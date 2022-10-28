@@ -51,9 +51,8 @@ async function getQCSHeaders({ webIntegrationId, url }) {
 
 //make an ajax call to dynamically get the appID once the app list has been filtered by tag name
 const setup = async (name) => {
-  console.log(window.location.hostname);
-  var host= window.location.hostname
- 
+   //console.log("process",process.env)
+
   //for PRD
   // if(host==="ddwiel1pyau3r.cloudfront.net"){
   //   console.log("PRD");
@@ -71,19 +70,32 @@ const setup = async (name) => {
   // })();
 
   //for UAT
-  if(host==="dyq9uf3gawydx.cloudfront.net"){
-    console.log("UAT");
-  }
+  // if(host==="dyq9uf3gawydx.cloudfront.net"){
+  //   console.log("UAT");
+  // }
   
-  const tenant ="mbq71d0rz7otbdf.eu.qlikcloud.com";
-  const webIntegrationId = "pBw85_j9m_Thz5A6U5tDm37BiFmouLrH";
-  const spaceID = "618bd084eac3bd232c7a07ec";
+  // const tenant ="mbq71d0rz7otbdf.eu.qlikcloud.com";
+  // const webIntegrationId = "pBw85_j9m_Thz5A6U5tDm37BiFmouLrH";
+  // const spaceID = "618bd084eac3bd232c7a07ec";
 
+  const tenant = process.env.tenant;
+  const webIntegrationId = process.env.webIntegrationId;
+  const spaceID = process.env.spaceID;
+
+  if(process.env.Qlik_ENV === "UAT")
   (function() {
     var qtm = document.createElement('script'); qtm.type = 'text/javascript'; qtm.async = 1;
     qtm.src = 'https://cdn.quantummetric.com/qscripts/quantum-lenovopartnerhub-test.js';
     var d = document.getElementsByTagName('script')[0];
     !window.QuantumMetricAPI && d.parentNode.insertBefore(qtm, d);
+  })();
+
+  if(process.env.Qlik_ENV === "PRD")
+   (function() {
+      var qtm = document.createElement('script'); qtm.type = 'text/javascript'; qtm.async = 1;
+      qtm.src = 'https://cdn.quantummetric.com/qscripts/quantum-lenovopartnerhub.js';
+      var d = document.getElementsByTagName('script')[0];
+      !window.QuantumMetricAPI && d.parentNode.insertBefore(qtm, d);
   })();
 
   // show connecting message

@@ -82,11 +82,11 @@ const App = () => {
   return (
     <div  className={noDataCondition ? "noAccessBg": ""} > 
         {accessDenied || connectionError.doc.error !== null ? (
-          <PlaceHolder message="No data available for the partner logged-in, Please try with a different partner" />
+          <PlaceHolder message="No data available" />
         ) : connectionError.session.error !== null ? (
           <PlaceHolder message="Connection Failed" />
         ) :  tabTitles.length===0  || groups === undefined ?
-        (<PlaceHolder message="No data available for the partner logged-in, Please try with a different partner" />):
+        (<PlaceHolder message="No data available" />):
         
         ( 
          <Tab> {
