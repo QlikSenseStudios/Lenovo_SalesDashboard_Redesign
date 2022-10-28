@@ -352,7 +352,7 @@ const container_ref = useRef(null);
       <div className="App-header" >
         {data.length === 0 ? (
          // <div className="noAccessBg">
-          <PlaceHolder message="No data available for the partner logged-in, Please try with a different partner" />
+          <PlaceHolder message="No data available" />
          // </div>
         ) : 
         (
