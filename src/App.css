@@ -167,3 +167,12 @@ font-size: 18px;
   flex-wrap: wrap;
 }
 }
+
+button{
+  min-width: 25%;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 5px;
+  background-color: white;
+  font-weight: bold;
+}

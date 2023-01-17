@@ -5,7 +5,7 @@ export default (data,tabName) => {
 
   //console.log("region Check",data?data[0][7].qText==="EMEA":0);
 // // updating the position data based on the BP-Sybtype 
-// // updating the actual position vales from App
+// // since the position cant be handled from App, updating the actual position vales from App 
 // //Applicable for - tabs Specialist and region EMEA 
 if(tabName.includes("Specialist") && data[0]?data[0][7].qText==="EMEA":0){
   //console.log("includes specalist");

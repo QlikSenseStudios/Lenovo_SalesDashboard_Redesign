@@ -67,7 +67,7 @@ const chartControlDef = {
       },
       {
         qDef: {
-          qFieldDefs: ["tab"], //11
+          qFieldDefs: ["sub_tab"], //11
     
         },
       },
@@ -102,12 +102,17 @@ const chartControlDef = {
           qFieldDefs: ["bp_sub_type"], //17
         },
       },
+      {
+        qDef: {
+          qFieldDefs: ["tab"], //18
+        },
+      },
       
       
      
     ],
 // qFieldDefs: ["zKey_KPI_GEO_ID"],
-    qInitialDataFetch: [{ qWidth: 18, qHeight: 10000 / 18 }],
+    qInitialDataFetch: [{ qWidth: 19, qHeight: 10000 / 19 }],
   },
 };
 

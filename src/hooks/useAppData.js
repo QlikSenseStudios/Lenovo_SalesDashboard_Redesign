@@ -68,7 +68,10 @@ const tabOrder = ['PCSD Sales Overview',
                   'ISG Main Program', 
                   'ISG Specialist Program',
                   'ISG Sales Performance',
-                  'ISG Program Performance']
+                  'ISG Program Performance',
+                  'Tier',
+                  'Others',
+                ]
 
 
    ///Create session object for business group
@@ -79,8 +82,9 @@ const tabOrder = ['PCSD Sales Overview',
     qHyperCubeDef: {
       qDimensions: [
         {
+         
           qDef: {
-            qFieldDefs: ["tab"],
+            qFieldDefs: ["sub_tab"],
           qSortCriterias: [
             {
               qSortByState: 0,
@@ -91,17 +95,23 @@ const tabOrder = ['PCSD Sales Overview',
               qSortByExpression: 1,
               qExpression: {
                // qv: "MATCH(tab, 'PCSD Sales Overview','PCSD Main Program', 'PCSD Specialist Program', 'ISG Sales Overview','ISG Main Program', 'ISG Specialist Program', 'ISG')"
-                qv : "MATCH(tab,"+"'" + tabOrder.join("','") + "'" +")" 
+                qv : "MATCH(sub_tab,"+"'" + tabOrder.join("','") + "'" +")" 
                 
               },
             },
           ],
           }
-        }
+         
+        }, {
+          qDef: {
+            qFieldDefs: ["tab"], //1/
+          },
+        },
+        
       ],
       qInitialDataFetch: [
         {
-          qWidth: 3,
+          qWidth: 2,
           qHeight: 100,
         },
       ],
@@ -118,6 +128,7 @@ const tabOrder = ['PCSD Sales Overview',
   //error handling for failure to get response from Qlik
   useEffect(() => {
     if (tabLayout !== null) {
+      console.log(tabLayout.qHyperCube.qDataPages[0])
       setTab(tabLayout.qHyperCube.qDataPages[0].qMatrix);
     }
   }, [tabLayout]);

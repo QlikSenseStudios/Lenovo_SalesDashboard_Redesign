@@ -1,0 +1,61 @@
+const PrimaryTap = ({ primaryTabs, setSubTabTitles, activeMain }) => {
+
+  const [activePrimaryTab, setActivePrimaryTab] = useState(activeMain);
+  const [stabs, setsTabs] = useState([]);
+
+      console.log("? primaryTabs",primaryTabs)
+      console.log("? activePrimaryTab",activePrimaryTab)
+      console.log("? tabData",tabData)
+      console.log("? stabs",stabs);
+
+
+useEffect(()=>{
+  console.log("use effect in primary tab");
+  //console.log("subTabGroups",subTabGroups);
+  console.log("primary groups",primaryTabgroups);
+  console.log("stabs",stabs);
+
+          let _subTabs = [];
+   
+
+//set sub tabs
+        _subTabs = primaryTabgroups[activePrimaryTab].map((t,i)=>{
+              //return sortedData.filter((d) =>{ return d[11].qText === subTabTitles[i]  });
+              return t[11].qText;
+            });
+
+        console.log("extracted subtabs",_subTabs);
+        let unique_subTabs = [...new Set(_subTabs.map(item => item))];
+        console.log(unique_subTabs);
+        let g=  unique_subTabs.map((t,i)=>{
+             return primaryTabgroups[activePrimaryTab].filter((d) =>{ return d[11].qText === t});
+          });
+        console.log(g);
+        setSubTabTitles(unique_subTabs);
+},[activePrimaryTab]);
+
+function updateTabs(idx){
+console.log(idx);
+setActivePrimaryTab(idx);
+setSubTabTitles(stabs);
+
+
+}
+
+    return (<ul className="nav nav-tabs nav-justified">
+    {primaryTabs.map(( Maintab, idx) => {
+      return (
+      
+        <li  key={idx}  className={`nav-item ${idx === activePrimaryTab ? "active" : ""}`}>
+          <a
+            className={`nav-link ${idx === activePrimaryTab ? "active" : ""}`}
+            href="#"
+            onClick={() => updateTabs(idx)}
+          >
+            {Maintab} 
+          </a>
+        </li>
+      )
+  })}
+  </ul>)
+}
