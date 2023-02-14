@@ -21,10 +21,11 @@ const App = () => {
   var { chartControlData,tabData, accessDenied, appData, isLoading } = useAppData();
 
 // console.log("tab",tab);
-// if(chartControlData){
+//if(chartControlData){
 //  let s= testdata.map((d,i)=>{ return d})
 //  console.log(chartControl.data.concat(s))
 //  chartControlData = chartControlData.concat(s);
+// console.log("chartControlData#");
 // console.log(chartControlData);
 // }
 
@@ -75,6 +76,8 @@ const App = () => {
     [chartControlData]
   );
 
+  // console.log("sortedData",sortedData)
+  // console.log("tabData",tabData)
 
   const primaryTabs = useMemo(() => {
    let f =  tabData.map((tabItems)=>{ return tabItems[1].qText})
@@ -84,6 +87,7 @@ const App = () => {
   const primaryTabgroups = useMemo(() => {
     if(primaryTabs.length){
       return primaryTabs.map((t,i)=>{
+        //return sortedData;
           return sortedData.filter((d) =>{ return d[18].qText === primaryTabs[i]});
         });
     }
@@ -95,11 +99,18 @@ const App = () => {
    
      if(primaryTabgroups!=undefined)
      {
+      // console.log("activePrimaryTab**", activePrimaryTab)
              _subTabs = primaryTabgroups[activePrimaryTab].map((t,i)=>{
                    //return sortedData.filter((d) =>{ return d[11].qText === subTabTitles[i]  });
+                   //return t[11].qText;
+                  // console.log(t[11].qText);
                    return t[11].qText;
                  });
+
+                //  console.log("_subTabs*",_subTabs)
+
              let unique_subTabs = [...new Set(_subTabs.map(item => item))];
+            //  console.log("unique",unique_subTabs)
            return unique_subTabs;
      }
      else{
@@ -110,9 +121,10 @@ const App = () => {
 
 if(tabData !== undefined && tabData.length){
     getSubData();
-        console.log("primaryTabs", primaryTabs);
-        console.log("subTabTitles",subTabTitles);
-        console.log("subTabGroups",subTabGroups);
+        // console.log("primaryTabs", primaryTabs);
+        // console.log("primaryTabgroups",primaryTabgroups);
+        // console.log("subTabTitles",subTabTitles);
+        // console.log("subTabGroups",subTabGroups);
 
 }
 

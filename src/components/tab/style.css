@@ -38,8 +38,8 @@
     color:white;
   }
   .nav-link.active{
-    /* border-bottom: 5px solid red !important; */
-    border-bottom: 5px solid #3E8DDD !important;
+    border-bottom: 5px solid rgb(213, 64, 64) !important;
+    /* border-bottom: 5px solid #3E8DDD !important; */
     background-color: #333f48  !important;
     color: snow !important;
   }

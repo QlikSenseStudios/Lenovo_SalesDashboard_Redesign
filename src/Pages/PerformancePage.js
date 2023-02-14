@@ -37,7 +37,7 @@ let subTitle="";
     subTitle =  qDef[0][17].qText?qDef[0][17].qText:null
   }
 
-    return subTitle;
+    return qDef[0][17].qText?qDef[0][17].qText:null;
 }
 
    const KpiColumnsTopRow = useMemo(() => {

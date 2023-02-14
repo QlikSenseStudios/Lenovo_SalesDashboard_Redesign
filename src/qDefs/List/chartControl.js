@@ -67,8 +67,7 @@ const chartControlDef = {
       },
       {
         qDef: {
-          qFieldDefs: ["sub_tab"], //11
-    
+          qFieldDefs: ["sub_tab"], // ["=if(sub_tab='-','*',**)"], //11 sub_tab
         },
       },
       {
@@ -99,13 +98,14 @@ const chartControlDef = {
         
       },  {
         qDef: {
-          qFieldDefs: ["bp_sub_type"], //17
+          qFieldDefs: ["header"], //17
         },
       },
       {
         qDef: {
           qFieldDefs: ["tab"], //18
         },
+        
       },
       
       

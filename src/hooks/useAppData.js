@@ -28,7 +28,22 @@ export default () => {
   //set the chart control matrix to state
   useEffect(() => {
     if (chartControl.data !== null) {
-      setChartControlData(chartControl.data);
+
+  const clone_chartControl = [...chartControl.data];
+
+   clone_chartControl.map((f)=>{
+      // if(f[11].qIsNull ){
+      //       f[11].qText = "*"
+      //   }
+        if(!f[11].qText ){
+            f[11].qText = "-"
+        }
+      //   if(!f[18].qText ){
+      //     f[18].qText = "#"
+      // }
+    })
+
+    setChartControlData(chartControl.data);
     }
   }, [chartControl]);
 
@@ -128,8 +143,17 @@ const tabOrder = ['PCSD Sales Overview',
   //error handling for failure to get response from Qlik
   useEffect(() => {
     if (tabLayout !== null) {
-      console.log(tabLayout.qHyperCube.qDataPages[0])
-      setTab(tabLayout.qHyperCube.qDataPages[0].qMatrix);
+      let s = tabLayout.qHyperCube.qDataPages[0].qMatrix;
+      s.forEach(element => {
+        element.forEach(f=>{
+            if(!f.hasOwnProperty('qText')){
+                f.qText = "-"
+            }
+        })
+        
+      });
+      setTab(s);
+       // setTab(tabLayout.qHyperCube.qDataPages[0].qMatrix);
     }
   }, [tabLayout]);
 

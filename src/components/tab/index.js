@@ -64,10 +64,10 @@ const Tab = ({ children }) => {
 
   return (
     <div className={dataAvailalbe?"":"noAccessBg"}>
-      <ul className="nav nav-tabs nav-justified">
-        {tabsData.map(({ tab}, idx) => {
+      <ul className="nav nav-tabs nav-justified" >
+        {tabsData.map(({tab}, idx) => {
             return (
-                  <li  key={idx}  className={`nav-item ${idx === activeTabSubTab ? "active" : ""}`}>
+                  <li  key={idx}  style={ tab =="-"? { display:"none"} : { display:"block"}} className={`nav-item ${idx === activeTabSubTab ? "active" : ""}`}>
                     <a
                       className={`nav-link ${idx === activeTabSubTab ? "active" : ""}`}
                       href="#"
