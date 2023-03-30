@@ -292,7 +292,7 @@ const Page = ({ data, sheetData, tabName }) => {
         return (
           <div
             key={`leapbar-${i}`}
-            //  row={ Math.trunc((qDef[0][1].qNum))}
+            row={Math.trunc(qDef[0][1].qNum)}
             position={qDef[0][1].qNum}
             className={
               GaugeColumns.length + KpiColumnsBottomRow.length === 0
@@ -397,6 +397,10 @@ const Page = ({ data, sheetData, tabName }) => {
     return Object.values(lodashsortBy(data, (d) => d.props.position));
   }, []);
 
+  const groupByRowNumber = useCallback((data) => {
+    return Object.values(lodashGroupBy(data, (d) => d.props.row));
+  }, []);
+
   //console.log("sortedBottomRow",sortedBottomRow);
   let groupedGridRows = groupBy(sortedBottomRow);
   // let groupedGridRows = sortedBottomRow;
@@ -406,6 +410,11 @@ const Page = ({ data, sheetData, tabName }) => {
     return sortBy(itmes);
   });
   console.log("Alt", groupedGridRowsalt);
+
+  let finalgroup = groupedGridRows.map((itmes, i) => {
+    return groupByRowNumber(itmes);
+  });
+  console.log("AltRRRR", finalgroup);
 
   //console.log(window.innerWidth);
   //mobile rendering. Only show a 2 X 2 matrix when screen width is less than 500px
@@ -463,6 +472,12 @@ const Page = ({ data, sheetData, tabName }) => {
                           : rowItems[0].props.rowtitle;
                     }
                   }
+
+                  // rowItems.map((rowItem, i) => {
+                  //   let test = groupByRowNumber(rowItem);
+                  //   console.log("test", rowItems);
+                  // });
+
                   return (
                     <div key={i}>
                       {!isNull(rowItems) ? (
