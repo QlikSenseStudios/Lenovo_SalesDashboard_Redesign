@@ -32,7 +32,7 @@ const chartControlDef = {
       },
       {
         qDef: {
-          qFieldDefs: ["kpi_value_type"],  //4 no //kpi_label //kpi_value_type
+          qFieldDefs: ["kpi_value_type"], //4 no //kpi_label //kpi_value_type
         },
       },
       {
@@ -43,16 +43,16 @@ const chartControlDef = {
       {
         qDef: {
           qFieldDefs: ["Object GEO ID"], //6
-         },
-      },
-      {
-        qDef: {
-          qFieldDefs: ["geo"], //7 
         },
       },
       {
         qDef: {
-          qFieldDefs: ["persona_type"], //8 
+          qFieldDefs: ["geo"], //7
+        },
+      },
+      {
+        qDef: {
+          qFieldDefs: ["persona_type"], //8
         },
       },
       {
@@ -89,14 +89,13 @@ const chartControlDef = {
         qDef: {
           qFieldDefs: ["week_of_quarter"], //15
         },
-        
       },
       {
         qDef: {
           qFieldDefs: ["value"], //16
         },
-        
-      },  {
+      },
+      {
         qDef: {
           qFieldDefs: ["header"], //17
         },
@@ -105,13 +104,9 @@ const chartControlDef = {
         qDef: {
           qFieldDefs: ["tab"], //18
         },
-        
       },
-      
-      
-     
     ],
-// qFieldDefs: ["zKey_KPI_GEO_ID"],
+    // qFieldDefs: ["zKey_KPI_GEO_ID"],
     qInitialDataFetch: [{ qWidth: 19, qHeight: 10000 / 19 }],
   },
 };

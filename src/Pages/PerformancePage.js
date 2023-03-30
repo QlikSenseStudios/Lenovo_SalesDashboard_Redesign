@@ -6,8 +6,10 @@ import DrillDownUrl from "../DrillDownUrl";
 import { isNull } from "lodash";
 import ViewMore from "../components/ViewMore";
 import { groupBy as lodashGroupBy } from "lodash";
+import { sortBy as lodashsortBy } from "lodash";
 
 const Page = ({ data, sheetData, tabName }) => {
+  const dubugger = true;
   console.log("tab change triggered", tabName);
   // console.log("data",data)
   // console.log("Sheet data",sheetData)
@@ -22,13 +24,21 @@ const Page = ({ data, sheetData, tabName }) => {
 
   const bottomRowCount =
     groupedGauges.length + groupedLines.length + groupedKpis.length;
-  console.log("bottomRowCount", bottomRowCount);
+  // console.log("bottomRowCount", bottomRowCount);
 
-  const kpiTopRowCount = groupedKpis.filter((d, i) => d[0][1].qNum < 2).length;
+  const kpiTopRowCount = groupedKpis.filter(
+    (d, i) => d[0][1].qNum !== 2
+  ).length;
   // console.log("rendering top Kpi")
-  // console.log("kpiTopRowCount",kpiTopRowCount)
-  // console.log("Top KPI", groupedKpis.filter((d, i) => d[0][1].qNum < 2))
-  // console.log("bottom KPI", groupedKpis.filter((d, i) => d[0][1].qNum > 2))
+  // console.log("kpiTopRowCount", kpiTopRowCount);
+  // console.log(
+  //   "Top KPI",
+  //   groupedKpis.filter((d, i) => d[0][1].qNum !== 0)
+  // );
+  // console.log(
+  //   "bottom KPI",
+  //   groupedKpis.filter((d, i) => d[0][1].qNum !== 0)
+  // );
 
   // console.log("Top KPI", groupedKpis.filter((d, i) => d[0][1].qNum < 2))
   // console.log("bottom KPI", groupedKpis.filter((d, i) => d[0][1].qNum > 2))
@@ -47,6 +57,11 @@ const Page = ({ data, sheetData, tabName }) => {
     return qDef[0][17].qText ? qDef[0][17].qText : null;
   }
 
+  function getChartTitles(tabName, region, qDef) {
+    console.log(qDef);
+    return qDef[0][3].qText ? qDef[0][17].qText : null;
+  }
+
   const KpiColumnsTopRow = useMemo(() => {
     if (groupedKpis !== undefined) {
       return groupedKpis
@@ -63,20 +78,25 @@ const Page = ({ data, sheetData, tabName }) => {
               row={Math.trunc(qDef[0][1].qNum)}
               position={qDef[0][1].qNum}
               style={{ textDecoration: "none", color: "white" }}
-              className={"col-6 col-sm-3 col-md-3 col-lg-3 chart"}
+              className={"col-6 col-sm-3 col-md-2 col-lg-3 chart"}
               // className={"col-12 col-sm-3 col-md-6 col-lg-3 chart"}
               rel="noopener noreferrer"
               rowtitle={getRowTitles(tabName, qDef[0][7].qText, qDef)}
+              displayorder={1}
+              chartype="KPI"
+              // chartitle={getChartTitles(tabName, qDef[0][3].qText, qDef)}
             >
               <div className="kpi-top-container chart_card">
                 <Kpi
                   qDef={qDef}
                   bottomRowCount={bottomRowCount}
-                  kpiCount={kpiTopRowCount}
+                  // kpiCount={kpiTopRowCount}
                 />
-                <div style={{ color: "red" }}>
-                  {" "}
-                  {"KPI" + qDef[0][1].qNum + " " + qDef[0][17].qText}{" "}
+                <div style={{ color: "red", display: dubugger ? "" : "none" }}>
+                  {"KPI" +
+                    qDef[0][1].qNum +
+                    " " +
+                    qDef[0][17].qText.substring(0, 4)}{" "}
                 </div>
               </div>
 
@@ -89,6 +109,7 @@ const Page = ({ data, sheetData, tabName }) => {
     }
   }, [groupedKpis, kpiTopRowCount, bottomRowCount, sheetData, tabName]);
 
+  console.log("KpiColumnsTopRow", KpiColumnsTopRow);
   // // map through kpi defs for the bottom row of objects
   var KpiColumnsBottomRow = useMemo(() => {
     if (groupedKpis !== undefined) {
@@ -103,10 +124,16 @@ const Page = ({ data, sheetData, tabName }) => {
               key={`kpi-bottom-${i}`}
               row={Math.trunc(qDef[0][1].qNum)}
               position={qDef[0][1].qNum}
-              style={{ textDecoration: "none", color: "white", height: "100%" }}
+              style={{
+                textDecoration: "none",
+                color: "white",
+                height: "100%",
+              }}
               // className="col-12 col-sm-3 col-md-6 col-lg-3 chart" //go
               className="col-6 col-sm-3 col-md-3 col-lg-3 chart"
               rowtitle={getRowTitles(tabName, qDef[0][7].qText, qDef)}
+              displayorder={1}
+              chartype="KPI"
               //className={bottomRowCount==5?"col-6 col-sm-4 col-md-6 col-lg-4":"col-6 col-sm-4 col-md-4 col-lg-4"}
             >
               <div
@@ -114,9 +141,11 @@ const Page = ({ data, sheetData, tabName }) => {
                 style={{ height: "100%" }}
               >
                 <Kpi qDef={qDef} />
-                <div style={{ color: "red" }}>
-                  {" "}
-                  {"KPI" + qDef[0][1].qNum + " " + qDef[0][17].qText}{" "}
+                <div style={{ color: "red", display: dubugger ? "" : "none" }}>
+                  {"KPI" +
+                    qDef[0][1].qNum +
+                    " " +
+                    qDef[0][17].qText.substring(0, 4)}{" "}
                 </div>
               </div>
               <ViewMore drillDownUrl={drillDownUrl}></ViewMore>
@@ -141,16 +170,24 @@ const Page = ({ data, sheetData, tabName }) => {
               style={{ height: "100%" }}
               //   className="col-6 col-sm-3 col-md-6 col-lg-3 chart" //go
               className="col-6 col-sm-3 col-md-3 col-lg-3 chart"
-              rowtitle={getRowTitles(tabName, qDef[0][7].qText, qDef)}
+              rowtitle={getRowTitles(
+                tabName,
+                qDef[0][7].qText.substring(0, 4),
+                qDef
+              )}
+              displayorder={2}
+              chartype="GUAGE"
             >
               <div
                 className="kpi-bottom-container chart_card"
                 style={{ height: "100%" }}
               >
                 <Gauge qDef={qDef} />
-                <div style={{ color: "red" }}>
-                  {" "}
-                  {"KPI" + qDef[0][1].qNum + " " + qDef[0][17].qText}{" "}
+                <div style={{ color: "red", display: dubugger ? "" : "none" }}>
+                  {"KPI" +
+                    qDef[0][1].qNum +
+                    " " +
+                    qDef[0][17].qText.substring(0, 4)}{" "}
                 </div>
               </div>
               <ViewMore drillDownUrl={drillDownUrl}></ViewMore>
@@ -184,7 +221,12 @@ const Page = ({ data, sheetData, tabName }) => {
               style={{ height: "100%" }}
             >
               <Line qDef={qDef} />
-              {/* <div style={{color:"red"}}>   {"KPI"+qDef[0][1].qNum} </div> */}
+              <div style={{ color: "red", display: dubugger ? "" : "none" }}>
+                {"KPI" +
+                  qDef[0][1].qNum +
+                  " " +
+                  qDef[0][17].qText.substring(0, 4)}{" "}
+              </div>
             </div>
             <ViewMore drillDownUrl={drillDownUrl}></ViewMore>
           </div>
@@ -226,13 +268,17 @@ const Page = ({ data, sheetData, tabName }) => {
               style={{ height: "100%" }}
             >
               <Bar qDef={qDef} />
-              {/* <div style={{color:"red"}}>   {"KPI"+qDef[0][1].qNum} </div> */}
+              <div style={{ color: "red", display: dubugger ? "" : "none" }}>
+                {"KPI" +
+                  qDef[0][1].qNum +
+                  " " +
+                  qDef[0][17].qText.substring(0, 4)}{" "}
+              </div>
             </div>
             <ViewMore drillDownUrl={drillDownUrl}></ViewMore>
           </div>
         );
       });
-      return <div>Bar Columns</div>;
     }
   }, [groupedBars, GaugeColumns, KpiColumnsBottomRow, sheetData, tabName]);
 
@@ -263,7 +309,12 @@ const Page = ({ data, sheetData, tabName }) => {
               style={{ height: "100%" }}
             >
               <LeapKpi qDef={qDef} />
-              {/* <div style={{color:"red"}}>   {"KPI"+qDef[0][1].qNum} </div> */}
+              <div style={{ color: "red", display: dubugger ? "" : "none" }}>
+                {"KPI" +
+                  qDef[0][1].qNum +
+                  " " +
+                  qDef[0][17].qText.substring(0, 4)}{" "}
+              </div>
             </div>
             <ViewMore drillDownUrl={drillDownUrl}></ViewMore>
           </div>
@@ -295,13 +346,19 @@ const Page = ({ data, sheetData, tabName }) => {
               height: "100%",
             }}
             rowtitle={getRowTitles(tabName, qDef[0][7].qText, qDef)}
+            displayorder={0}
           >
             <div
               className="doughnut-bottom-container chart_card"
               style={{ height: "100%" }}
             >
               <Doughnut qDef={qDef} />
-              {/* <div style={{color:"red"}}>   {"KPI"+qDef[0][1].qNum} </div> */}
+              <div style={{ color: "red", display: dubugger ? "" : "none" }}>
+                {"KPI" +
+                  qDef[0][1].qNum +
+                  " " +
+                  qDef[0][17].qText.substring(0, 4)}{" "}
+              </div>
             </div>
             <ViewMore drillDownUrl={drillDownUrl}></ViewMore>
           </div>
@@ -313,7 +370,7 @@ const Page = ({ data, sheetData, tabName }) => {
   }, [groupedDoughnut, GaugeColumns, KpiColumnsBottomRow, sheetData, tabName]);
 
   // Rearrange the bottom row to make sure line chart is positioned correctly
-  var bottomRow = [].concat(
+  var allRows = [].concat(
     KpiColumnsTopRow,
     KpiColumnsBottomRow,
     GaugeColumns,
@@ -323,21 +380,32 @@ const Page = ({ data, sheetData, tabName }) => {
     DoughnnutColums
   );
 
-  // console.log("bottomRow",bottomRow)
-  var sortedBottomRow = bottomRow.sort((a, b) => {
+  // console.log("allRows",allRows)
+  var sortedBottomRow = allRows.sort((a, b) => {
     //console.log(a.props)
     return a.props.position - b.props.position;
   });
 
-  // console.log("sortedBottomRow",sortedBottomRow);
+  console.log("sortedBottomRow", sortedBottomRow);
 
   const groupBy = useCallback((data) => {
-    return Object.values(lodashGroupBy(data, (d) => d.props.row));
+    return Object.values(lodashGroupBy(data, (d) => d.props.rowtitle));
+  }, []);
+
+  //sorting the charts based on displayorder - to rearrange the position of charts
+  const sortBy = useCallback((data) => {
+    return Object.values(lodashsortBy(data, (d) => d.props.position));
   }, []);
 
   //console.log("sortedBottomRow",sortedBottomRow);
   let groupedGridRows = groupBy(sortedBottomRow);
+  // let groupedGridRows = sortedBottomRow;
   console.log("grouped", groupedGridRows);
+
+  let groupedGridRowsalt = groupedGridRows.map((itmes, i) => {
+    return sortBy(itmes);
+  });
+  console.log("Alt", groupedGridRowsalt);
 
   //console.log(window.innerWidth);
   //mobile rendering. Only show a 2 X 2 matrix when screen width is less than 500px
@@ -372,11 +440,11 @@ const Page = ({ data, sheetData, tabName }) => {
         ) : (
           // </div>
           <div className="container-fluid">
-            {groupedGridRows.length > 0
-              ? groupedGridRows.map((rowItems, i) => {
+            {groupedGridRowsalt.length > 0
+              ? groupedGridRowsalt.map((rowItems, i) => {
                   let title = "";
                   if (!isNull(rowItems)) {
-                    // console.log(rowItems);
+                    console.log("rowItems", rowItems);
                     title = rowItems[0].props.rowtitle;
                     //  console.log("rowp",rowItems[0].props.rowtitle);
 
@@ -389,23 +457,29 @@ const Page = ({ data, sheetData, tabName }) => {
                       //  console.log("adding sub titles");
                       // console.log(container_ref.current);
                       title =
-                        groupedGridRows[i - 1][0].props.rowtitle ===
+                        groupedGridRowsalt[i - 1][0].props.rowtitle ===
                         rowItems[0].props.rowtitle
                           ? ""
                           : rowItems[0].props.rowtitle;
                     }
                   }
-
                   return (
                     <div key={i}>
-                      {" "}
                       {!isNull(rowItems) ? (
                         <div className="page-subTitle">
                           {rowItems.length ? title : ""}
+                          {rowItems.length}
                         </div>
                       ) : null}
                       <div className="row align-items-center justify-content-around bottom-row">
-                        {rowItems}
+                        {rowItems[0]} {rowItems[1]} {rowItems[2]} {rowItems[3]}
+                      </div>
+                      <div className="row align-items-center justify-content-around bottom-row">
+                        {rowItems[4]} {rowItems[5]} {rowItems[6]} {rowItems[7]}
+                      </div>
+                      <div className="row align-items-center justify-content-around bottom-row">
+                        {rowItems[8]} {rowItems[9]} {rowItems[10]}
+                        {rowItems[11]}
                       </div>
                     </div>
                   );
