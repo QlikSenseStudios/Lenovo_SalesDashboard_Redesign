@@ -211,10 +211,9 @@ const App = () => {
                       </div>
                     </div>
                   ) : null}
-                  <div key={idx} data={subTabGroups[idx]}>
-                    {" "}
+                  {/* <div key={idx} data={subTabGroups[idx]}>
                     {tabN}
-                  </div>
+                  </div> */}
                   <Page
                     data={subTabGroups[idx]}
                     sheetData={sheetData}

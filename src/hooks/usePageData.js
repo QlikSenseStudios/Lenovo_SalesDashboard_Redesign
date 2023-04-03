@@ -2,7 +2,7 @@ import { groupBy as lodashGroupBy } from "lodash";
 import { useCallback, useMemo } from "react";
 
 export default (data, tabName) => {
-  console.log("usepage:" + tabName);
+  // console.log("usepage:" + tabName);
   //console.log("region Check",data?data[0][7].qText==="EMEA":0);
   // // updating the position data based on the BP-Sybtype
   // // since the position cant be handled from App, updating the actual position vales from App
@@ -10,12 +10,12 @@ export default (data, tabName) => {
   if (
     tabName.includes("Specialist") && data[0] ? data[0][7].qText === "EMEA" : 0
   ) {
-    console.log("includes specalist");
+    //  console.log("includes specalist");
     // console.log(data);
 
     //grouping by headers
     let grouping = lodashGroupBy(data, (d) => d[17].qText.toLowerCase());
-    console.log("bpGroup", grouping);
+    // console.log("bpGroup", grouping);
     // list of bp subtypes
     let keys = Object.keys(grouping);
 
@@ -35,17 +35,13 @@ export default (data, tabName) => {
       });
     });
   } else {
-    console.log("non EMEA and non specalist");
-
+    // console.log("non EMEA and non specalist");
     //grouping by headers
     // let grouping = lodashGroupBy(data, (d) => d[17].qText.toLowerCase());
     // console.log("bpGroup", grouping);
-
     // let keys = Object.keys(grouping);
-
     // Object.keys(grouping).forEach((key) => {
     //   let rowNum = keys.indexOf(key);
-
     //   // grouping[key].map((d, i) => {
     //   //   d[1].row = rowNum + 1;
     //   //   let derivedPostion = Number(d[1].qText) + rowNum;
@@ -68,17 +64,11 @@ export default (data, tabName) => {
     return Object.values(lodashGroupBy(data, (d) => d[1].qNum));
   }, []);
 
-  // const groupedKpis = groupBy(kpis);
   const groupedKpis = useMemo(() => groupBy(kpis), [groupBy, kpis]);
-  // const groupedGauges = groupBy(gauges);
   const groupedGauges = useMemo(() => groupBy(gauges), [groupBy, gauges]);
-  // const groupedLines = groupBy(lines);
   const groupedLines = useMemo(() => groupBy(lines), [groupBy, lines]);
-  // const groupedBars = groupBy(bars);
   const groupedBars = useMemo(() => groupBy(bars), [groupBy, bars]);
-  // const groupedLeaps = groupBy(leaps);
   const groupedLeaps = useMemo(() => groupBy(leaps), [groupBy, leaps]);
-  // const groupedDoughnut = groupBy(doughnut);
   const groupedDoughnut = useMemo(() => groupBy(doughnut), [groupBy, doughnut]);
 
   return {
