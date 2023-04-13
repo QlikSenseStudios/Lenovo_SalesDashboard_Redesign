@@ -37,17 +37,21 @@ export default (data, tabName) => {
   } else {
     // console.log("non EMEA and non specalist");
     //grouping by headers
-    // let grouping = lodashGroupBy(data, (d) => d[17].qText.toLowerCase());
+    let grouping = lodashGroupBy(data, (d) => d[17].qText.toLowerCase());
     // console.log("bpGroup", grouping);
-    // let keys = Object.keys(grouping);
-    // Object.keys(grouping).forEach((key) => {
-    //   let rowNum = keys.indexOf(key);
-    //   // grouping[key].map((d, i) => {
-    //   //   d[1].row = rowNum + 1;
-    //   //   let derivedPostion = Number(d[1].qText) + rowNum;
-    //   //   d[1].qNum = derivedPostion;
-    //   // });
-    // });
+    let keys = Object.keys(grouping);
+
+    Object.keys(grouping).forEach((key) => {
+      let rowNum = keys.indexOf(key);
+      //  console.log(rowNum);
+      grouping[key].map((d, i) => {
+        // console.log(d[1].row);
+        d[1].row = rowNum + 1;
+        let derivedPostion = Number(d[1].qNum) + rowNum;
+        // console.log("derivedPostion", typeof derivedPostion);
+        d[1].qNum = derivedPostion; // qNum and qText to handle posion data to have all charts displayed
+      });
+    });
   }
 
   const {
@@ -59,7 +63,7 @@ export default (data, tabName) => {
     doughnut: doughnut,
   } = lodashGroupBy(data, (d) => d[2].qText.toLowerCase());
 
-  // // group charts with same position value together
+  // // group values with same position value together
   const groupBy = useCallback((data) => {
     return Object.values(lodashGroupBy(data, (d) => d[1].qNum));
   }, []);
