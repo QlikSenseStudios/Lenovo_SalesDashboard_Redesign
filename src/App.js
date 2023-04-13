@@ -80,6 +80,7 @@ const App = () => {
 
   const primaryTabs = useMemo(() => {
     let f = tabData.map((tabItems) => {
+      console.log(tabItems);
       return tabItems[1].qText;
     });
     return f.filter((item, index) => f.indexOf(item) === index);
@@ -120,10 +121,10 @@ const App = () => {
 
   if (tabData !== undefined && tabData.length) {
     getSubData();
-    // console.log("primaryTabs", primaryTabs);
-    // console.log("primaryTabgroups",primaryTabgroups);
-    // console.log("subTabTitles",subTabTitles);
-    // console.log("subTabGroups",subTabGroups);
+    console.log("primaryTabs", primaryTabs);
+    console.log("primaryTabgroups", primaryTabgroups);
+    console.log("subTabTitles", subTabTitles);
+    console.log("subTabGroups", subTabGroups);
   }
 
   //Display Loader before data display

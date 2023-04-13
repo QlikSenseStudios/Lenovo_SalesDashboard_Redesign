@@ -76,12 +76,12 @@
     "build-uat": "dotenv -e .env.dev node scripts/build.js",
     "build-prd": "dotenv -e .env.prd node scripts/build.js",
     "test": "node scripts/test.js",
-    "backup-uat":"aws s3 --profile lenovo-uat cp s3://qlik-velocity-saas-na-tst/lenovo-sales-performance/ .uat-SalesOct27/  --recursive",
-    "delete-uat":"aws s3 --profile lenovo-uat rm s3://qlik-velocity-saas-na-tst/lenovo-sales-performance/  --recursive",
-    "upload-uat":"aws s3 --profile lenovo-uat cp build  s3://qlik-velocity-saas-na-tst/lenovo-sales-performance --recursive",
-    "backup-prd":"aws s3 --profile lenovo-prd cp s3://qlik-velocity-saas-na-prd/new-lenovo-sales-performance/ .prd-SalesOct27/  --recursive",
-    "delete-prd":"aws s3 --profile lenovo-prd rm s3://qlik-velocity-saas-na-prd/new-lenovo-sales-performance/  --recursive",
-    "upload-prd":"aws s3 --profile lenovo-prd cp build  s3://qlik-velocity-saas-na-prd/new-lenovo-sales-performance/ --recursive"
+    "backup-uat": "aws s3 --profile lenovo-uat cp s3://qlik-velocity-saas-na-tst/lenovo-sales-performance/ .bkp-UAT-Sales/  --recursive",
+    "delete-uat": "aws s3 --profile lenovo-uat rm s3://qlik-velocity-saas-na-tst/lenovo-sales-performance/  --recursive",
+    "upload-uat": "aws s3 --profile lenovo-uat cp build  s3://qlik-velocity-saas-na-tst/lenovo-sales-performance --recursive",
+    "backup-prd": "aws s3 --profile lenovo-prd cp s3://qlik-velocity-saas-na-prd/new-lenovo-sales-performance/ .bkp-PRD-Sales/  --recursive",
+    "delete-prd": "aws s3 --profile lenovo-prd rm s3://qlik-velocity-saas-na-prd/new-lenovo-sales-performance/  --recursive",
+    "upload-prd": "aws s3 --profile lenovo-prd cp build  s3://qlik-velocity-saas-na-prd/new-lenovo-sales-performance/ --recursive"
   },
   "eslintConfig": {
     "extends": "react-app"

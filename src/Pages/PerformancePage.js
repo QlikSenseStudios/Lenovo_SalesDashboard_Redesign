@@ -3,15 +3,16 @@ import { Gauge, Kpi, Line, LeapKpi, Bar, Doughnut } from "../components";
 import { usePageData } from "../hooks/index";
 import PlaceHolder from "../components/PlaceHolder";
 import DrillDownUrl from "../DrillDownUrl";
-import { isNull } from "lodash";
+import { isNull, iteratee } from "lodash";
 import ViewMore from "../components/ViewMore";
 import { groupBy as lodashGroupBy } from "lodash";
 import { sortBy as lodashsortBy } from "lodash";
 
 const Page = ({ data, sheetData, tabName }) => {
-  const dubugger = false;
+  const dubugger = true;
   // console.log("tab change triggered", tabName);
-  // console.log("data",data)
+  console.log("data", data);
+
   // console.log("Sheet data",sheetData)
   const {
     groupedKpis,
@@ -64,43 +65,48 @@ const Page = ({ data, sheetData, tabName }) => {
 
   const KpiColumnsTopRow = useMemo(() => {
     if (groupedKpis !== undefined) {
-      return groupedKpis
-        .filter((d, i) => d[0][1].qNum < 2) // number of Kpi to show in row1
-        .map((qDef, i) => {
-          //console.log("R1-"+i,qDef);
-          let drillDownUrl = DrillDownUrl(qDef[i], sheetData);
-          // console.log("URL",drillDownUrl)
-          //  console.log(i);
-          //  console.log(qDef[0][1].qText)
-          return (
-            <div
-              key={`kpi-top-${i}`}
-              row={Math.trunc(qDef[0][1].qNum)}
-              position={qDef[0][1].qNum}
-              style={{ textDecoration: "none", color: "white" }}
-              className={"col-6 col-sm-3 col-md-2 col-lg-3 chart"}
-              // className={"col-12 col-sm-3 col-md-6 col-lg-3 chart"}
-              rel="noopener noreferrer"
-              rowtitle={getRowTitles(tabName, qDef[0][7].qText, qDef)}
-              displayorder={1}
-              chartype="KPI"
-              // chartitle={getChartTitles(tabName, qDef[0][3].qText, qDef)}
-            >
-              <div className="kpi-top-container chart_card">
-                <Kpi
-                  qDef={qDef}
-                  bottomRowCount={bottomRowCount}
-                  // kpiCount={kpiTopRowCount}
-                />
-                <div style={{ color: "red", display: dubugger ? "" : "none" }}>
-                  {"KPI" + qDef[0][1].qNum + " " + qDef[0][17].qText}
+      console.log("KpiColumnsTopRow", groupedKpis);
+      return (
+        groupedKpis
+          // .filter((d, i) => d[0][1].qNum < 2) // number of Kpi to show in row1
+          .map((qDef, i) => {
+            //console.log("R1-"+i,qDef);
+            let drillDownUrl = DrillDownUrl(qDef[i], sheetData);
+            // console.log("URL",drillDownUrl)
+            //  console.log(i);
+            //  console.log(qDef[0][1].qText)
+            return (
+              <div
+                key={`kpi-top-${i}`}
+                row={Math.trunc(qDef[0][1].qNum)}
+                position={qDef[0][1].qNum}
+                style={{ textDecoration: "none", color: "white" }}
+                className={"col-6 col-sm-3 col-md-2 col-lg-3 chart"}
+                // className={"col-12 col-sm-3 col-md-6 col-lg-3 chart"}
+                rel="noopener noreferrer"
+                rowtitle={getRowTitles(tabName, qDef[0][7].qText, qDef)}
+                displayorder={1}
+                chartype="KPI"
+                // chartitle={getChartTitles(tabName, qDef[0][3].qText, qDef)}
+              >
+                <div className="kpi-top-container chart_card">
+                  <Kpi
+                    qDef={qDef}
+                    bottomRowCount={bottomRowCount}
+                    // kpiCount={kpiTopRowCount}
+                  />
+                  <div
+                    style={{ color: "red", display: dubugger ? "" : "none" }}
+                  >
+                    {"KPI" + qDef[0][1].qNum + " " + qDef[0][17].qText}
+                  </div>
                 </div>
-              </div>
 
-              <ViewMore drillDownUrl={drillDownUrl}></ViewMore>
-            </div>
-          );
-        });
+                <ViewMore drillDownUrl={drillDownUrl}></ViewMore>
+              </div>
+            );
+          })
+      );
       // console.log(me);
       //return <div>KPI top row</div>;
     }
@@ -110,42 +116,47 @@ const Page = ({ data, sheetData, tabName }) => {
   // // map through kpi defs for the bottom row of objects
   var KpiColumnsBottomRow = useMemo(() => {
     if (groupedKpis !== undefined) {
-      return groupedKpis
-        .filter((d, i) => d[0][1].qNum > 2) //Kpi row 2
-        .map((qDef, i) => {
-          //console.log("R2-"+i,qDef)
-          let drillDownUrl = DrillDownUrl(qDef[i], sheetData); //drilldown(qDef,i);
-          // console.log("-",qDef[0][17].qText)
-          return (
-            <div
-              key={`kpi-bottom-${i}`}
-              row={Math.trunc(qDef[0][1].qNum)}
-              position={qDef[0][1].qNum}
-              style={{
-                textDecoration: "none",
-                color: "white",
-                height: "100%",
-              }}
-              // className="col-12 col-sm-3 col-md-6 col-lg-3 chart" //go
-              className="col-6 col-sm-3 col-md-3 col-lg-3 chart"
-              rowtitle={getRowTitles(tabName, qDef[0][7].qText, qDef)}
-              displayorder={1}
-              chartype="KPI"
-              //className={bottomRowCount==5?"col-6 col-sm-4 col-md-6 col-lg-4":"col-6 col-sm-4 col-md-4 col-lg-4"}
-            >
+      console.log("KpiColumnsBottomRow", groupedKpis);
+      return (
+        groupedKpis
+          //  .filter((d, i) => d[0][1].qNum > 2) //Kpi row 2
+          .map((qDef, i) => {
+            //console.log("R2-"+i,qDef)
+            let drillDownUrl = DrillDownUrl(qDef[i], sheetData); //drilldown(qDef,i);
+            // console.log("-",qDef[0][17].qText)
+            return (
               <div
-                className="kpi-bottom-container chart_card"
-                style={{ height: "100%" }}
+                key={`kpi-bottom-${i}`}
+                row={Math.trunc(qDef[0][1].qNum)}
+                position={qDef[0][1].qNum}
+                style={{
+                  textDecoration: "none",
+                  color: "white",
+                  height: "100%",
+                }}
+                // className="col-12 col-sm-3 col-md-6 col-lg-3 chart" //go
+                className="col-6 col-sm-3 col-md-3 col-lg-3 chart"
+                rowtitle={getRowTitles(tabName, qDef[0][7].qText, qDef)}
+                displayorder={1}
+                chartype="KPI"
+                //className={bottomRowCount==5?"col-6 col-sm-4 col-md-6 col-lg-4":"col-6 col-sm-4 col-md-4 col-lg-4"}
               >
-                <Kpi qDef={qDef} />
-                <div style={{ color: "red", display: dubugger ? "" : "none" }}>
-                  {"KPI" + qDef[0][1].qNum + " " + qDef[0][17].qText}
+                <div
+                  className="kpi-bottom-container chart_card"
+                  style={{ height: "100%" }}
+                >
+                  <Kpi qDef={qDef} />
+                  <div
+                    style={{ color: "red", display: dubugger ? "" : "none" }}
+                  >
+                    {"KPI" + qDef[0][1].qNum + " " + qDef[0][17].qText}
+                  </div>
                 </div>
+                <ViewMore drillDownUrl={drillDownUrl}></ViewMore>
               </div>
-              <ViewMore drillDownUrl={drillDownUrl}></ViewMore>
-            </div>
-          );
-        });
+            );
+          })
+      );
     }
   }, [groupedKpis, sheetData, tabName]);
 
@@ -369,7 +380,7 @@ const Page = ({ data, sheetData, tabName }) => {
 
   //sorting the charts based on displayorder - to rearrange the position of charts
   const sortBy = useCallback((data) => {
-    return Object.values(lodashsortBy(data, (d) => d.props.displayorder));
+    return; //Object.values(lodashsortBy(data, (d) => d.props.displayorder));
   }, []);
 
   const groupByRowNumber = useCallback((data) => {
@@ -380,7 +391,8 @@ const Page = ({ data, sheetData, tabName }) => {
   let groupedGridRows = groupBy(sortedBottomRow);
 
   let groupedGridRowsalt = groupedGridRows.map((itmes, i) => {
-    return sortBy(itmes);
+    return itmes;
+    //return sortBy(itmes);
   });
 
   // let finalgroup = groupedGridRows.map((itmes, i) => {
