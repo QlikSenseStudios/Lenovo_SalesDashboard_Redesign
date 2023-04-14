@@ -24,20 +24,7 @@ const Page = ({ data, sheetData, tabName }) => {
   } = usePageData(data, tabName);
 
   function getRowTitles(tabName, region, qDef) {
-    // let subTitle="";
-    //   if(region==="EMEA" && tabName.includes("Specialist")){
-    //      subTitle= qDef[0][17].qText?qDef[0][17].qText:null
-    //   }
-    //   if(tabName.includes("Lenovo")){
-    //     subTitle =  qDef[0][17].qText?qDef[0][17].qText:null
-    //   }
-
     return qDef[0][17].qText ? qDef[0][17].qText : null;
-  }
-
-  function getChartTitles(tabName, region, qDef) {
-    // console.log(qDef);
-    return qDef[0][3].qText ? qDef[0][17].qText : null;
   }
 
   var KpiRow = useMemo(() => {
@@ -284,8 +271,6 @@ const Page = ({ data, sheetData, tabName }) => {
 
   // Rearrange the bottom row to make sure line chart is positioned correctly
   var allRows = [].concat(
-    // KpiColumnsTopRow,
-    // KpiColumnsBottomRow,
     KpiRow,
     GaugeColumns,
     LineColumns,
@@ -311,10 +296,6 @@ const Page = ({ data, sheetData, tabName }) => {
     return Object.values(lodashsortBy(data, (d) => d.props.displayorder));
   }, []);
 
-  const groupByRowNumber = useCallback((data) => {
-    return Object.values(lodashGroupBy(data, (d) => d.props.row));
-  }, []);
-
   //console.log("sortedBottomRow", sortedBottomRow);
   let groupedGridRows = groupBy(sortedBottomRow);
 
@@ -322,10 +303,6 @@ const Page = ({ data, sheetData, tabName }) => {
     //return itmes;
     return sortBy(itmes);
   });
-
-  // let finalgroup = groupedGridRows.map((itmes, i) => {
-  //   return groupByRowNumber(itmes);
-  // });
 
   const container_ref = useRef(null);
 

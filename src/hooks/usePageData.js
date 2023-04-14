@@ -16,12 +16,11 @@ export default (data, tabName) => {
     //grouping by headers
     let grouping = lodashGroupBy(data, (d) => d[17].qText.toLowerCase());
     // console.log("bpGroup", grouping);
-    // list of bp subtypes
+
+    // list of headers
     let keys = Object.keys(grouping);
 
     Object.keys(grouping).forEach((key) => {
-      // console.log(key, bpGroup[key]);
-      // console.log(row);
       let rowNum = keys.indexOf(key);
 
       grouping[key].map((d, i) => {
@@ -48,7 +47,7 @@ export default (data, tabName) => {
         // console.log(d[1].row);
         d[1].row = rowNum + 1;
         let derivedPostion = Number(d[1].qNum) + rowNum;
-        // console.log("derivedPostion", typeof derivedPostion);
+        // console.log("derivedPostion",derivedPostion);
         d[1].qNum = derivedPostion; // qNum and qText to handle posion data to have all charts displayed
       });
     });
