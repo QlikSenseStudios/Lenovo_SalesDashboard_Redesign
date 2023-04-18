@@ -30,53 +30,57 @@ const Page = ({ data, sheetData, tabName }) => {
   var KpiRow = useMemo(() => {
     if (groupedKpis !== undefined) {
       //  console.log("KpiRow", groupedKpis);
-      return groupedKpis
-        .filter((d, i) => d[0][1].qNum != 0) //Kpi row 2
-        .map((qDef, i) => {
-          //console.log("R2-"+i,qDef)
-          let drillDownUrl = DrillDownUrl(qDef[i], sheetData); //drilldown(qDef,i);
-          // console.log("-",qDef[0][17].qText)
-          return (
-            <div
-              key={`kpi-bottom-${i}`}
-              row={Math.trunc(qDef[0][1].qNum)}
-              position={qDef[0][1].qNum}
-              style={{
-                textDecoration: "none",
-                color: "white",
-                height: "100%",
-              }}
-              // className="col-12 col-sm-3 col-md-6 col-lg-3 chart" //go
-              className="col-6 col-sm-3 col-md-3 col-lg-3 chart"
-              rowtitle={getRowTitles(tabName, qDef[0][7].qText, qDef)}
-              displayorder={1}
-              chartype="KPI"
-              //className={bottomRowCount==5?"col-6 col-sm-4 col-md-6 col-lg-4":"col-6 col-sm-4 col-md-4 col-lg-4"}
-            >
+      return (
+        groupedKpis
+          // .filter((d, i) => d[0][1].qNum != 0) //Kpi row 2
+          .map((qDef, i) => {
+            // console.log("KPI" + i, qDef);
+            let drillDownUrl = DrillDownUrl(qDef[0], sheetData); //drilldown(qDef,i);
+            // console.log("-",qDef[0][17].qText)
+            return (
               <div
-                className="kpi-bottom-container chart_card"
-                style={{ height: "100%" }}
+                key={`kpi-bottom-${i}`}
+                row={Math.trunc(qDef[0][1].qNum)}
+                position={qDef[0][1].qNum}
+                style={{
+                  textDecoration: "none",
+                  color: "white",
+                  height: "100%",
+                }}
+                // className="col-12 col-sm-3 col-md-6 col-lg-3 chart" //go
+                className="col-6 col-sm-3 col-md-3 col-lg-3 chart"
+                rowtitle={getRowTitles(tabName, qDef[0][7].qText, qDef)}
+                displayorder={1}
+                chartype="KPI"
+                //className={bottomRowCount==5?"col-6 col-sm-4 col-md-6 col-lg-4":"col-6 col-sm-4 col-md-4 col-lg-4"}
               >
-                <Kpi qDef={qDef} />
-                <div style={{ color: "red", display: dubugger ? "" : "none" }}>
-                  {"KPI" + qDef[0][1].qNum + " " + qDef[0][17].qText}
+                <div
+                  className="kpi-bottom-container chart_card"
+                  style={{ height: "100%" }}
+                >
+                  <Kpi qDef={qDef} />
+                  <div
+                    style={{ color: "red", display: dubugger ? "" : "none" }}
+                  >
+                    {"KPI" + qDef[0][1].qNum + " " + qDef[0][17].qText}
+                  </div>
                 </div>
+                <ViewMore drillDownUrl={drillDownUrl}></ViewMore>
               </div>
-              <ViewMore drillDownUrl={drillDownUrl}></ViewMore>
-            </div>
-          );
-        });
+            );
+          })
+      );
     }
   }, [groupedKpis, sheetData, tabName]);
 
   // // map through gauge defs
   const GaugeColumns = useMemo(() => {
     if (groupedGauges !== undefined) {
-      // console.log("groupedGauges", groupedGauges);
+      //console.log("groupedGauges", groupedGauges);
       return groupedGauges
         .filter((d) => d.length > 1)
         .map((qDef, i) => {
-          let drillDownUrl = DrillDownUrl(qDef[i], sheetData); //drilldown(qDef,i);
+          let drillDownUrl = DrillDownUrl(qDef[0], sheetData); //drilldown(qDef,i);
           return (
             <div
               key={`guage-${i}`}
@@ -111,7 +115,7 @@ const Page = ({ data, sheetData, tabName }) => {
     if (groupedLines !== undefined) {
       //console.log("groupedLines", groupedLines);
       return groupedLines.map((qDef, i) => {
-        let drillDownUrl = DrillDownUrl(qDef[i], sheetData); //drilldown(qDef,i);
+        let drillDownUrl = DrillDownUrl(qDef[0], sheetData); //drilldown(qDef,i);
         return (
           <div
             key={`line-${i}`}
@@ -154,7 +158,7 @@ const Page = ({ data, sheetData, tabName }) => {
       //  console.log("BarColumns", BarColumns);
       return groupedBars.map((qDef, i) => {
         // console.log("bar map----------")
-        let drillDownUrl = DrillDownUrl(qDef[i], sheetData); //drilldown(qDef,i);
+        let drillDownUrl = DrillDownUrl(qDef[0], sheetData); //drilldown(qDef,i);
         return (
           <div
             key={`bar-${i}`}
@@ -193,7 +197,7 @@ const Page = ({ data, sheetData, tabName }) => {
       //    console.log("groupedLeaps", groupedLeaps);
       return groupedLeaps.map((qDef, i) => {
         // console.log("Leap Map", qDef)
-        let drillDownUrl = DrillDownUrl(qDef[i], sheetData); //drilldown(qDef,i);
+        let drillDownUrl = DrillDownUrl(qDef[0], sheetData); //drilldown(qDef,i);
         return (
           <div
             key={`leapbar-${i}`}
@@ -230,10 +234,10 @@ const Page = ({ data, sheetData, tabName }) => {
   const DoughnnutColums = useMemo(() => {
     if (groupedDoughnut !== undefined) {
       // return groupedDoughnut
-      // console.log("DoughnnutColums", groupedDoughnut);
+      //console.log("DoughnnutColums", groupedDoughnut);
       return groupedDoughnut.map((qDef, i) => {
-        // console.log("Leap Map", qDef)
-        let drillDownUrl = DrillDownUrl(qDef[i], sheetData); //drilldown(qDef,i);
+        //console.log("Leap Map", qDef);
+        let drillDownUrl = DrillDownUrl(qDef[0], sheetData); //drilldown(qDef,i);
         return (
           <div
             key={`Doughnut-${i}`}
