@@ -5,10 +5,8 @@ import "./App.css";
 import Page from "./Pages/PerformancePage";
 
 // Lodash
-//import { filter, flow, sortBy } from "lodash/fp";
 import { flow, sortBy } from "lodash/fp";
 import PlaceHolder from "./components/PlaceHolder";
-//import Legend from "./components/Legend";
 import Loader from "./components/Loader";
 import { useSession, useAppData, useGetSheetData } from "./hooks/index";
 
@@ -18,19 +16,22 @@ const App = () => {
   //console.log("Performance Page");
   //Qlik error handling
   const connectionError = useSession();
-  var { chartControlData, tabData, accessDenied, appData, isLoading } =
+  var { chartControlData, tabData, accessDenied, appData, isLoading, region } =
     useAppData();
 
   // console.log("tab",tab);
-  //if(chartControlData){
-  //  let s= testdata.map((d,i)=>{ return d})
-  //  console.log(chartControl.data.concat(s))
-  //  chartControlData = chartControlData.concat(s);
-  // console.log("chartControlData#");
-  // console.log(chartControlData);
-  // }
+  if (chartControlData) {
+    // let s = testdata.map((d, i) => {
+    //   return d;
+    // });
+    // console.log(chartControl.data.concat(s));
+    // chartControlData = chartControlData.concat(s);
+    region = chartControlData[0][7]?.qText;
+    //    console.log("chartControlData#");
+    // console.log(region);
+  }
 
-  //  console.log("appData",appData);
+  //console.log("appData", appData);
 
   const sheetData = useGetSheetData();
   const [activePrimaryTab, setActivePrimaryTab] = useState(0);
@@ -47,10 +48,6 @@ const App = () => {
       subTabGroups = groupsd;
     }
   }
-
-  // useEffect(()=>{
-  //   getSubData();
-  // },[activePrimaryTab])
 
   subTabGroups = useMemo(() => {
     if (primaryTabgroups !== undefined && subTabTitles !== undefined) {
@@ -102,13 +99,9 @@ const App = () => {
     if (primaryTabgroups != undefined) {
       // console.log("activePrimaryTab**", activePrimaryTab)
       _subTabs = primaryTabgroups[activePrimaryTab].map((t, i) => {
-        //return sortedData.filter((d) =>{ return d[11].qText === subTabTitles[i]  });
-        //return t[11].qText;
         // console.log(t[11].qText);
         return t[11].qText;
       });
-
-      //  console.log("_subTabs*",_subTabs)
 
       let unique_subTabs = [...new Set(_subTabs.map((item) => item))];
       //  console.log("unique",unique_subTabs)
@@ -153,9 +146,9 @@ const App = () => {
         <PlaceHolder message="No data available" />
       ) : connectionError.session.error !== null ? (
         <PlaceHolder message="Connection Failed" />
+      ) : region === "EMEA" ? (
+        <PlaceHolder message="We are working to update the charts and views on this page. Please go to the Lenovo 360 Incentives page for details of your earnings." />
       ) : (
-        //  subTabTitlesT.length===0 ? (<PlaceHolder message="sub Tab lenth 0" />):
-        //subTabTitles === undefined || subTabGroups === undefined || subTabGroups.length === 0 ? (<PlaceHolder message="subTabGroups -undefinde" />) :
         <div className="">
           <div className="pri-nav-container">
             <ul className="pri-nav pri-nav-tabs nav-justified my-Container">
@@ -181,14 +174,7 @@ const App = () => {
               })}
             </ul>
           </div>
-          {/* {primaryTabs.map(( Maintab, idx) => {
-                  return (<button onClick={()=>setActivePrimaryTab(idx)}> {Maintab} </button>)
-              })
-                
-              } */}
-
           <Tab>
-            {" "}
             {subTabTitles.map((tabN, idx) => {
               return (
                 <Tab.TabPane key={idx} tab={tabN}>
@@ -198,7 +184,6 @@ const App = () => {
                         subTabGroups[idx].length ? {} : { display: "none" }
                       }
                     >
-                      {/* <div style={1==1 ? {}:{display:"none"}}> */}
                       <span className="pageName"></span>
                       <span className="quarter">{appData.quarter}</span>
                       <div style={{ lineHeight: "1" }}>
@@ -211,9 +196,7 @@ const App = () => {
                       </div>
                     </div>
                   ) : null}
-                  {/* <div key={idx} data={subTabGroups[idx]}>
-                    {tabN}
-                  </div> */}
+
                   <Page
                     data={subTabGroups[idx]}
                     sheetData={sheetData}
