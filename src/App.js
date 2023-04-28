@@ -147,7 +147,7 @@ const App = () => {
       ) : connectionError.session.error !== null ? (
         <PlaceHolder message="Connection Failed" />
       ) : region === "EMEA" ? (
-        <PlaceHolder message="We are working to update the charts and views on this page. Please go to the Lenovo 360 Incentives page for details of your earnings." />
+        <PlaceHolder message="We are working to update the charts and views on this page. Please go to the Lenovo 360 Incentives page under Programs & Training menu for details of your earnings." />
       ) : (
         <div className="">
           <div className="pri-nav-container">
