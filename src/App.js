@@ -31,9 +31,10 @@ const App = () => {
   var subTabTitles = [];
   const [primaryTabOrder, setPrimaryTabOrder] = useState(0);
 
+  //set the primary tab order
   useEffect(() => {
     // console.log("sortOrderInfo", sortOrderInfo);
-    console.table(sortOrderInfo);
+    // console.table(sortOrderInfo);
 
     // var ut = [...new Set(sortOrderInfo.map((item) => item.tab_order))].map(
     //   (item, i) => {
@@ -94,12 +95,15 @@ const App = () => {
   }, [chartControlData]);
   //console.log("sortedData", sortedData);
 
+  //get primary tabs
   const primaryTabs = useMemo(() => {
     console.log("****Getting primaryTabs");
+
+    //primary tabs form fact data
     let qUniquePrimaryTab = [...new Set(tabData.map((item) => item[1].qText))];
     console.log("qUniquePrimaryTab", qUniquePrimaryTab);
 
-    // reordering primary tabs based on sortinfo
+    // reordering primary tabs from fact, based on sortinfo/island table
     var pTabs = [];
     if (primaryTabOrder.length) {
       primaryTabOrder.map((item, i) => {
@@ -111,6 +115,7 @@ const App = () => {
     return pTabs;
   }, [tabData, primaryTabOrder]);
 
+  //get primary tabGroup
   const primaryTabgroups = useMemo(() => {
     if (primaryTabs.length && sortedData != null) {
       console.log("****Getting Primary groups");
@@ -122,6 +127,7 @@ const App = () => {
     }
   }, [primaryTabs, sortedData]);
 
+  //get subtab titles
   subTabTitles = useMemo(() => {
     let _subTabs = [];
 
@@ -130,7 +136,7 @@ const App = () => {
       console.log("activePrimaryTab**", activePrimaryTab);
       console.log("primaryTabs**", primaryTabs);
 
-      //subtab order
+      //get subtab order for the activePrimaryTab
       let subTabOrder = sortOrderInfo
         .filter(
           (obj, index, self) =>
@@ -144,7 +150,7 @@ const App = () => {
         .map((item) => item.sub_tab_name);
       console.log("subTabOrder", subTabOrder);
 
-      //unique sub tabs from control data
+      //unique sub tabs from fact data
       var qUniqueSubTabs = [
         ...new Set(
           primaryTabgroups[activePrimaryTab].map((t, i) => {
@@ -172,19 +178,16 @@ const App = () => {
   }, [primaryTabgroups, activePrimaryTab]);
 
   if (tabData !== undefined && tabData.length) {
+    //get subtab data
     getSubData();
-    // console.log("primaryTabs", primaryTabs);
-    // // console.log("primaryTabgroups",primaryTabgroups);
-    // console.log("subTabTitles", subTabTitles);
-    // console.log("subTabGroups", subTabGroups);
   }
 
-  useEffect(() => {
-    console.log("---primaryTabs", primaryTabs);
-    console.log("---primaryTabgroups", primaryTabgroups);
-    console.log("--subTabTitles", subTabTitles);
-    console.log("---subTabGroups", subTabGroups);
-  }, [primaryTabs, primaryTabgroups, subTabTitles, subTabGroups]);
+  // useEffect(() => {
+  //   console.log("---primaryTabs", primaryTabs);
+  //   console.log("---primaryTabgroups", primaryTabgroups);
+  //   console.log("--subTabTitles", subTabTitles);
+  //   console.log("---subTabGroups", subTabGroups);
+  // }, [primaryTabs, primaryTabgroups, subTabTitles, subTabGroups]);
 
   //Display Loader before data display
   if (
@@ -198,7 +201,6 @@ const App = () => {
       // </div>
     );
   }
-
   //connectionError.doc.error ="Error"
   // subTabTitles.length===0 || subTabGroups === undefined ?
 
@@ -206,7 +208,12 @@ const App = () => {
     subTabTitles.length === 0 ||
     subTabTitles === undefined ||
     primaryTabgroups === undefined ||
-    connectionError.doc.error;
+    primaryTabs.length === 0 ||
+    connectionError.doc.error ||
+    chartControlData === undefined ||
+    chartControlData === null;
+
+  connectionError.doc.error;
   return (
     <div className={noDataCondition ? "noAccessBg" : ""}>
       {accessDenied || connectionError.doc.error !== null ? (

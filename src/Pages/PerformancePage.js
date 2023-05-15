@@ -16,8 +16,8 @@ const Page = ({
   sortOrderInfo,
 }) => {
   const dubugger = false;
-  console.log("tab change triggered", activeSubTab);
-  console.log("data", data);
+  //console.log("tab change triggered", activeSubTab);
+  //console.log("data", data);
   // console.log("Sheet data",sheetData)
 
   const {
@@ -46,11 +46,11 @@ const Page = ({
         .map((item) => item.header_name)
     ),
   ];
-  console.log("headersSortOrder", headersSortOrder);
+  //console.log("headersSortOrder", headersSortOrder);
 
   var KpiRow = useMemo(() => {
     if (groupedKpis !== undefined) {
-      console.log("KpiRow", groupedKpis);
+      // console.log("KpiRow", groupedKpis);
       return (
         groupedKpis
           // .filter((d, i) => d[0][1].qNum != 0) //Kpi row 2
@@ -336,12 +336,13 @@ const Page = ({
   // if (headersSortOrder.length) {
   //   sTabs = headersSortOrder.map((item, i) => {
   //     console.log(item);
-  //     // return qUniqueSubTabs.includes(item) ? item : "";
+  //     return qUniqueSubTabs.includes(item) ? item : "";
   //   });
   //   console.log("sTabs", sTabs);
   // }
 
-  const das = allRows.reduce((result, item) => {
+  //data by headers
+  const data_by_header = allRows.reduce((result, item) => {
     const key = item.props.rowtitle;
     if (!result[key]) {
       result[key] = [];
@@ -350,13 +351,14 @@ const Page = ({
     return result;
   }, {});
 
-  console.log(das);
+  console.log("data_by_header", data_by_header);
 
   var groupedGridRows_Sorted = [];
   headersSortOrder.map((item, i) => {
-    if (das[item]) groupedGridRows_Sorted.push(das[item]);
+    if (data_by_header[item]) groupedGridRows_Sorted.push(data_by_header[item]);
   });
-  console.log("sars", groupedGridRows_Sorted);
+  console.log(groupedGridRows_Sorted);
+
   const container_ref = useRef(null);
   return (
     <div ref={container_ref} className={"App"}>

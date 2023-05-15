@@ -24,7 +24,6 @@ const getClientEnvironment = require("./env");
 const ModuleNotFoundPlugin = require("react-dev-utils/ModuleNotFoundPlugin");
 const ForkTsCheckerWebpackPlugin = require("react-dev-utils/ForkTsCheckerWebpackPlugin");
 const typescriptFormatter = require("react-dev-utils/typescriptFormatter");
-const chalk = require("react-dev-utils/chalk");
 const eslint = require("eslint");
 
 const postcssNormalize = require("postcss-normalize");
@@ -55,16 +54,6 @@ const sassModuleRegex = /\.module\.(scss|sass)$/;
 module.exports = function (webpackEnv) {
   const isEnvDevelopment = webpackEnv === "development";
   const isEnvProduction = webpackEnv === "production";
-
-  console.log(
-    chalk.yellow(
-      "isEnvDevelopment: " +
-        isEnvDevelopment +
-        "," +
-        "isEnvProduction: " +
-        isEnvProduction
-    )
-  );
 
   // Webpack uses `publicPath` to determine where the app is being served from.
   // It requires a trailing slash, or the file assets will get an incorrect path.

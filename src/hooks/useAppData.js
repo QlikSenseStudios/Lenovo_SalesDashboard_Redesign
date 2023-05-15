@@ -11,6 +11,7 @@ export default () => {
   const [isLoading, setPreLoader] = useState(true);
   const [tabData, setTab] = useState([]);
   const [sortOrderInfo, setOrderInfo] = useState([]);
+  const [isControlDataLoaded, setControlDataLoaded] = useState(false);
 
   //Get the information for which charts and data to display.
   const chartControl = useHyperCubeData({
@@ -66,7 +67,7 @@ export default () => {
   useEffect(() => {
     if (appLayout.data !== null) {
       setAppData(appLayout.data);
-      setPreLoader(false);
+      if (isControlDataLoaded) setPreLoader(false);
     }
   }, [chartControl, appLayout]);
 
