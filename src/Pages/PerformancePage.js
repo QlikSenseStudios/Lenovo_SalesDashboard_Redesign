@@ -8,10 +8,16 @@ import ViewMore from "../components/ViewMore";
 import { groupBy as lodashGroupBy } from "lodash";
 import { sortBy as lodashsortBy } from "lodash";
 
-const Page = ({ data, sheetData, tabName }) => {
+const Page = ({
+  data,
+  sheetData,
+  activeSubTab,
+  activePrimaryTabName,
+  sortOrderInfo,
+}) => {
   const dubugger = false;
-  // console.log("tab change triggered", tabName);
-  //console.log("data", data);
+  console.log("tab change triggered", activeSubTab);
+  console.log("data", data);
   // console.log("Sheet data",sheetData)
 
   const {
@@ -21,15 +27,30 @@ const Page = ({ data, sheetData, tabName }) => {
     groupedBars,
     groupedLeaps,
     groupedDoughnut,
-  } = usePageData(data, tabName);
+  } = usePageData(data, activeSubTab);
 
-  function getRowTitles(tabName, region, qDef) {
+  function getRowTitles(activeSubTab, region, qDef) {
     return qDef[0][17].qText ? qDef[0][17].qText : null;
   }
 
+  //sortOrderInfo
+  let headersSortOrder = [
+    ...new Set(
+      sortOrderInfo
+        .filter((item, i) => {
+          return (
+            item.tab_name === activePrimaryTabName &&
+            item.sub_tab_name == activeSubTab
+          );
+        })
+        .map((item) => item.header_name)
+    ),
+  ];
+  console.log("headersSortOrder", headersSortOrder);
+
   var KpiRow = useMemo(() => {
     if (groupedKpis !== undefined) {
-      //  console.log("KpiRow", groupedKpis);
+      console.log("KpiRow", groupedKpis);
       return (
         groupedKpis
           // .filter((d, i) => d[0][1].qNum != 0) //Kpi row 2
@@ -49,7 +70,7 @@ const Page = ({ data, sheetData, tabName }) => {
                 }}
                 // className="col-12 col-sm-3 col-md-6 col-lg-3 chart" //go
                 className="col-6 col-sm-3 col-md-3 col-lg-3 chart"
-                rowtitle={getRowTitles(tabName, qDef[0][7].qText, qDef)}
+                rowtitle={getRowTitles(activeSubTab, qDef[0][7].qText, qDef)}
                 displayorder={1}
                 chartype="KPI"
                 //className={bottomRowCount==5?"col-6 col-sm-4 col-md-6 col-lg-4":"col-6 col-sm-4 col-md-4 col-lg-4"}
@@ -71,7 +92,7 @@ const Page = ({ data, sheetData, tabName }) => {
           })
       );
     }
-  }, [groupedKpis, sheetData, tabName]);
+  }, [groupedKpis, sheetData, activeSubTab]);
 
   // // map through gauge defs
   const GaugeColumns = useMemo(() => {
@@ -89,7 +110,7 @@ const Page = ({ data, sheetData, tabName }) => {
               style={{ height: "100%" }}
               //   className="col-6 col-sm-3 col-md-6 col-lg-3 chart" //go
               className="col-6 col-sm-3 col-md-3 col-lg-3 chart"
-              rowtitle={getRowTitles(tabName, qDef[0][7].qText, qDef)}
+              rowtitle={getRowTitles(activeSubTab, qDef[0][7].qText, qDef)}
               displayorder={2}
               chartype="GUAGE"
             >
@@ -108,7 +129,7 @@ const Page = ({ data, sheetData, tabName }) => {
         });
       // return <div>Guage</div>;
     }
-  }, [groupedGauges, sheetData, tabName]);
+  }, [groupedGauges, sheetData, activeSubTab]);
 
   // // map through line defs
   const LineColumns = useMemo(() => {
@@ -127,7 +148,7 @@ const Page = ({ data, sheetData, tabName }) => {
               //? "col-9 col-sm-5 col-md-7 col-lg-5 chart"
               "col-6 col-sm-3 col-md-3 col-lg-3 chart"
             }
-            rowtitle={getRowTitles(tabName, qDef[0][7].qText, qDef)}
+            rowtitle={getRowTitles(activeSubTab, qDef[0][7].qText, qDef)}
           >
             <div
               className="line-container chart_card"
@@ -149,7 +170,7 @@ const Page = ({ data, sheetData, tabName }) => {
     GaugeColumns.length,
     // KpiColumnsBottomRow.length,
     sheetData,
-    tabName,
+    activeSubTab,
   ]);
 
   // // map through line defs
@@ -172,7 +193,7 @@ const Page = ({ data, sheetData, tabName }) => {
             style={{
               height: "100%",
             }}
-            rowtitle={getRowTitles(tabName, qDef[0][7].qText, qDef)}
+            rowtitle={getRowTitles(activeSubTab, qDef[0][7].qText, qDef)}
           >
             <div
               className="bar-container kpi-bottom-container chart_card "
@@ -188,7 +209,7 @@ const Page = ({ data, sheetData, tabName }) => {
         );
       });
     }
-  }, [groupedBars, GaugeColumns, sheetData, tabName]);
+  }, [groupedBars, GaugeColumns, sheetData, activeSubTab]);
 
   // // map through kpi defs for the bottom row of objects
   const LeapKpiColums = useMemo(() => {
@@ -211,7 +232,7 @@ const Page = ({ data, sheetData, tabName }) => {
             style={{
               height: "100%",
             }}
-            rowtitle={getRowTitles(tabName, qDef[0][7].qText, qDef)}
+            rowtitle={getRowTitles(activeSubTab, qDef[0][7].qText, qDef)}
           >
             <div
               className="leapkpi-bottom-container kpi-bottom-container chart_card"
@@ -229,7 +250,7 @@ const Page = ({ data, sheetData, tabName }) => {
       });
       //return <div> LeapKpiColums</div>;
     }
-  }, [groupedLeaps, GaugeColumns, sheetData, tabName]);
+  }, [groupedLeaps, GaugeColumns, sheetData, activeSubTab]);
 
   const DoughnnutColums = useMemo(() => {
     if (groupedDoughnut !== undefined) {
@@ -252,7 +273,7 @@ const Page = ({ data, sheetData, tabName }) => {
             style={{
               height: "100%",
             }}
-            rowtitle={getRowTitles(tabName, qDef[0][7].qText, qDef)}
+            rowtitle={getRowTitles(activeSubTab, qDef[0][7].qText, qDef)}
             displayorder={0}
           >
             <div
@@ -271,7 +292,7 @@ const Page = ({ data, sheetData, tabName }) => {
       });
       //return <div> LeapKpiColums</div>;
     }
-  }, [groupedDoughnut, GaugeColumns, sheetData, tabName]);
+  }, [groupedDoughnut, GaugeColumns, sheetData, activeSubTab]);
 
   // Rearrange the bottom row to make sure line chart is positioned correctly
   var allRows = [].concat(
@@ -283,36 +304,62 @@ const Page = ({ data, sheetData, tabName }) => {
     DoughnnutColums
   );
 
-  //console.log("allRows", allRows);
-  var sortedBottomRow = allRows.sort((a, b) => {
-    //console.log(a.props)
-    return a.props.position - b.props.position;
-  });
+  // console.log("allRows", allRows);
+  // var sortedBottomRow = allRows.sort((a, b) => {
+  //   //console.log(a.props)
+  //   return a.props.position - b.props.position;
+  // });
 
-  //console.log("sortedBottomRow", sortedBottomRow);
+  // console.log("sortedBottomRow", sortedBottomRow);
 
-  const groupBy = useCallback((data) => {
-    return Object.values(lodashGroupBy(data, (d) => d.props.rowtitle));
+  //groping by header
+  const groupByHeader = useCallback((gd) => {
+    return Object.values(lodashGroupBy(gd, (d) => d.props.rowtitle));
   }, []);
 
   //sorting the charts based on displayorder - to rearrange the position of charts
-  const sortBy = useCallback((data) => {
-    return Object.values(lodashsortBy(data, (d) => d.props.displayorder));
+  const sortBy = useCallback((sd) => {
+    return Object.values(lodashsortBy(sd, (d) => d.props.displayorder));
   }, []);
 
-  //console.log("sortedBottomRow", sortedBottomRow);
-  let groupedGridRows = groupBy(sortedBottomRow);
+  let groupedGridRows = groupByHeader(allRows);
 
-  let groupedGridRowsalt = groupedGridRows.map((itmes, i) => {
-    //return itmes;
+  // console.log("groupedGridRows", groupedGridRows);
+
+  let groupedGridRows_Sorted_ = groupedGridRows.map((itmes, i) => {
     return sortBy(itmes);
   });
 
-  const container_ref = useRef(null);
+  console.log(groupedGridRows_Sorted_);
 
+  // var sTabs = [];
+  // if (headersSortOrder.length) {
+  //   sTabs = headersSortOrder.map((item, i) => {
+  //     console.log(item);
+  //     // return qUniqueSubTabs.includes(item) ? item : "";
+  //   });
+  //   console.log("sTabs", sTabs);
+  // }
+
+  const das = allRows.reduce((result, item) => {
+    const key = item.props.rowtitle;
+    if (!result[key]) {
+      result[key] = [];
+    }
+    result[key].push(item);
+    return result;
+  }, {});
+
+  console.log(das);
+
+  var groupedGridRows_Sorted = [];
+  headersSortOrder.map((item, i) => {
+    if (das[item]) groupedGridRows_Sorted.push(das[item]);
+  });
+  console.log("sars", groupedGridRows_Sorted);
+  const container_ref = useRef(null);
   return (
     <div ref={container_ref} className={"App"}>
-      <div>App</div>
       <div className="App-header">
         {data.length === 0 ? (
           // <div className="noAccessBg">
@@ -320,8 +367,8 @@ const Page = ({ data, sheetData, tabName }) => {
         ) : (
           // </div>
           <div className="container-fluid">
-            {groupedGridRowsalt.length > 0
-              ? groupedGridRowsalt.map((rowItems, i) => {
+            {groupedGridRows_Sorted.length > 0
+              ? groupedGridRows_Sorted.map((rowItems, i) => {
                   let title = "";
                   if (!isNull(rowItems)) {
                     // console.log("rowItems", rowItems);
@@ -331,23 +378,27 @@ const Page = ({ data, sheetData, tabName }) => {
                     //temporary fix for lenvov 360 tab -
                     //issue -if same bp subType is associated with two rows, both the rows will have same titel
                     //solutiion - make the title empty if previous row has the same title
-                    if (i > 0 && tabName.includes("-")) {
+                    if (i > 0 && activeSubTab.includes("-")) {
                       // console.log("PREV TITEL",groupedGridRows[i-1][0].props.rowtitle);
                       // console.log("CUR TITEL",rowItems[0].props.rowtitle);
                       //  console.log("adding sub titles");
                       // console.log(container_ref.current);
                       title =
-                        groupedGridRowsalt[i - 1][0].props.rowtitle ===
+                        groupedGridRows_Sorted[i - 1][0].props.rowtitle ===
                         rowItems[0].props.rowtitle
                           ? ""
                           : rowItems[0].props.rowtitle;
                     }
                   }
 
-                  // rowItems.map((rowItem, i) => {
-                  //   let test = groupByRowNumber(rowItem);
-                  //   console.log("test", rowItems);
-                  // });
+                  // console.log("test", rowItems);
+                  // var chunkRows = [];
+                  // const chunkSize = 4;
+                  // for (let i = 0; i < rowItems.length; i += chunkSize) {
+                  //   const chunk = rowItems.slice(i, i + chunkSize);
+                  //   chunkRows.push(chunk);
+                  // }
+                  // console.log("chunk", chunkRows);
 
                   return (
                     <div key={i}>
@@ -356,6 +407,17 @@ const Page = ({ data, sheetData, tabName }) => {
                           {rowItems.length ? title : ""}
                         </div>
                       ) : null}
+                      {/* {chunkRows.map((c) => {
+                        console.log(c);
+                      })} */}
+
+                      {/* <div className="row align-items-center justify-content-around bottom-row">
+                        {rowItems.map((item, i) => {
+                          return item;
+                        })}
+                      </div> */}
+                      {/* trun flex-wrap: wrap; */}
+
                       <div className="row align-items-center justify-content-around bottom-row">
                         {rowItems[0]} {rowItems[1]} {rowItems[2]} {rowItems[3]}
                       </div>

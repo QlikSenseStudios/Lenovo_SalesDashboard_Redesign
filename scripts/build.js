@@ -57,12 +57,8 @@ checkBrowsers(paths.appPath, isInteractive)
   .then((previousFileSizes) => {
     // Remove all content but keep the directory so that
     // if you're in it, you don't end up in Trash
-    console.log(
-        chalk.yellow(
-          "emptying Build Directory"
-        )
-    );
-    
+    console.log(chalk.yellow("emptying Build Directory"));
+
     fs.emptyDirSync(paths.appBuild);
     // Merge with the public folder
     copyPublicFolder();
@@ -71,7 +67,7 @@ checkBrowsers(paths.appPath, isInteractive)
   })
   .then(
     ({ stats, previousFileSizes, warnings }) => {
-      if (warnings.length & 1===2) {
+      if (warnings.length & (1 === 2)) {
         console.log(chalk.yellow("Compiled with warnings.\n"));
         console.log(warnings.join("\n\n"));
         console.log(
@@ -137,8 +133,10 @@ function build(previousFileSizes) {
     console.log();
   }
   console.log(
-  chalk.green(("Creating an optimized build for "+ process.env.Qlik_ENV + " Environment"))
-  )
+    chalk.green(
+      "Creating an optimized build for " + process.env.Qlik_ENV + " Environment"
+    )
+  );
 
   const compiler = webpack(config);
   return new Promise((resolve, reject) => {
@@ -195,13 +193,7 @@ function copyPublicFolder() {
     filter: (file) => file !== paths.appHtml,
   });
   const qext_file = "lenovo-performance-dashboard.qext";
-    // process.env.APP_TARGET === "sales"
-    //   ? "lenovo-sales-performance.qext"
-    //   : process.env.APP_TARGET === "program"
-    //   ? "lenovo-program-dashboard.qext"
-    //   : process.env.APP_TARGET === "performance"
-    //   ? "lenovo-performance-dashboard.qext"
-    //   : "lenovo-velocity-header.qext";
+
   fs.copySync(
     paths.resolveApp(`qext/${qext_file}`),
     `${paths.appBuild}/${qext_file}`

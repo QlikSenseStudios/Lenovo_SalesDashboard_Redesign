@@ -13,6 +13,7 @@ const Tab = ({ children }) => {
       const {
         props: { tab, isMain, children },
       } = element;
+
       data.push({ tab, isMain, children });
     });
 

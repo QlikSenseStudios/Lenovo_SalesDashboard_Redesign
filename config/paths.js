@@ -22,15 +22,14 @@ function ensureSlash(inputPath, needsSlash) {
   }
 }
 
-const getPublicUrl = (appPackageJson) =>
-require(appPackageJson).homepage;
-  //envPublicUrl || process.env.APP_TARGET === "sales"
-    // ? require(appPackageJson).sales_homepage
-    // : envPublicUrl || process.env.APP_TARGET === "program"
-    // ? require(appPackageJson).program_homepage
-    // : envPublicUrl || process.env.APP_TARGET === "performance"
-    // ? require(appPackageJson).performance_homepage
-    // : require(appPackageJson).homepage;
+const getPublicUrl = (appPackageJson) => require(appPackageJson).homepage;
+//envPublicUrl || process.env.APP_TARGET === "sales"
+// ? require(appPackageJson).sales_homepage
+// : envPublicUrl || process.env.APP_TARGET === "program"
+// ? require(appPackageJson).program_homepage
+// : envPublicUrl || process.env.APP_TARGET === "performance"
+// ? require(appPackageJson).performance_homepage
+// : require(appPackageJson).homepage;
 
 // We use `PUBLIC_URL` environment variable or "homepage" field to infer
 // "public path" at which the app is served.
@@ -77,28 +76,9 @@ module.exports = {
   dotenv: resolveApp(".env"),
   appPath: resolveApp("."),
   appBuild: resolveApp("build"),
-  // appBuild: resolveApp(
-  //   process.env.APP_TARGET === "sales"
-  //     ? "sales_build"
-  //     : process.env.APP_TARGET === "program"
-  //     ? "program_build"
-  //     : process.env.APP_TARGET === "performance"
-  //     ? "performance_build"
-  //     : "build"
-  // ),
   appPublic: resolveApp("public"),
   appHtml: resolveApp("public/index.html"),
-  appIndexJs: resolveModule(
-    resolveApp,
-    "src/index"
-    // process.env.APP_TARGET === "sales"
-    //   ? "src/sales_index"
-    //   : process.env.APP_TARGET === "program"
-    //   ? "src/program_index"
-    //   : process.env.APP_TARGET === "performance"
-    //   ? "src/performance_index"
-    //   : "src/index"
-  ),
+  appIndexJs: resolveModule(resolveApp, "src/index"),
   appPackageJson: resolveApp("package.json"),
   appSrc: resolveApp("src"),
   appTsConfig: resolveApp("tsconfig.json"),
@@ -109,16 +89,6 @@ module.exports = {
   appNodeModules: resolveApp("node_modules"),
   publicUrl: getPublicUrl(resolveApp("package.json")),
   servedPath: getServedPath(resolveApp("package.json")),
-  qextPath: resolveApp("qext/lenovo-performance-dashboard.qext"),
-  // qextPath: resolveApp(
-  //   process.env.APP_TARGET === "sales"
-  //     ? "qext/lenovo-sales-performance.qext"
-  //     : process.env.APP_TARGET === "program"
-  //     ? "qext/lenovo-program-dashboard.qext"
-  //     : process.env.APP_TARGET === "performance"
-  //     ? "qext/lenovo-performance-dashboard.qext"
-  //     : "qext/lenovo-velocity-header.qext"
-  // ),
 };
 
 module.exports.moduleFileExtensions = moduleFileExtensions;

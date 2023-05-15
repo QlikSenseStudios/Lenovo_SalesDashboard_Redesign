@@ -28,7 +28,6 @@ export default (data, tabName) => {
         //  let derivedPostion =   d[1].qNum+row;
         //  d[1].qNum = derivedPostion;
         //d[1].qText = derivedPostion.toString();
-
         let derivedPostion = Number(d[1].qText) + rowNum;
         d[1].qNum = derivedPostion;
       });
@@ -37,7 +36,7 @@ export default (data, tabName) => {
     // console.log("non EMEA and non specalist");
     //grouping by headers
     let grouping = lodashGroupBy(data, (d) => d[17].qText.toLowerCase());
-    // console.log("bpGroup", grouping);
+    // console.log("grouping", grouping);
     let keys = Object.keys(grouping);
 
     Object.keys(grouping).forEach((key) => {
@@ -46,6 +45,7 @@ export default (data, tabName) => {
       grouping[key].map((d, i) => {
         // console.log(d[1].row);
         d[1].row = rowNum + 1;
+        d[0].row = rowNum + 1;
         let derivedPostion = Number(d[1].qNum) + rowNum;
         // console.log("derivedPostion",derivedPostion);
         d[1].qNum = derivedPostion; // qNum and qText to handle posion data to have all charts displayed
