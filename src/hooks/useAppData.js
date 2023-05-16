@@ -32,6 +32,7 @@ export default () => {
   //set the chart control matrix to state
   useEffect(() => {
     if (chartControl.data !== null) {
+      setControlDataLoaded(true);
       const clone_chartControl = [...chartControl.data];
       clone_chartControl.map((f) => {
         // if(f[11].qIsNull ){
@@ -68,6 +69,7 @@ export default () => {
     if (appLayout.data !== null) {
       setAppData(appLayout.data);
       if (isControlDataLoaded) setPreLoader(false);
+      setPreLoader(false);
     }
   }, [chartControl, appLayout]);
 
@@ -227,7 +229,6 @@ export default () => {
       // console.table(srAr);
 
       setOrderInfo(srAr);
-      // setTab(tabLayout.qHyperCube.qDataPages[0].qMatrix);
     }
   }, [TitleOrderLayout]);
 

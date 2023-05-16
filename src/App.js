@@ -31,30 +31,6 @@ const App = () => {
   var subTabTitles = [];
   const [primaryTabOrder, setPrimaryTabOrder] = useState(0);
 
-  //set the primary tab order
-  useEffect(() => {
-    // console.log("sortOrderInfo", sortOrderInfo);
-    // console.table(sortOrderInfo);
-
-    // var ut = [...new Set(sortOrderInfo.map((item) => item.tab_order))].map(
-    //   (item, i) => {
-    //     return sortOrderInfo.find((sortitem) => {
-    //       return sortitem.tab_order == item;
-    //     });
-    //   }
-    // );
-    // console.log("ut", ut);
-
-    let primaryTabOrder = sortOrderInfo
-      .filter(
-        (obj, index, self) =>
-          index === self.findIndex((t) => t.tab_order === obj.tab_order)
-      )
-      .map((item) => item.tab_name);
-    // console.log("primaryTabOrder", primaryTabOrder);
-    setPrimaryTabOrder(primaryTabOrder);
-  }, [sortOrderInfo]);
-
   function getSubData() {
     if (primaryTabgroups !== undefined && subTabTitles !== undefined) {
       let groupsd = subTabTitles.map((t, i) => {
@@ -65,6 +41,21 @@ const App = () => {
       subTabGroups = groupsd;
     }
   }
+
+  //2. set the primary tab order
+  useEffect(() => {
+    console.log("2");
+    console.log("sortOrderInfo", sortOrderInfo);
+    // console.table(sortOrderInfo);
+    let primaryTabOrder = sortOrderInfo
+      .filter(
+        (obj, index, self) =>
+          index === self.findIndex((t) => t.tab_order === obj.tab_order)
+      )
+      .map((item) => item.tab_name);
+    // console.log("primaryTabOrder", primaryTabOrder);
+    setPrimaryTabOrder(primaryTabOrder);
+  }, [sortOrderInfo]);
 
   subTabGroups = useMemo(() => {
     console.log("Primary tab change");
@@ -86,6 +77,7 @@ const App = () => {
   //sort the data by position order
   const sortedData = useMemo(() => {
     if (chartControlData !== null) {
+      console.log("---chartControlData", chartControlData.length);
       setregion(chartControlData[0][7]?.qText);
       //return chartControlData;
       return flow(sortBy((d) => d[1].qNum))(chartControlData);
@@ -95,8 +87,9 @@ const App = () => {
   }, [chartControlData]);
   //console.log("sortedData", sortedData);
 
-  //get primary tabs
+  //1. get primary tabs
   const primaryTabs = useMemo(() => {
+    console.log("1");
     console.log("****Getting primaryTabs");
 
     //primary tabs form fact data
@@ -182,12 +175,12 @@ const App = () => {
     getSubData();
   }
 
-  // useEffect(() => {
-  //   console.log("---primaryTabs", primaryTabs);
-  //   console.log("---primaryTabgroups", primaryTabgroups);
-  //   console.log("--subTabTitles", subTabTitles);
-  //   console.log("---subTabGroups", subTabGroups);
-  // }, [primaryTabs, primaryTabgroups, subTabTitles, subTabGroups]);
+  useEffect(() => {
+    // console.log("---primaryTabs", primaryTabs);
+    // console.log("---primaryTabgroups", primaryTabgroups);
+    // console.log("--subTabTitles", subTabTitles);
+    // console.log("---subTabGroups", subTabGroups);
+  }, [primaryTabs, primaryTabgroups, subTabTitles, subTabGroups]);
 
   //Display Loader before data display
   if (
@@ -201,8 +194,8 @@ const App = () => {
       // </div>
     );
   }
-  //connectionError.doc.error ="Error"
-  // subTabTitles.length===0 || subTabGroups === undefined ?
+  // connectionError.doc.error = "Error";
+  // connectionError.session.error = "error";
 
   var noDataCondition =
     subTabTitles.length === 0 ||
@@ -213,7 +206,11 @@ const App = () => {
     chartControlData === undefined ||
     chartControlData === null;
 
-  connectionError.doc.error;
+  // console.log("isLoaded", isLoading);
+  // console.log("noDataCondition", noDataCondition);
+  // console.log("accessDenied", accessDenied);
+  // console.log("region", region);
+
   return (
     <div className={noDataCondition ? "noAccessBg" : ""}>
       {accessDenied || connectionError.doc.error !== null ? (
