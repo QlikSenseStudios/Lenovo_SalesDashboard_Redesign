@@ -305,12 +305,6 @@ const Page = ({
   );
 
   // console.log("allRows", allRows);
-  // var sortedBottomRow = allRows.sort((a, b) => {
-  //   //console.log(a.props)
-  //   return a.props.position - b.props.position;
-  // });
-
-  // console.log("sortedBottomRow", sortedBottomRow);
 
   //groping by header
   const groupByHeader = useCallback((gd) => {
@@ -322,24 +316,13 @@ const Page = ({
     return Object.values(lodashsortBy(sd, (d) => d.props.displayorder));
   }, []);
 
-  let groupedGridRows = groupByHeader(allRows);
-
+  // let groupedGridRows = groupByHeader(allRows);
   // console.log("groupedGridRows", groupedGridRows);
 
-  let groupedGridRows_Sorted_ = groupedGridRows.map((itmes, i) => {
-    return sortBy(itmes);
-  });
-
-  console.log(groupedGridRows_Sorted_);
-
-  // var sTabs = [];
-  // if (headersSortOrder.length) {
-  //   sTabs = headersSortOrder.map((item, i) => {
-  //     console.log(item);
-  //     return qUniqueSubTabs.includes(item) ? item : "";
-  //   });
-  //   console.log("sTabs", sTabs);
-  // }
+  // let groupedGridRows_Sorted_ = groupedGridRows.map((items, i) => {
+  //   return sortBy(items);
+  // });
+  // console.log(groupedGridRows_Sorted_);
 
   //data by headers
   const data_by_header = allRows.reduce((result, item) => {
@@ -350,14 +333,14 @@ const Page = ({
     result[key].push(item);
     return result;
   }, {});
+  //console.log("data_by_header", data_by_header);
 
-  console.log("data_by_header", data_by_header);
-
+  //sort rows based on header sort order preferences
   var groupedGridRows_Sorted = [];
   headersSortOrder.map((item, i) => {
     if (data_by_header[item]) groupedGridRows_Sorted.push(data_by_header[item]);
   });
-  console.log(groupedGridRows_Sorted);
+  // console.log(groupedGridRows_Sorted);
 
   const container_ref = useRef(null);
   return (
@@ -393,7 +376,6 @@ const Page = ({
                     }
                   }
 
-                  // console.log("test", rowItems);
                   // var chunkRows = [];
                   // const chunkSize = 4;
                   // for (let i = 0; i < rowItems.length; i += chunkSize) {
@@ -409,8 +391,13 @@ const Page = ({
                           {rowItems.length ? title : ""}
                         </div>
                       ) : null}
-                      {/* {chunkRows.map((c) => {
-                        console.log(c);
+                      {/* {chunkRows.map((chunk) => {
+                        // console.log(c);
+                        <div className="row align-items-center justify-content-around bottom-row">
+                          {chunk.map((item, i) => {
+                            return item;
+                          })}
+                        </div>;
                       })} */}
 
                       {/* <div className="row align-items-center justify-content-around bottom-row">

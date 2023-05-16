@@ -29,9 +29,8 @@ const App = () => {
   const [activePrimaryTab, setActivePrimaryTab] = useState(0);
   var subTabGroups = [];
   var subTabTitles = [];
-  const [primaryTabOrder, setPrimaryTabOrder] = useState(0);
 
-  function getSubData() {
+  function getSubTabGroups() {
     if (primaryTabgroups !== undefined && subTabTitles !== undefined) {
       let groupsd = subTabTitles.map((t, i) => {
         return primaryTabgroups[activePrimaryTab].filter((d) => {
@@ -42,25 +41,44 @@ const App = () => {
     }
   }
 
-  //2. set the primary tab order
-  useEffect(() => {
-    console.log("2");
-    console.log("sortOrderInfo", sortOrderInfo);
-    // console.table(sortOrderInfo);
-    let primaryTabOrder = sortOrderInfo
+  //1. set the primary tab order from order info island table
+  const primaryTabOrder = useMemo(() => {
+    // console.log("sortOrderInfo", sortOrderInfo);
+    //console.table(sortOrderInfo);
+
+    return sortOrderInfo
       .filter(
         (obj, index, self) =>
           index === self.findIndex((t) => t.tab_order === obj.tab_order)
       )
       .map((item) => item.tab_name);
-    // console.log("primaryTabOrder", primaryTabOrder);
-    setPrimaryTabOrder(primaryTabOrder);
   }, [sortOrderInfo]);
 
+  //2. get primary tabs
+  const primaryTabs = useMemo(() => {
+    // console.log("****Getting primaryTabs");
+    // console.log("tabData", tabData);
+    // console.log("primaryTabOrder", primaryTabOrder);
+    //primary tabs form fact data
+    let qUniquePrimaryTab = [...new Set(tabData.map((item) => item[1].qText))];
+    // console.log("qUniquePrimaryTab", qUniquePrimaryTab);
+
+    // reordering primary tabs from fact, based on sortinfo/island table
+    var pTabs = [];
+    if (primaryTabOrder.length) {
+      primaryTabOrder.map((item, i) => {
+        if (qUniquePrimaryTab.includes(item)) pTabs.push(item);
+        // return qUniquePrimaryTab.includes(item) ? item : "";
+      });
+      //console.log("pTabs", pTabs);
+    }
+    return pTabs;
+  }, [tabData, primaryTabOrder]);
+
   subTabGroups = useMemo(() => {
-    console.log("Primary tab change");
-    console.log(sortOrderInfo);
-    console.log("activePrimaryTab", activePrimaryTab);
+    // console.log("Primary tab change");
+    // console.log(sortOrderInfo);
+    // console.log("activePrimaryTab", activePrimaryTab);
 
     if (primaryTabgroups !== undefined && subTabTitles !== undefined) {
       return subTabTitles.map((t, i) => {
@@ -75,9 +93,9 @@ const App = () => {
   }, [activePrimaryTab]);
 
   //sort the data by position order
-  const sortedData = useMemo(() => {
+  const controlDataSorted = useMemo(() => {
     if (chartControlData !== null) {
-      console.log("---chartControlData", chartControlData.length);
+      // console.log("chartControlData", chartControlData);
       setregion(chartControlData[0][7]?.qText);
       //return chartControlData;
       return flow(sortBy((d) => d[1].qNum))(chartControlData);
@@ -85,49 +103,25 @@ const App = () => {
       return null;
     }
   }, [chartControlData]);
-  //console.log("sortedData", sortedData);
 
-  //1. get primary tabs
-  const primaryTabs = useMemo(() => {
-    console.log("1");
-    console.log("****Getting primaryTabs");
-
-    //primary tabs form fact data
-    let qUniquePrimaryTab = [...new Set(tabData.map((item) => item[1].qText))];
-    console.log("qUniquePrimaryTab", qUniquePrimaryTab);
-
-    // reordering primary tabs from fact, based on sortinfo/island table
-    var pTabs = [];
-    if (primaryTabOrder.length) {
-      primaryTabOrder.map((item, i) => {
-        if (qUniquePrimaryTab.includes(item)) pTabs.push(item);
-        // return qUniquePrimaryTab.includes(item) ? item : "";
-      });
-      console.log("pTabs", pTabs);
-    }
-    return pTabs;
-  }, [tabData, primaryTabOrder]);
-
-  //get primary tabGroup
+  //3.get primary tabGroup
   const primaryTabgroups = useMemo(() => {
-    if (primaryTabs.length && sortedData != null) {
-      console.log("****Getting Primary groups");
+    if (primaryTabs.length && controlDataSorted != null) {
+      // console.log("****Getting Primary groups");
       return primaryTabs.map((t, i) => {
-        return sortedData.filter((d) => {
-          return d[18].qText === primaryTabs[i];
+        return controlDataSorted.filter((d) => {
+          return d[18].qText === primaryTabs[i]; //primary tab from fact
         });
       });
     }
-  }, [primaryTabs, sortedData]);
+  }, [primaryTabs, controlDataSorted]);
 
-  //get subtab titles
+  //4.get subtab order and reorder titles when active tab is changed
   subTabTitles = useMemo(() => {
-    let _subTabs = [];
-
     if (primaryTabgroups != undefined) {
-      console.log("****Getting subTabTitles");
-      console.log("activePrimaryTab**", activePrimaryTab);
-      console.log("primaryTabs**", primaryTabs);
+      // console.log("****Getting subTabTitles");
+      // console.log("activePrimaryTab**", activePrimaryTab);
+      // console.log("primaryTabs**", primaryTabs);
 
       //get subtab order for the activePrimaryTab
       let subTabOrder = sortOrderInfo
@@ -141,17 +135,19 @@ const App = () => {
             )
         )
         .map((item) => item.sub_tab_name);
-      console.log("subTabOrder", subTabOrder);
+      //console.log("subTabOrder", subTabOrder);
 
       //unique sub tabs from fact data
       var qUniqueSubTabs = [
         ...new Set(
           primaryTabgroups[activePrimaryTab].map((t, i) => {
-            return t[11].qText;
+            return t[11].qText; //su tabs
           })
         ),
       ];
-      console.log("qUniqueSubTabs", qUniqueSubTabs);
+      // console.log("qUniqueSubTabs", qUniqueSubTabs);
+
+      //sales, incent
 
       // reordering primary tabs based on sortinfo
       var sTabs = [];
@@ -160,7 +156,7 @@ const App = () => {
           if (qUniqueSubTabs.includes(item)) sTabs.push(item);
           // return qUniqueSubTabs.includes(item) ? item : "";
         });
-        console.log("sTabs", sTabs);
+        //console.log("sTabs", sTabs);
       }
 
       //return qUniqueSubTabs;
@@ -172,15 +168,15 @@ const App = () => {
 
   if (tabData !== undefined && tabData.length) {
     //get subtab data
-    getSubData();
+    getSubTabGroups();
   }
 
-  useEffect(() => {
-    // console.log("---primaryTabs", primaryTabs);
-    // console.log("---primaryTabgroups", primaryTabgroups);
-    // console.log("--subTabTitles", subTabTitles);
-    // console.log("---subTabGroups", subTabGroups);
-  }, [primaryTabs, primaryTabgroups, subTabTitles, subTabGroups]);
+  // useEffect(() => {
+  //   console.log("---primaryTabs", primaryTabs);
+  //   console.log("---primaryTabgroups", primaryTabgroups);
+  //   console.log("--subTabTitles", subTabTitles);
+  //   console.log("---subTabGroups", subTabGroups);
+  // }, [primaryTabs, primaryTabgroups, subTabTitles, subTabGroups]);
 
   //Display Loader before data display
   if (
@@ -199,6 +195,7 @@ const App = () => {
 
   var noDataCondition =
     subTabTitles.length === 0 ||
+    subTabTitles === null ||
     subTabTitles === undefined ||
     primaryTabgroups === undefined ||
     primaryTabs.length === 0 ||
@@ -206,18 +203,13 @@ const App = () => {
     chartControlData === undefined ||
     chartControlData === null;
 
-  // console.log("isLoaded", isLoading);
-  // console.log("noDataCondition", noDataCondition);
-  // console.log("accessDenied", accessDenied);
-  // console.log("region", region);
-
   return (
     <div className={noDataCondition ? "noAccessBg" : ""}>
       {accessDenied || connectionError.doc.error !== null ? (
         <PlaceHolder message="No data available" />
       ) : connectionError.session.error !== null ? (
         <PlaceHolder message="Connection Failed" />
-      ) : region === "EMEAf" ? (
+      ) : region === "EMEA" ? (
         <PlaceHolder message="We are working to update the charts and views on this page. Please go to the Lenovo 360 Incentives page under Programs & Training menu for details of your earnings." />
       ) : (
         <div className="">
@@ -249,7 +241,7 @@ const App = () => {
             {subTabTitles.map((tabN, idx) => {
               return (
                 <Tab.TabPane key={idx} tab={tabN}>
-                  {appData !== null && sortedData !== null ? (
+                  {appData !== null && controlDataSorted !== null ? (
                     <div
                       style={
                         subTabGroups[idx].length ? {} : { display: "none" }
@@ -274,9 +266,6 @@ const App = () => {
                     activePrimaryTabName={primaryTabs[activePrimaryTab]}
                     sortOrderInfo={sortOrderInfo}
                   />
-                  {/* tab <br></br>
-                  {primaryTabs[activePrimaryTab]} <br></br>
-                  {subTabTitles[idx]} */}
                 </Tab.TabPane>
               );
             })}

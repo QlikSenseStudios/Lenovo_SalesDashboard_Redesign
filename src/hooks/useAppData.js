@@ -3,6 +3,7 @@ import { useSessionObject, useHyperCubeData } from "./index";
 import chartControlDef from "../qDefs/List/chartControl";
 import appDataDef from "../qDefs/List/appDataDef";
 import { useGetLayout } from "qlik-hooks/GenericObject";
+// import testData from "../TestData/TestData";
 
 export default () => {
   const [chartControlData, setChartControlData] = useState(null);
@@ -13,7 +14,10 @@ export default () => {
   const [sortOrderInfo, setOrderInfo] = useState([]);
   const [isControlDataLoaded, setControlDataLoaded] = useState(false);
 
-  //Get the information for which charts and data to display.
+  //testData
+  // const { qsortData_testData } = testData();
+
+  //Get the chartControl data/fact data
   const chartControl = useHyperCubeData({
     def: chartControlDef,
     dataTransformFunc: useCallback(
@@ -33,24 +37,17 @@ export default () => {
   useEffect(() => {
     if (chartControl.data !== null) {
       setControlDataLoaded(true);
-      const clone_chartControl = [...chartControl.data];
-      clone_chartControl.map((f) => {
-        // if(f[11].qIsNull ){
-        //       f[11].qText = "*"
-        //   }
+
+      //const clone_chartControl = [...chartControl.data];
+      [...chartControl.data].map((f) => {
         if (!f[11].qText) {
-          f[11].qText = "-";
+          f[11].qText = "-"; // if sutab title is empty/undefined, replace it to "-"
         }
-        //   if(!f[18].qText ){
-        //     f[18].qText = "#"
-        // }
       });
 
       setChartControlData(chartControl.data);
     }
   }, [chartControl]);
-
-  //Get the information for which charts and data to display.
 
   const appLayout = useHyperCubeData({
     def: appDataDef,
@@ -69,30 +66,10 @@ export default () => {
     if (appLayout.data !== null) {
       setAppData(appLayout.data);
       if (isControlDataLoaded) setPreLoader(false);
-      setPreLoader(false);
     }
   }, [chartControl, appLayout]);
 
-  const tabOrder = [
-    "PCSD Sales Overview",
-    "PCSD Main Program",
-    "PCSD Specialist Program",
-    "PCSD Program Performance",
-    "PCSD Sales Performance",
-    "PCSD - Sales",
-    "PCSD - Services",
-    "PCSD - Rebates",
-    "ISG",
-    "ISG Sales Overview",
-    "ISG Main Program",
-    "ISG Specialist Program",
-    "ISG Sales Performance",
-    "ISG Program Performance",
-    "Tier",
-    "Others",
-  ];
-
-  ///Create session object for business group
+  ///hypercube call to pull tabs from fact table
   const tabField = useSessionObject({
     qInfo: {
       qType: "tab list",
@@ -110,10 +87,10 @@ export default () => {
                 qSortByAscii: 1,
                 qSortByLoadOrder: 0,
                 qSortByExpression: 1,
-                qExpression: {
-                  // qv: "MATCH(tab, 'PCSD Sales Overview','PCSD Main Program', 'PCSD Specialist Program', 'ISG Sales Overview','ISG Main Program', 'ISG Specialist Program', 'ISG')"
-                  qv: "MATCH(sub_tab," + "'" + tabOrder.join("','") + "'" + ")",
-                },
+                // qExpression: {
+                //   // qv: "MATCH(tab, 'PCSD Sales Overview','PCSD Main Program', 'PCSD Specialist Program', 'ISG Sales Overview','ISG Main Program', 'ISG Specialist Program', 'ISG')"
+                //   qv: "MATCH(sub_tab," + "'" + tabOrder.join("','") + "'" + ")",
+                // },
               },
             ],
           },
@@ -133,7 +110,7 @@ export default () => {
     },
   });
 
-  // Get the layout of the business groups session object and set it to state.
+  // Get the layout of the tabs session object and set it to state.
   const tabLayout = useGetLayout(tabField, {
     params: [],
     invalidations: true,
@@ -158,7 +135,7 @@ export default () => {
   ////
 
   ///Create session object for business group
-  const TitleOrder = useSessionObject({
+  const sortOrderTable = useSessionObject({
     qInfo: {
       qType: "order list",
     },
@@ -205,7 +182,7 @@ export default () => {
   });
 
   // Get the layout of the business groups session object and set it to state.
-  const TitleOrderLayout = useGetLayout(TitleOrder, {
+  const TitleOrderLayout = useGetLayout(sortOrderTable, {
     params: [],
     invalidations: true,
   }).qResponse;
@@ -214,6 +191,13 @@ export default () => {
   useEffect(() => {
     if (TitleOrderLayout !== null) {
       let qsortData = TitleOrderLayout.qHyperCube.qDataPages[0].qMatrix;
+      //console.log("qsortData", qsortData);
+
+      //testdata not for production
+      // if (qsortData.length == 0) {
+      //   qsortData = qsortData_testData;
+      // }
+
       var srAr = [];
       qsortData.map((item, i) => {
         let d = {
