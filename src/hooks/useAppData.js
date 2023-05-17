@@ -10,7 +10,6 @@ export default () => {
   const [appData, setAppData] = useState(null);
   const [accessDenied, setAccessDenied] = useState(false);
   const [isLoading, setPreLoader] = useState(true);
-  const [tabData, setTab] = useState([]);
   const [sortOrderInfo, setOrderInfo] = useState([]);
   const [isControlDataLoaded, setControlDataLoaded] = useState(false);
 
@@ -68,71 +67,6 @@ export default () => {
       if (isControlDataLoaded) setPreLoader(false);
     }
   }, [chartControl, appLayout]);
-
-  ///hypercube call to pull tabs from fact table
-  const tabField = useSessionObject({
-    qInfo: {
-      qType: "tab list",
-    },
-    qHyperCubeDef: {
-      qDimensions: [
-        {
-          qDef: {
-            qFieldDefs: ["sub_tab"],
-            qSortCriterias: [
-              {
-                qSortByState: 0,
-                qSortByFrequency: 0,
-                qSortByNumeric: 0,
-                qSortByAscii: 1,
-                qSortByLoadOrder: 0,
-                qSortByExpression: 1,
-                // qExpression: {
-                //   // qv: "MATCH(tab, 'PCSD Sales Overview','PCSD Main Program', 'PCSD Specialist Program', 'ISG Sales Overview','ISG Main Program', 'ISG Specialist Program', 'ISG')"
-                //   qv: "MATCH(sub_tab," + "'" + tabOrder.join("','") + "'" + ")",
-                // },
-              },
-            ],
-          },
-        },
-        {
-          qDef: {
-            qFieldDefs: ["tab"], //1/
-          },
-        },
-      ],
-      qInitialDataFetch: [
-        {
-          qWidth: 2,
-          qHeight: 100,
-        },
-      ],
-    },
-  });
-
-  // Get the layout of the tabs session object and set it to state.
-  const tabLayout = useGetLayout(tabField, {
-    params: [],
-    invalidations: true,
-  }).qResponse;
-
-  //error handling for failure to get response from Qlik
-  useEffect(() => {
-    if (tabLayout !== null) {
-      let s = tabLayout.qHyperCube.qDataPages[0].qMatrix;
-      s.forEach((element) => {
-        element.forEach((f) => {
-          if (!f.hasOwnProperty("qText")) {
-            f.qText = "-";
-          }
-        });
-      });
-      setTab(s);
-      // setTab(tabLayout.qHyperCube.qDataPages[0].qMatrix);
-    }
-  }, [tabLayout]);
-
-  ////
 
   ///Create session object for business group
   const sortOrderTable = useSessionObject({
@@ -218,7 +152,6 @@ export default () => {
 
   return {
     sortOrderInfo,
-    tabData,
     chartControlData,
     accessDenied,
     appData,

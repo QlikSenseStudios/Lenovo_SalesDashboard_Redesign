@@ -15,14 +15,8 @@ const App = () => {
   //console.log("Performance Page");
   //Qlik error handling
   const connectionError = useSession();
-  var {
-    chartControlData,
-    tabData,
-    accessDenied,
-    appData,
-    isLoading,
-    sortOrderInfo,
-  } = useAppData();
+  var { chartControlData, accessDenied, appData, isLoading, sortOrderInfo } =
+    useAppData();
 
   const [region, setregion] = useState([]);
   const sheetData = useGetSheetData();
@@ -38,6 +32,8 @@ const App = () => {
         });
       });
       subTabGroups = groupsd;
+    } else {
+      return [];
     }
   }
 
@@ -56,27 +52,30 @@ const App = () => {
 
   //2. get primary tabs
   const primaryTabs = useMemo(() => {
-    // console.log("****Getting primaryTabs");
-    // console.log("tabData", tabData);
-    // console.log("primaryTabOrder", primaryTabOrder);
     //primary tabs form fact data
-    let qUniquePrimaryTab = [...new Set(tabData.map((item) => item[1].qText))];
-    // console.log("qUniquePrimaryTab", qUniquePrimaryTab);
+    if (chartControlData) {
+      //unique primary tabs from chartControlData
+      let qUniquePrimaryTab = [
+        ...new Set(chartControlData.map((item) => item[18].qText)),
+      ];
+      // console.log("qUniquePrimaryTab", qUniquePrimaryTab);
 
-    // reordering primary tabs from fact, based on sortinfo/island table
-    var pTabs = [];
-    if (primaryTabOrder.length) {
-      primaryTabOrder.map((item, i) => {
-        if (qUniquePrimaryTab.includes(item)) pTabs.push(item);
-        // return qUniquePrimaryTab.includes(item) ? item : "";
-      });
-      //console.log("pTabs", pTabs);
-    }
-    return pTabs;
-  }, [tabData, primaryTabOrder]);
+      // reordering primary tabs from fact, based on sortinfo/island table
+      var pTabs = [];
+      if (primaryTabOrder.length) {
+        primaryTabOrder.map((item, i) => {
+          if (qUniquePrimaryTab.includes(item)) pTabs.push(item);
+          // return qUniquePrimaryTab.includes(item) ? item : "";
+        });
+        //console.log("pTabs", pTabs);
+      }
+      return pTabs;
+    } else return [];
+  }, [chartControlData, primaryTabOrder]);
 
+  //on primary tab change
   subTabGroups = useMemo(() => {
-    // console.log("Primary tab change");
+    //console.log("Primary tab change");
     // console.log(sortOrderInfo);
     // console.log("activePrimaryTab", activePrimaryTab);
 
@@ -116,7 +115,7 @@ const App = () => {
     }
   }, [primaryTabs, controlDataSorted]);
 
-  //4.get subtab order and reorder titles when active tab is changed
+  //4.get subtab order and reorder titles when active tabs is changed
   subTabTitles = useMemo(() => {
     if (primaryTabgroups != undefined) {
       // console.log("****Getting subTabTitles");
@@ -166,9 +165,12 @@ const App = () => {
     }
   }, [primaryTabgroups, activePrimaryTab]);
 
-  if (tabData !== undefined && tabData.length) {
-    //get subtab data
-    getSubTabGroups();
+  // useEffect(() => {
+  //   getSubTabGroups();
+  // });
+
+  if (chartControlData) {
+    getSubTabGroups(); //invocked until the subTab Group is ready
   }
 
   // useEffect(() => {
@@ -209,7 +211,7 @@ const App = () => {
         <PlaceHolder message="No data available" />
       ) : connectionError.session.error !== null ? (
         <PlaceHolder message="Connection Failed" />
-      ) : region === "EMEA" ? (
+      ) : region === "EMEAS" ? (
         <PlaceHolder message="We are working to update the charts and views on this page. Please go to the Lenovo 360 Incentives page under Programs & Training menu for details of your earnings." />
       ) : (
         <div className="">
@@ -243,9 +245,9 @@ const App = () => {
                 <Tab.TabPane key={idx} tab={tabN}>
                   {appData !== null && controlDataSorted !== null ? (
                     <div
-                      style={
-                        subTabGroups[idx].length ? {} : { display: "none" }
-                      }
+                    // style={
+                    //   subTabGroups[idx].length ? {} : { display: "none" }
+                    // }
                     >
                       <span className="pageName"></span>
                       <span className="quarter">{appData.quarter}</span>
@@ -260,7 +262,8 @@ const App = () => {
                     </div>
                   ) : null}
                   <Page
-                    data={subTabGroups[idx]}
+                    // data={subTabGroups[idx]}
+                    data={subTabGroups.length ? subTabGroups[idx] : []}
                     sheetData={sheetData}
                     activeSubTab={tabN}
                     activePrimaryTabName={primaryTabs[activePrimaryTab]}
