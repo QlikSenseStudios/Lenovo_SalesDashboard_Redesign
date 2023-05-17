@@ -407,7 +407,7 @@ const Page = ({
                       </div> */}
                       {/* trun flex-wrap: wrap; */}
 
-                      <div className="row align-items-center justify-content-around bottom-row">
+                      {/* <div className="row align-items-center justify-content-around bottom-row">
                         {rowItems[0]} {rowItems[1]} {rowItems[2]} {rowItems[3]}
                       </div>
                       <div className="row align-items-center justify-content-around bottom-row">
@@ -424,7 +424,17 @@ const Page = ({
                       <div className="row align-items-center justify-content-around bottom-row">
                         {rowItems[16]} {rowItems[17]} {rowItems[18]}{" "}
                         {rowItems[19]}
-                      </div>
+                      </div> */}
+                      {rowItems.map((item, index) => (
+                        index % 4 === 0 && (
+                          <div className="row align-items-center justify-content-around bottom-row" key={index}>
+                            {rowItems.slice(index, index + 4).map((rowItem, innerIndex) => (
+                              <React.Fragment key={innerIndex}>{rowItem}</React.Fragment>
+                            ))
+                            }
+                          </div>
+                        )
+                      ))}
                     </div>
                   );
                 })
