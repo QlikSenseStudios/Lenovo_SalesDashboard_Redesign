@@ -333,13 +333,15 @@ const Page = ({
     result[key].push(item);
     return result;
   }, {});
-  //console.log("data_by_header", data_by_header);
+
+  // console.log("data_by_header", data_by_header);
 
   //sort rows based on header sort order preferences
   var groupedGridRows_Sorted = [];
   headersSortOrder.map((item, i) => {
     if (data_by_header[item]) groupedGridRows_Sorted.push(data_by_header[item]);
   });
+
   // console.log(groupedGridRows_Sorted);
 
   const container_ref = useRef(null);
@@ -359,7 +361,6 @@ const Page = ({
                     // console.log("rowItems", rowItems);
                     title = rowItems[0].props.rowtitle;
                     //  console.log("rowp",rowItems[0].props.rowtitle);
-
                     //temporary fix for lenvov 360 tab -
                     //issue -if same bp subType is associated with two rows, both the rows will have same titel
                     //solutiion - make the title empty if previous row has the same title
@@ -376,14 +377,6 @@ const Page = ({
                     }
                   }
 
-                  // var chunkRows = [];
-                  // const chunkSize = 4;
-                  // for (let i = 0; i < rowItems.length; i += chunkSize) {
-                  //   const chunk = rowItems.slice(i, i + chunkSize);
-                  //   chunkRows.push(chunk);
-                  // }
-                  // console.log("chunk", chunkRows);
-
                   return (
                     <div key={i}>
                       {!isNull(rowItems) ? (
@@ -391,50 +384,18 @@ const Page = ({
                           {rowItems.length ? title : ""}
                         </div>
                       ) : null}
-                      {/* {chunkRows.map((chunk) => {
-                        // console.log(c);
-                        <div className="row align-items-center justify-content-around bottom-row">
-                          {chunk.map((item, i) => {
-                            return item;
-                          })}
-                        </div>;
-                      })} */}
 
-                      {/* <div className="row align-items-center justify-content-around bottom-row">
-                        {rowItems.map((item, i) => {
-                          return item;
-                        })}
-                      </div> */}
-                      {/* trun flex-wrap: wrap; */}
-
-                      {/* <div className="row align-items-center justify-content-around bottom-row">
-                        {rowItems[0]} {rowItems[1]} {rowItems[2]} {rowItems[3]}
-                      </div>
-                      <div className="row align-items-center justify-content-around bottom-row">
-                        {rowItems[4]} {rowItems[5]} {rowItems[6]} {rowItems[7]}
-                      </div>
-                      <div className="row align-items-center justify-content-around bottom-row">
-                        {rowItems[8]} {rowItems[9]} {rowItems[10]}{" "}
-                        {rowItems[11]}
-                      </div>
-                      <div className="row align-items-center justify-content-around bottom-row">
-                        {rowItems[12]} {rowItems[13]} {rowItems[14]}{" "}
-                        {rowItems[15]}
-                      </div>
-                      <div className="row align-items-center justify-content-around bottom-row">
-                        {rowItems[16]} {rowItems[17]} {rowItems[18]}{" "}
-                        {rowItems[19]}
-                      </div> */}
-                      {rowItems.map((item, index) => (
-                        index % 4 === 0 && (
-                          <div className="row align-items-center justify-content-around bottom-row" key={index}>
-                            {rowItems.slice(index, index + 4).map((rowItem, innerIndex) => (
-                              <React.Fragment key={innerIndex}>{rowItem}</React.Fragment>
-                            ))
-                            }
-                          </div>
-                        )
-                      ))}
+                      {rowItems.map(
+                        (item, index) =>
+                          index % 4 === 0 && (
+                            <div
+                              className="row align-items-center justify-content-around bottom-row"
+                              key={index}
+                            >
+                              {rowItems.slice(index, index + 4)}
+                            </div>
+                          )
+                      )}
                     </div>
                   );
                 })

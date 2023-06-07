@@ -3,12 +3,12 @@ import { useSessionObject, useHyperCubeData } from "./index";
 import chartControlDef from "../qDefs/List/chartControl";
 import appDataDef from "../qDefs/List/appDataDef";
 import { useGetLayout } from "qlik-hooks/GenericObject";
+import { copySync } from "fs-extra";
 // import testData from "../TestData/TestData";
 
 export default () => {
   const [chartControlData, setChartControlData] = useState(null);
   const [appData, setAppData] = useState(null);
-  const [accessDenied, setAccessDenied] = useState(false);
   const [isLoading, setPreLoader] = useState(true);
   const [sortOrderInfo, setOrderInfo] = useState([]);
   const [isControlDataLoaded, setControlDataLoaded] = useState(false);
@@ -19,31 +19,26 @@ export default () => {
   //Get the chartControl data/fact data
   const chartControl = useHyperCubeData({
     def: chartControlDef,
-    dataTransformFunc: useCallback(
-      (qHyperCube) => {
-        // console.log(qHyperCube)
-        // const qMatrix = qHyperCube.qDataPages[0].qMatrix;
-        //    console.log("chartControl",qMatrix);
-        return qHyperCube.qDataPages.length > 0
-          ? qHyperCube.qDataPages[0].qMatrix
-          : null;
-      },
-      [chartControlDef]
-    ),
+    dataTransformFunc: useCallback((qHyperCube) => {
+      // console.log(qHyperCube);
+      // const qMatrix = qHyperCube.qDataPages[0].qMatrix;
+      //    console.log("chartControl",qMatrix);
+      return qHyperCube.qDataPages.length > 0
+        ? qHyperCube.qDataPages[0].qMatrix
+        : null;
+    }, []),
   });
 
   //set the chart control matrix to state
   useEffect(() => {
     if (chartControl.data !== null) {
       setControlDataLoaded(true);
-
-      //const clone_chartControl = [...chartControl.data];
       [...chartControl.data].map((f) => {
         if (!f[11].qText) {
           f[11].qText = "-"; // if sutab title is empty/undefined, replace it to "-"
         }
+        return f;
       });
-
       setChartControlData(chartControl.data);
     }
   }, [chartControl]);
@@ -153,7 +148,6 @@ export default () => {
   return {
     sortOrderInfo,
     chartControlData,
-    accessDenied,
     appData,
     isLoading,
   };

@@ -25,9 +25,6 @@ export default (data, tabName) => {
 
       grouping[key].map((d, i) => {
         d[1].row = rowNum + 1;
-        //  let derivedPostion =   d[1].qNum+row;
-        //  d[1].qNum = derivedPostion;
-        //d[1].qText = derivedPostion.toString();
         let derivedPostion = Number(d[1].qText) + rowNum;
         d[1].qNum = derivedPostion;
       });
@@ -59,7 +56,7 @@ export default (data, tabName) => {
     line: lines,
     bar: bars,
     leap: leaps,
-    doughnut: doughnut,
+    doughnut: doughnuts,
   } = lodashGroupBy(data, (d) => d[2].qText.toLowerCase());
 
   // // group values with same position value together
@@ -72,7 +69,10 @@ export default (data, tabName) => {
   const groupedLines = useMemo(() => groupBy(lines), [groupBy, lines]);
   const groupedBars = useMemo(() => groupBy(bars), [groupBy, bars]);
   const groupedLeaps = useMemo(() => groupBy(leaps), [groupBy, leaps]);
-  const groupedDoughnut = useMemo(() => groupBy(doughnut), [groupBy, doughnut]);
+  const groupedDoughnut = useMemo(
+    () => groupBy(doughnuts),
+    [groupBy, doughnuts]
+  );
 
   return {
     groupedKpis,
