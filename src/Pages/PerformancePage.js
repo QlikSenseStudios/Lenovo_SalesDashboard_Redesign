@@ -312,7 +312,6 @@ const Page = ({ data, sheetData, tabName }) => {
 
   return (
     <div ref={container_ref} className={"App"}>
-      <div>App</div>
       <div className="App-header">
         {data.length === 0 ? (
           // <div className="noAccessBg">

@@ -10,7 +10,7 @@ async function checkUserLogin(tenant, webIntegrationId) {
     // retrieve the user metadata, as a way to detect if they
     // are signed in. An error will be thrown if the response
     // is a non-2XX HTTP status:
-   //const res = await fetch(`/api/v1/users/me`, {
+    //const res = await fetch(`/api/v1/users/me`, {
     const res = await fetch(`https://${tenant}/api/v1/users/me`, {
       mode: "cors",
       credentials: "include",
@@ -28,7 +28,7 @@ async function checkUserLogin(tenant, webIntegrationId) {
     window.location.href = `https://${tenant}/login?returnto=${returnTo}&qlik-web-integration-id=${webIntegrationId}`;
     throw err;
   }
-};
+}
 
 async function getQCSHeaders({ webIntegrationId, url }) {
   const response = await fetch(`${url}/api/v1/csrf-token`, {
@@ -51,13 +51,13 @@ async function getQCSHeaders({ webIntegrationId, url }) {
 
 //make an ajax call to dynamically get the appID once the app list has been filtered by tag name
 const setup = async (name) => {
-   //console.log("process",process.env)
+  //console.log("process",process.env)
 
   //for PRD
   // if(host==="ddwiel1pyau3r.cloudfront.net"){
   //   console.log("PRD");
   // }
- 
+
   //   const tenant ="lenovo-lph-ai.us.qlikcloud.com";
   //   const webIntegrationId = "9Qj-tLrexDWjKAoOJRx9Gnh6a0z7oTmA";
   //   const spaceID = "61327a6341b8a9e9a21a53eb";
@@ -73,7 +73,7 @@ const setup = async (name) => {
   // if(host==="dyq9uf3gawydx.cloudfront.net"){
   //   console.log("UAT");
   // }
-  
+
   // const tenant ="mbq71d0rz7otbdf.eu.qlikcloud.com";
   // const webIntegrationId = "pBw85_j9m_Thz5A6U5tDm37BiFmouLrH";
   // const spaceID = "618bd084eac3bd232c7a07ec";
@@ -82,24 +82,30 @@ const setup = async (name) => {
   const webIntegrationId = process.env.webIntegrationId;
   const spaceID = process.env.spaceID;
 
-  if(process.env.Qlik_ENV === "UAT")
-  (function() {
-    var qtm = document.createElement('script'); qtm.type = 'text/javascript'; qtm.async = 1;
-    qtm.src = 'https://cdn.quantummetric.com/qscripts/quantum-lenovopartnerhub-test.js';
-    var d = document.getElementsByTagName('script')[0];
-    !window.QuantumMetricAPI && d.parentNode.insertBefore(qtm, d);
-  })();
-
-  if(process.env.Qlik_ENV === "PRD")
-   (function() {
-      var qtm = document.createElement('script'); qtm.type = 'text/javascript'; qtm.async = 1;
-      qtm.src = 'https://cdn.quantummetric.com/qscripts/quantum-lenovopartnerhub.js';
-      var d = document.getElementsByTagName('script')[0];
+  if (process.env.Qlik_ENV === "UAT")
+    (function () {
+      var qtm = document.createElement("script");
+      qtm.type = "text/javascript";
+      qtm.async = 1;
+      qtm.src =
+        "https://cdn.quantummetric.com/qscripts/quantum-lenovopartnerhub-test.js";
+      var d = document.getElementsByTagName("script")[0];
       !window.QuantumMetricAPI && d.parentNode.insertBefore(qtm, d);
-  })();
+    })();
+
+  if (process.env.Qlik_ENV === "PRD")
+    (function () {
+      var qtm = document.createElement("script");
+      qtm.type = "text/javascript";
+      qtm.async = 1;
+      qtm.src =
+        "https://cdn.quantummetric.com/qscripts/quantum-lenovopartnerhub.js";
+      var d = document.getElementsByTagName("script")[0];
+      !window.QuantumMetricAPI && d.parentNode.insertBefore(qtm, d);
+    })();
 
   // show connecting message
-  ReactDOM.render( 
+  ReactDOM.render(
     <PlaceHolder message="Connecting, please wait" />,
     document.getElementById("root")
   );
@@ -112,23 +118,25 @@ const setup = async (name) => {
       host: tenant,
       isSecure: true,
       appname: "",
-      webIntegrationId
+      webIntegrationId,
     };
-  
+
     const settings = {
       crossDomain: true,
-      withCredentials: true, 
+      withCredentials: true,
       url: `https://${tenant}/api/v1/items?resourceType=app&spaceId=${spaceID}&limit=50`,
       method: "GET",
       headers: { "qlik-web-integration-id": config.webIntegrationId },
-      appName: name
+      appName: name,
     };
-  
+
     return axios(settings)
       .then(async ({ data: response }) => {
         const apps = response.data;
-    //console.log(apps);
-        const appname =  apps.find(app => app.name === settings.appName)?.resourceId;
+        //console.log(apps);
+        const appname = apps.find(
+          (app) => app.name === settings.appName
+        )?.resourceId;
         config.appname = appname;
         const headers = await getQCSHeaders({
           url: `https://${tenant}`,
@@ -137,14 +145,15 @@ const setup = async (name) => {
         const params = Object.keys(headers)
           .map((key) => `${key}=${headers[key]}`)
           .join("&");
-  
+
         config.url = `wss://${config.host}/app/${appname}?${params}`;
-      //  console.log(config);
+        // console.log(config.url);
+        //  console.log(config);
         return { config, apps };
       })
       .catch((error) => {
         return ReactDOM.render(
-          <PlaceHolder  message="Connection Failed" />,
+          <PlaceHolder message="Connection Failed" />,
           document.getElementById("root")
         );
       });
