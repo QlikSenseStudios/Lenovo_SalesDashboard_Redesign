@@ -8,10 +8,11 @@ import ViewMore from "../components/ViewMore";
 import { groupBy as lodashGroupBy } from "lodash";
 import { sortBy as lodashsortBy } from "lodash";
 
-const Page = ({ data, sheetData, tabName }) => {
+const Page = ({ data, sheetData, tabName, primaryTab }) => {
   const dubugger = false;
-  // console.log("tab change triggered", tabName);
-  //console.log("data", data);
+  console.log("tab change triggered", tabName);
+  console.log("primaryTab", primaryTab);
+  console.log("data", data);
   // console.log("Sheet data",sheetData)
 
   const {
@@ -133,7 +134,7 @@ const Page = ({ data, sheetData, tabName }) => {
               className="line-container chart_card"
               style={{ height: "100%" }}
             >
-              <Line qDef={qDef} />
+              <Line qDef={qDef} tabName={primaryTab} />
               <div style={{ color: "red", display: dubugger ? "" : "none" }}>
                 {"KPI" + qDef[0][1].qNum + " " + qDef[0][17].qText}
               </div>
