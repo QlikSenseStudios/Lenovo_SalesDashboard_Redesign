@@ -105,6 +105,7 @@ const App = () => {
 
       let unique_subTabs = [...new Set(_subTabs.map((item) => item))];
       //  console.log("unique",unique_subTabs)
+      //unique_subTabs.push("empty");
       return unique_subTabs;
     } else {
       return [];

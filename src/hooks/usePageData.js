@@ -14,9 +14,10 @@ export default (data, tabName) => {
     // console.log(data);
 
     //grouping by headers
-    let grouping = lodashGroupBy(data, (d) =>
-      // d[17].qText.toLowerCase()
-      d[17].qText ? d[17].qText.toLowerCase() : "-"
+    let grouping = lodashGroupBy(
+      data,
+      (d) => d[17].qText.toLowerCase()
+      //(d) => (d[17].qText ? d[17].qText.toLowerCase() : "-")
     );
     // console.log("bpGroup", grouping);
 
@@ -38,14 +39,16 @@ export default (data, tabName) => {
     });
   } else {
     console.log("non EMEA and non specalist");
+
     console.log(data);
+
     //grouping by headers
     let grouping = lodashGroupBy(
       data,
-      //(d) => d[17].qText.toLowerCase()
-      (d) => (d[17].qText ? d[17].qText.toLowerCase() : "")
+      (d) => d[17].qText.toLowerCase()
+      //(d) => (d[17].qText ? d[17].qText.toLowerCase() : "-")
     );
-    // console.log("bpGroup", grouping);
+    console.log("bpGroup", grouping);
     let keys = Object.keys(grouping);
 
     Object.keys(grouping).forEach((key) => {
