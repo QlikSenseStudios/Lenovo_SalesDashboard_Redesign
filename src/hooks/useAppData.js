@@ -40,9 +40,10 @@ export default () => {
         if (!f[11].qText) {
           f[11].qText = "-";
         }
-        if (!f[17].qText) {
-          f[17].qText = "-";
-        }
+        // if (!f[17].qText) {
+        //   f[17].qText = "-";
+        // }
+
         //   if(!f[18].qText ){
         //     f[18].qText = "#"
         // }
