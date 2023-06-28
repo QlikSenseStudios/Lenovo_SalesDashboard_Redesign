@@ -10,9 +10,9 @@ import { sortBy as lodashsortBy } from "lodash";
 
 const Page = ({ data, sheetData, tabName, primaryTab }) => {
   const dubugger = false;
-  console.log("tab change triggered", tabName);
-  console.log("primaryTab", primaryTab);
-  console.log("data", data);
+  // console.log("tab change triggered", tabName);
+  // console.log("primaryTab", primaryTab);
+  // console.log("data", data);
   // console.log("Sheet data",sheetData)
 
   const {

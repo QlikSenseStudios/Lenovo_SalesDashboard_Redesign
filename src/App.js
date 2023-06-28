@@ -13,7 +13,6 @@ import { useSession, useAppData, useGetSheetData } from "./hooks/index";
 import Tab from "./components/tab";
 
 const App = () => {
-  console.log("Performance Page");
   //Qlik error handling
   const connectionError = useSession();
   var { chartControlData, tabData, accessDenied, appData, isLoading, region } =
@@ -114,10 +113,10 @@ const App = () => {
 
   if (tabData !== undefined && tabData.length) {
     getSubData();
-    console.log("primaryTabs", primaryTabs);
-    console.log("primaryTabgroups", primaryTabgroups);
-    console.log("subTabTitles", subTabTitles);
-    console.log("subTabGroups", subTabGroups);
+    // console.log("primaryTabs", primaryTabs);
+    // console.log("primaryTabgroups", primaryTabgroups);
+    // console.log("subTabTitles", subTabTitles);
+    // console.log("subTabGroups", subTabGroups);
   }
 
   //Display Loader before data display

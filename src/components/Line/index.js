@@ -7,8 +7,8 @@ import { colorTheme } from "../../components/index";
 
 //export default ({ qDef: objDef,style = { width: "100%" }, colorTheme }) => {
 export default ({ qDef: objDef, tabName: tabName }) => {
-  console.log("Line qDef", objDef);
-  console.log("tabname", tabName);
+  // console.log("Line qDef", objDef);
+  // console.log("tabname", tabName);
   const style = { width: "100%" };
   //  console.log("colorTheme",colorTheme);
   // const colorTheme ="black";
@@ -95,7 +95,7 @@ export default ({ qDef: objDef, tabName: tabName }) => {
   const { data = {} } = useHyperCubeData({
     def,
     dataTransformFunc: useCallback((qHyperCube) => {
-      var s = qHyperCube.qDataPages[0].qMatrix
+      return qHyperCube.qDataPages[0].qMatrix
         .map(function (item) {
           return {
             quarter: item[0].qText,
@@ -112,9 +112,6 @@ export default ({ qDef: objDef, tabName: tabName }) => {
           //return d.week !== undefined;
           return d.tab === tabName; //Lenovo 360 Sales
         });
-
-      console.log("s", s);
-      return s;
     }, []),
   });
 

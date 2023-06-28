@@ -13,6 +13,7 @@
 /build
 /sales_build
 /program_build
+.uat*
 
 # misc
 .DS_Store
