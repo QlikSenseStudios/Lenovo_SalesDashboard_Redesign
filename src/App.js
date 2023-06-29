@@ -209,7 +209,7 @@ const App = () => {
         <PlaceHolder message="No data available" />
       ) : connectionError.session.error !== null ? (
         <PlaceHolder message="Connection Failed" />
-      ) : region === "EMEA" ? (
+      ) : region === "some region" ? (
         <PlaceHolder message="We are working to update the charts and views on this page. Please go to the Lenovo 360 Incentives page under Programs & Training menu for details of your earnings." />
       ) : (
         <div className="">
