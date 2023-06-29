@@ -16,7 +16,6 @@ export default () => {
 
   //testData
   // const { qsortData_testData } = testData();
-
   //Get the chartControl data/fact data
   const chartControl = useHyperCubeData({
     def: chartControlDef,
@@ -148,27 +147,27 @@ export default () => {
         },
         {
           qDef: {
-            qFieldDefs: ["tab_name"], //1/
+            qFieldDefs: ["tab_name"],
           },
         },
         {
           qDef: {
-            qFieldDefs: ["sub_tab_order"], //1/
+            qFieldDefs: ["sub_tab_order"],
           },
         },
         {
           qDef: {
-            qFieldDefs: ["sub_tab_name"], //1/
+            qFieldDefs: ["sub_tab_name"],
           },
         },
         {
           qDef: {
-            qFieldDefs: ["header_order"], //1/
+            qFieldDefs: ["header_order"],
           },
         },
         {
           qDef: {
-            qFieldDefs: ["header_name"], //1/
+            qFieldDefs: ["header_name"],
           },
         },
       ],
