@@ -1,17 +1,18 @@
-
 svg {
   overflow: visible;
-  color:black;
+  color: black;
 }
 .subtitle {
-    color:var(--chart-titlefont-color)
+  color: var(--chart-titlefont-color);
+  width: 100%;
+  text-align: center;
 }
 .role-axis-label text {
   /* font-family: "Lato", sans-serif !important; */
   font-family: "Montserrat" !important;
   /* fill: white !important; */
 }
-.d3-line-container{
+.d3-line-container {
   /* background-color: aqua; */
   padding: 26px;
 }
