@@ -154,7 +154,7 @@ const Page = ({
               className="line-container chart_card"
               style={{ height: "100%" }}
             >
-              <Line qDef={qDef} />
+              <Line qDef={qDef} tabName={activePrimaryTabName} />
               <div style={{ color: "red", display: dubugger ? "" : "none" }}>
                 {"KPI" + qDef[0][1].qNum + " " + qDef[0][17].qText}
               </div>
