@@ -42,6 +42,10 @@ export default () => {
         if (!f[11].qText) {
           f[11].qText = "-"; // if sutab title is empty/undefined, replace it to "-"
         }
+
+        // if (!f[17].qText) {
+        //   f[17].qText = "-";
+        // }
       });
 
       setChartControlData(chartControl.data);

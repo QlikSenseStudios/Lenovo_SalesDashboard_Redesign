@@ -34,6 +34,7 @@ export default (data, tabName) => {
     });
   } else {
     // console.log("non EMEA and non specalist");
+    //console.log(data);
     //grouping by headers
     let grouping = lodashGroupBy(data, (d) => d[17].qText.toLowerCase());
     // console.log("grouping", grouping);

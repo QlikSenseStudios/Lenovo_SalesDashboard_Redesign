@@ -2,77 +2,80 @@ import React from "react";
 import "./style.css";
 
 export default ({ qDef: objDef }) => {
- //console.log("KPI DEF", objDef);
- var debug = false;
- let row = objDef.map((items)=>{
-  return { kpi_Val_type:items[4].qText,
-            title:items[3].qText,
-            val:items[12].qText,
-            f_val:items[13].qText,
-            lbl:items[14].qText}
-            // return { kpi_Val_type: "valueType",
-            //   title:"Title",
-            //   val:"Val",
-            //   f_val:"600.0K INR",
-            //   lbl:"lbl"}
+  //console.log("KPI DEF", objDef);
+  var debug = false;
+  let row = objDef.map((items) => {
+    return {
+      kpi_Val_type: items[4].qText,
+      title: items[14].qText,
+      val: items[12].qText,
+      f_val: items[13].qText,
+      lbl: items[14].qText,
+    };
+    // return { kpi_Val_type: "valueType",
+    //   title:"Title",
+    //   val:"Val",
+    //   f_val:"600.0K INR",
+    //   lbl:"lbl"}
   });
 
-  if(debug){
+  if (debug) {
     console.log(row);
-    if(row.length<3)
-    console.error("Custom error", row);
+    if (row.length < 3) console.error("Custom error", row);
     console.table(row);
   }
 
-var colors =["#E1140A","#00cc44"]
+  var colors = ["#E1140A", "#00cc44"];
 
   const data = {
-        title: row.length ? row[0].title : "",
-        value: row.length ? row[0].f_val : "",
-        variance1Title : row.length > 1 ? row[1].lbl : "",
-        variance1 : row.length > 1 ? row[1].f_val : "",
-        variance2Title: row.length > 2 ? row[2].lbl : "",
-        variance2: row.length > 2 ? row[2].f_val : "",
-        // variance3Title:row.length > 3 ? row[3].lbl : "",
-        // variance3: row.length > 3 ? row[3].lbl : "",
+    title: row.length ? row[0].title : "",
+    value: row.length ? row[0].f_val : "",
+    variance1Title: row.length > 1 ? row[1].lbl : "",
+    variance1: row.length > 1 ? row[1].f_val : "",
+    variance2Title: row.length > 2 ? row[2].lbl : "",
+    variance2: row.length > 2 ? row[2].f_val : "",
+    // variance3Title:row.length > 3 ? row[3].lbl : "",
+    // variance3: row.length > 3 ? row[3].lbl : "",
+  };
+
+  function variances_color(params) {
+    let s = {
+      color: params.includes("▼")
+        ? colors[0]
+        : params.includes("▲")
+        ? colors[1]
+        : "",
+      fontWeight: "bolder",
+    };
+    //  s.color="black"
+
+    if (params.includes("▼" || "▲")) {
+      if (params.includes("▼")) {
+        s.color = colors[0];
+      }
+      if (params.includes("▲")) {
+        s.color = colors[1];
+      }
     }
 
- function variances_color(params) {
- let s = { color: params.includes("▼")?colors[0]:params.includes("▲")?colors[1]:"",fontWeight:"bolder"}
-//  s.color="black"
-
- if(params.includes("▼"||"▲")){
-      if(params.includes("▼")){
-          s.color= colors[0];
-      }
-      if(params.includes("▲")){
-            s.color= colors[1];
-      }
-}
-
- if(params.includes("%"))
- {
-       let d = params.split("%")
+    if (params.includes("%")) {
+      let d = params.split("%");
       // console.log(d);
       // console.log(d[0]);
       let f = Math.sign(parseInt(d[0]));
       // console.log("f",f);
 
-      if(f==-1){
-        s.color=colors[0]
+      if (f == -1) {
+        s.color = colors[0];
+      } else {
+        s.color = colors[1];
       }
-      else{
-        s.color=colors[1]
-      }
-    
- }
+    }
 
- 
- return s;
- 
-}
+    return s;
+  }
 
- if (!data) return <div>Loading...</div>;
+  if (!data) return <div>Loading...</div>;
 
   const {
     title,
@@ -82,7 +85,7 @@ var colors =["#E1140A","#00cc44"]
     variance3,
     variance1Title,
     variance2Title,
-    variance3Title
+    variance3Title,
   } = data;
 
   return (
@@ -96,8 +99,7 @@ var colors =["#E1140A","#00cc44"]
               : "kpi-value display"
           }
         >
- 
-           {value}
+          {value}
         </div>
         <div className="kpi-variances">
           <div className="kpi-variance">
@@ -109,9 +111,11 @@ var colors =["#E1140A","#00cc44"]
               }
               title={variance1Title}
             >
-              {variance1Title}  
+              {variance1Title}
             </div>
-            <div className={"note-value"} style={ variances_color(variance1) }  >{variance1}</div>
+            <div className={"note-value"} style={variances_color(variance1)}>
+              {variance1}
+            </div>
           </div>
           <div className="kpi-variance">
             <div
@@ -124,7 +128,9 @@ var colors =["#E1140A","#00cc44"]
             >
               {variance2Title}
             </div>
-            <div className={"note-value"} style={ variances_color(variance2)}>{variance2}</div>
+            <div className={"note-value"} style={variances_color(variance2)}>
+              {variance2}
+            </div>
           </div>
           {variance3Title !== null && variance3 !== null ? (
             <div className="kpi-variance">
