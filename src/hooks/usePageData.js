@@ -39,17 +39,23 @@ export default (data, tabName) => {
     let grouping = lodashGroupBy(data, (d) => d[17].qText.toLowerCase());
     // console.log("grouping", grouping);
     let keys = Object.keys(grouping);
+    //console.log("keys", keys); // headers not in expected order- need to checked
 
     Object.keys(grouping).forEach((key) => {
       let rowNum = keys.indexOf(key);
-      //  console.log(rowNum);
+      // console.log(rowNum);
       grouping[key].map((d, i) => {
         // console.log(d[1].row);
-        d[1].row = rowNum + 1;
-        d[0].row = rowNum + 1;
-        let derivedPostion = Number(d[1].qNum) + rowNum;
-        // console.log("derivedPostion",derivedPostion);
-        d[1].qNum = derivedPostion; // qNum and qText to handle posion data to have all charts displayed
+
+        // add row property explictly - based on the data sorted by headers, eg: 1 for first header
+        if (!d[1].row) {
+          // to avoid overriding the row property
+          d[1].row = rowNum + 1;
+          d[0].row = rowNum + 1;
+          let derivedPostion = Number(d[1].qNum) + rowNum;
+          //  console.log("derivedPostion " + derivedPostion + ", " + d[0].row);
+          d[1].qNum = derivedPostion; // qNum and qText to handle posion data to have all charts displayed
+        }
       });
     });
   }

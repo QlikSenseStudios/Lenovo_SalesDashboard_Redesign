@@ -16,9 +16,9 @@ const Page = ({
   sortOrderInfo,
 }) => {
   const dubugger = false;
-  //console.log("tab change triggered", activeSubTab);
-  //console.log("data", data);
-  // console.log("Sheet data",sheetData)
+  // console.log("tab change triggered", activeSubTab);
+  // console.log("data", data);
+  // console.log("Sheet data", sheetData);
 
   const {
     groupedKpis,
@@ -307,14 +307,14 @@ const Page = ({
   // console.log("allRows", allRows);
 
   //groping by header
-  const groupByHeader = useCallback((gd) => {
-    return Object.values(lodashGroupBy(gd, (d) => d.props.rowtitle));
-  }, []);
+  // const groupByHeader = useCallback((gd) => {
+  //   return Object.values(lodashGroupBy(gd, (d) => d.props.rowtitle));
+  // }, []);
 
   //sorting the charts based on displayorder - to rearrange the position of charts
-  const sortBy = useCallback((sd) => {
-    return Object.values(lodashsortBy(sd, (d) => d.props.displayorder));
-  }, []);
+  // const sortBy = useCallback((sd) => {
+  //   return Object.values(lodashsortBy(sd, (d) => d.props.displayorder));
+  // }, []);
 
   // let groupedGridRows = groupByHeader(allRows);
   // console.log("groupedGridRows", groupedGridRows);
@@ -340,7 +340,7 @@ const Page = ({
   headersSortOrder.map((item, i) => {
     if (data_by_header[item]) groupedGridRows_Sorted.push(data_by_header[item]);
   });
-  //console.log(groupedGridRows_Sorted);
+  // console.log(groupedGridRows_Sorted);
 
   const container_ref = useRef(null);
   return (

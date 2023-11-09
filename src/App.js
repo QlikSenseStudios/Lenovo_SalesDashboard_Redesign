@@ -176,7 +176,8 @@ const App = () => {
   //   console.log("---primaryTabgroups", primaryTabgroups);
   //   console.log("--subTabTitles", subTabTitles);
   //   console.log("---subTabGroups", subTabGroups);
-  // }, [primaryTabs, primaryTabgroups, subTabTitles, subTabGroups]);
+  //   console.log("---sheetData", sheetData);
+  // }, [primaryTabs, primaryTabgroups, subTabTitles, subTabGroups, sheetData]);
 
   //Display Loader before data display
   if (
@@ -212,65 +213,67 @@ const App = () => {
       ) : region === "some region" ? (
         <PlaceHolder message="We are working to update the charts and views on this page. Please go to the Lenovo 360 Incentives page under Programs & Training menu for details of your earnings." />
       ) : (
-        <div className="">
-          <div className="pri-nav-container">
-            <ul className="pri-nav pri-nav-tabs nav-justified my-Container">
-              {primaryTabs.map((Maintab, idx) => {
-                return (
-                  <li
-                    key={idx}
-                    className={`pri-nav-item ${
-                      idx === activePrimaryTab ? "active" : ""
-                    }`}
-                  >
-                    <a
-                      className={`pri-nav-link ${
+        sheetData != null && (
+          <div className="">
+            <div className="pri-nav-container">
+              <ul className="pri-nav pri-nav-tabs nav-justified my-Container">
+                {primaryTabs.map((Maintab, idx) => {
+                  return (
+                    <li
+                      key={idx}
+                      className={`pri-nav-item ${
                         idx === activePrimaryTab ? "active" : ""
                       }`}
-                      href="#"
-                      onClick={() => setActivePrimaryTab(idx)}
                     >
-                      {Maintab}
-                    </a>
-                  </li>
+                      <a
+                        className={`pri-nav-link ${
+                          idx === activePrimaryTab ? "active" : ""
+                        }`}
+                        href="#"
+                        onClick={() => setActivePrimaryTab(idx)}
+                      >
+                        {Maintab}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+            <Tab>
+              {subTabTitles.map((tabN, idx) => {
+                return (
+                  <Tab.TabPane key={idx} tab={tabN}>
+                    {appData !== null && controlDataSorted !== null ? (
+                      <div
+                        style={
+                          subTabGroups[idx].length ? {} : { display: "none" }
+                        }
+                      >
+                        <span className="pageName"></span>
+                        <span className="quarter">{appData.quarter}</span>
+                        <div style={{ lineHeight: "1" }}>
+                          <span className="snapDate">{`As of: ${appData.snapDate}`}</span>
+                          <span className="quarterRange">
+                            {`(${appData.quarterStartDate} `}{" "}
+                            &nbsp;&nbsp;-&nbsp;&nbsp;
+                            {` ${appData.quarterEndDate})`}
+                          </span>
+                        </div>
+                      </div>
+                    ) : null}
+                    <Page
+                      data={subTabGroups[idx]}
+                      sheetData={sheetData}
+                      activeSubTab={tabN}
+                      activePrimaryTabName={primaryTabs[activePrimaryTab]}
+                      sortOrderInfo={sortOrderInfo}
+                    />
+                  </Tab.TabPane>
                 );
               })}
-            </ul>
+            </Tab>
           </div>
-          <Tab>
-            {subTabTitles.map((tabN, idx) => {
-              return (
-                <Tab.TabPane key={idx} tab={tabN}>
-                  {appData !== null && controlDataSorted !== null ? (
-                    <div
-                      style={
-                        subTabGroups[idx].length ? {} : { display: "none" }
-                      }
-                    >
-                      <span className="pageName"></span>
-                      <span className="quarter">{appData.quarter}</span>
-                      <div style={{ lineHeight: "1" }}>
-                        <span className="snapDate">{`As of: ${appData.snapDate}`}</span>
-                        <span className="quarterRange">
-                          {`(${appData.quarterStartDate} `}{" "}
-                          &nbsp;&nbsp;-&nbsp;&nbsp;
-                          {` ${appData.quarterEndDate})`}
-                        </span>
-                      </div>
-                    </div>
-                  ) : null}
-                  <Page
-                    data={subTabGroups[idx]}
-                    sheetData={sheetData}
-                    activeSubTab={tabN}
-                    activePrimaryTabName={primaryTabs[activePrimaryTab]}
-                    sortOrderInfo={sortOrderInfo}
-                  />
-                </Tab.TabPane>
-              );
-            })}
-          </Tab>
-        </div>
+        )
       )}
     </div>
   );
