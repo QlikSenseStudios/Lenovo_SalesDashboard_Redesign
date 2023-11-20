@@ -106,7 +106,7 @@ const setup = async (name) => {
 
   // show connecting message
   ReactDOM.render(
-    <PlaceHolder message="Connecting, please wait" />,
+    <PlaceHolder message="Connecting, please wait..." />,
     document.getElementById("root")
   );
 
@@ -115,6 +115,7 @@ const setup = async (name) => {
 
     const config = {
       url: "",
+      wsUrl: "",
       host: tenant,
       isSecure: true,
       appname: "",
@@ -145,9 +146,8 @@ const setup = async (name) => {
         const params = Object.keys(headers)
           .map((key) => `${key}=${headers[key]}`)
           .join("&");
-
         config.url = `wss://${config.host}/app/${appname}?${params}`;
-        //  console.log(config);
+        config.wsUrl = `wss://${config.host}/app/${appname}?${params}`;
         return { config, apps };
       })
       .catch((error) => {
@@ -158,7 +158,7 @@ const setup = async (name) => {
       });
   } catch {
     return ReactDOM.render(
-      <PlaceHolder message="Connecting, please wait" />,
+      <PlaceHolder message="Connecting, please wait.." />,
       document.getElementById("root")
     );
   }

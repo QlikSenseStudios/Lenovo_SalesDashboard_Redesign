@@ -348,7 +348,7 @@ const Page = ({
       <div className="App-header">
         {data.length === 0 ? (
           // <div className="noAccessBg">
-          <PlaceHolder message="No data available" />
+          <PlaceHolder message="No data available-" />
         ) : (
           // </div>
           <div className="container-fluid">

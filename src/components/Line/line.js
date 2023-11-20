@@ -14,7 +14,6 @@ const Line = ({
   colorTheme = "black",
   //colorTheme,
 }) => {
-  
   const [d3Data, setD3Data] = useState({});
 
   const yAxisRef = useRef();
@@ -30,29 +29,39 @@ const Line = ({
   );
 
   useEffect(() => {
-    let debug = false;
+    let isMounted = true;
+    let debug = true;
+    console.log("refLine", refLine);
+    console.log("upperTarget", upperTarget);
+    console.log("lowerTarget", lowerTarget);
+    console.log("data", data);
+    console.log("width", width);
+    console.log("height", height);
     const referenceLineData = refLine ? [upperTarget, lowerTarget] : null;
 
-    if(debug)
-    console.debug("reflineData",referenceLineData);
-    
+    if (debug) console.log("reflineData", referenceLineData);
+
     const latestPointData = refLine ? data[data.length - 1] : null;
 
-    if(debug)
-    console.log("last DataPoint",latestPointData);
-    
+    if (debug) console.log("last DataPoint", latestPointData);
 
     const refLineMax = refLine ? d3.max(referenceLineData) : null;
     const refLineMin = refLine ? d3.min(referenceLineData) : null;
-
-    setD3Data({
-      referenceLineData: referenceLineData,
-      latestPointData: latestPointData,
-      refLineMax: refLineMax,
-      refLineMin: refLineMin,
-      data: data,
-    });
+    if (isMounted) {
+      setD3Data({
+        referenceLineData: referenceLineData,
+        latestPointData: latestPointData,
+        refLineMax: refLineMax,
+        refLineMin: refLineMin,
+        data: data,
+      });
+    }
+    return () => {
+      isMounted = false;
+    };
   }, [data, refLine, upperTarget, lowerTarget]);
+
+  console.log("d3Data", d3Data);
 
   const xScale = useMemo(() => {
     if (width !== undefined) {
@@ -64,13 +73,19 @@ const Line = ({
       return x;
     }
   }, [width, d3Data.data]);
+
   const yScale = useMemo(() => {
     if (height !== undefined) {
       var yMax = d3.max(d3Data.data, (d) => d[2].qNum + 1);
       var yMin = d3.min(d3Data.data, (d) => d[2].qNum);
       var y = d3
         .scaleLinear()
-        .domain([Math.min(yMin, 0), (d3Data.referenceLineData && d3Data.referenceLineData[0] > yMax ) ? d3Data.referenceLineData[0] + 1 : yMax])
+        .domain([
+          Math.min(yMin, 0),
+          d3Data.referenceLineData && d3Data.referenceLineData[0] > yMax
+            ? d3Data.referenceLineData[0] + 1
+            : yMax,
+        ])
         .range([height - margin.bottom, margin.top]);
 
       return y;
@@ -78,7 +93,9 @@ const Line = ({
   }, [height, d3Data.data, d3Data.referenceLineData]);
 
   useEffect(() => {
-    if (width && height !== 0) {
+    let isMounted = true;
+    if (width && height !== 0 && d3Data.data.length && isMounted) {
+      console.log("d3Data-Exist", d3Data);
       var xMin = d3.min(d3Data.data, (d) => d[1].qNum);
 
       var xAxis = d3.axisBottom(xScale);
@@ -101,9 +118,9 @@ const Line = ({
         .enter()
         .append("path")
         .attr("stroke-width", 2)
-       .attr("stroke", "#ff6a00") //orange
-       // .attr("stroke", "#F04187") // megenta
-      //  .attr("stroke", "#FF7675") // red
+        .attr("stroke", "#ff6a00") //orange
+        // .attr("stroke", "#F04187") // megenta
+        //  .attr("stroke", "#FF7675") // red
 
         .attr("fill", "none")
         .merge(gPath)
@@ -112,6 +129,8 @@ const Line = ({
 
       //ref line
       if (refLine) {
+        console.log("2refLine", refLine);
+
         const gRefline = d3
           .select(refLineRef.current)
           .selectAll(".refLine")
@@ -238,27 +257,30 @@ const Line = ({
         .attr("x2", width - margin.left)
         .attr("stroke-dasharray", "2.2");
     }
+    return () => {
+      isMounted = false;
+    };
   }, [d3Data, refLine, width, height, urlRoot, colorTheme, xScale, yScale]);
   return (
     <div className="d3-line-container">
-       <div className="utilization_container">
-            <div style={{ height: "10%" }} className={`subtitle`}>
-              {title}
-            </div>
-            <svg
-              ref={svgRef}
-              style={{
-                width: "100%",
-                height: "100%",
-              }}
-              className="svg"
-            >
-              <g ref={yAxisRef} className="yAxis"></g>
-              <g ref={xAxisRef} className="xAxis"></g>
-              <g ref={lineRef} className="lineG"></g>
-              <g ref={refLineRef} className="refLineG"></g>
-              <g ref={circleRef} className="circleG"></g>
-            </svg>
+      <div className="utilization_container">
+        <div style={{ height: "10%" }} className={`subtitle`}>
+          {title}
+        </div>
+        <svg
+          ref={svgRef}
+          style={{
+            width: "100%",
+            height: "100%",
+          }}
+          className="svg"
+        >
+          <g ref={yAxisRef} className="yAxis"></g>
+          <g ref={xAxisRef} className="xAxis"></g>
+          <g ref={lineRef} className="lineG"></g>
+          <g ref={refLineRef} className="refLineG"></g>
+          <g ref={circleRef} className="circleG"></g>
+        </svg>
       </div>
     </div>
   );

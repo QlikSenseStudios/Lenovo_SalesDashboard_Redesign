@@ -1,0 +1,157 @@
+.sales-gauge .utilization_container {
+  max-width: 250px;
+  height: 100%;
+}
+.sales-gauge .circle-block {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  margin-left: 6px;
+  height: 100%;
+}
+.sales-gauge .circle-block svg {
+  width: 225px;
+}
+.sales-gauge .svg {
+  height: 100%;
+}
+.sales-gauge .percentage {
+  position: absolute;
+  color: #f70065;
+  top: 60px;
+  left: 0;
+  bottom: 0;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.sales-gauge .percentage h1 {
+  font-size: 55px;
+  line-height: 41px;
+}
+.sales-gauge .percentage p {
+  font-size: 11px;
+}
+.sales-gauge .percentage2 {
+  color: black;
+}
+.sales-gauge .circle-max {
+  fill: none;
+  stroke-width: 6px;
+  stroke: #445a6a;
+  stroke-linejoin: round;
+}
+.sales-gauge .circle-current {
+  fill: none;
+  stroke: #ff6a00;
+  stroke-linejoin: round;
+  stroke-width: 6px;
+}
+.sales-gauge .percentage.percentage2 .subtitle {
+  max-width: 128px;
+  text-align: center;
+  height: 40.5px;
+}
+.sales-gauge .percentage.percentage2 .display {
+  line-height: 80px;
+}
+@media (max-width: 1100px) {
+  .sales-gauge .percentage.percentage2 .display {
+    line-height: 84px;
+  }
+  .sales-gauge .circle-current {
+    stroke-width: 5px;
+  }
+  .sales-gauge .circle-max {
+    stroke-width: 5px;
+  }
+  .sales-gauge .circle-block svg {
+    width: 250px;
+  }
+}
+@media (max-width: 1000px) {
+  .sales-gauge .percentage.percentage2 .display {
+    line-height: 76px;
+  }
+}
+@media (max-width: 995px) {
+  .sales-gauge .percentage.percentage2 .display {
+    line-height: 64px;
+  }
+  .sales-gauge .circle-block svg {
+    width: 190px;
+  }
+  .sales-gauge .percentage {
+    top: 50px;
+  }
+}
+@media (max-width: 940px) {
+  .sales-gauge .percentage.percentage2 .display {
+    line-height: 56px;
+  }
+}
+@media (max-width: 900px) {
+  .sales-gauge .percentage.percentage2 .display {
+    line-height: 48px;
+  }
+}
+@media (max-width: 865px) {
+  .sales-gauge .percentage {
+    top: 30px;
+  }
+}
+@media (max-width: 480px) {
+  .sales-gauge .circle-block svg {
+    width: 170px;
+  }
+  .sales-gauge .percentage.percentage2 .subtitle {
+    padding-top: 5px;
+  }
+}
+@media (max-width: 415px) {
+  .sales-gauge .percentage.percentage2 .subtitle {
+    height: 28.5px;
+  }
+}
+@media (max-width: 385px) {
+  .sales-gauge .circle-block svg {
+    width: 150px;
+  }
+  .sales-gauge .percentage.percentage2 .display {
+    line-height: 55px;
+  }
+  .sales-gauge .percentage {
+    top: 20px;
+  }
+}
+@media (max-width: 360px) {
+  .sales-gauge .percentage.percentage2 .subtitle {
+    padding-top: 14px;
+  }
+  .sales-gauge .circle-block svg {
+    width: 140px;
+  }
+  .sales-gauge .percentage {
+    top: 12px;
+  }
+}
+@media (max-width: 320px) {
+  .sales-gauge .circle-block svg {
+    width: 125px;
+  }
+  .sales-gauge .percentage.percentage2 .display {
+    line-height: 50px;
+  }
+  .sales-gauge .percentage.percentage2 .subtitle {
+    padding-left: 5px;
+  }
+  .sales-gauge .percentage {
+    top: 8px;
+  }
+}/*# sourceMappingURL=style.css.map */

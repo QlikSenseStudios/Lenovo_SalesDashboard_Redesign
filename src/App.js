@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useContext } from "react";
 import "./App.css";
 
 // Shared Components
@@ -8,21 +8,44 @@ import Page from "./Pages/PerformancePage";
 import { flow, sortBy } from "lodash/fp";
 import PlaceHolder from "./components/PlaceHolder";
 import Loader from "./components/Loader";
-import { useSession, useAppData, useGetSheetData } from "./hooks/index";
+import { QlikContext } from "./hooks/QlikProvider";
+import {
+  // useSession,
+  // useAppData,
+  useGetSheetData,
+  useTabData,
+  useChartControlData,
+  useAppxData,
+  useSortOrderData,
+} from "./hooks/index";
 import Tab from "./components/tab";
 
 const App = () => {
   //console.log("Performance Page");
   //Qlik error handling
-  const connectionError = useSession();
-  var {
-    chartControlData,
-    tabData,
-    accessDenied,
-    appData,
-    isLoading,
-    sortOrderInfo,
-  } = useAppData();
+  const { connectionError } = useContext(QlikContext);
+
+  var { sortOrderInfo, isLoading } = useSortOrderData();
+  // console.log("isLoading***", isLoading);
+  var { tabData, isLoading } = useTabData();
+  // console.log("usetabData isLoading", isLoading);
+  var { chartControlData, isLoading } = useChartControlData();
+  var { appData, isLoading } = useAppxData();
+  // console.log("appData**", appData);
+
+  var accessDenied = false;
+  // var isLoading = true;
+
+  // var {
+  //   //   chartControlData,
+  //   //   tabData,
+  //   //   accessDenied,
+  //   //   appData,
+  //   isLoading,
+  //   //   sortOrderInfo,
+  // } = useAppData();
+
+  // console.log("isLoading", isLoading);
 
   const [region, setregion] = useState([]);
   const sheetData = useGetSheetData();
@@ -57,7 +80,7 @@ const App = () => {
   //2. get primary tabs
   const primaryTabs = useMemo(() => {
     // console.log("****Getting primaryTabs");
-    // console.log("tabData", tabData);
+    console.log("tabData", tabData);
     // console.log("primaryTabOrder", primaryTabOrder);
     //primary tabs form fact data
     let qUniquePrimaryTab = [...new Set(tabData.map((item) => item[1].qText))];
@@ -77,10 +100,11 @@ const App = () => {
 
   subTabGroups = useMemo(() => {
     // console.log("Primary tab change");
-    // console.log(sortOrderInfo);
+    // // console.log(sortOrderInfo);
     // console.log("activePrimaryTab", activePrimaryTab);
 
     if (primaryTabgroups !== undefined && subTabTitles !== undefined) {
+      console.log("doing**************888");
       return subTabTitles.map((t, i) => {
         return primaryTabgroups[activePrimaryTab].filter((d) => {
           return d[11].qText === t;
@@ -119,9 +143,10 @@ const App = () => {
   //4.get subtab order and reorder titles when active tab is changed
   subTabTitles = useMemo(() => {
     if (primaryTabgroups != undefined) {
-      // console.log("****Getting subTabTitles");
-      // console.log("activePrimaryTab**", activePrimaryTab);
-      // console.log("primaryTabs**", primaryTabs);
+      console.log("****Getting subTabTitles");
+      console.log("activePrimaryTab**", activePrimaryTab);
+      console.log("primaryTabs**", primaryTabs);
+      console.log("sortOrderInfo", sortOrderInfo);
 
       //get subtab order for the activePrimaryTab
       let subTabOrder = sortOrderInfo
@@ -135,7 +160,7 @@ const App = () => {
             )
         )
         .map((item) => item.sub_tab_name);
-      //console.log("subTabOrder", subTabOrder);
+      console.log("subTabOrder", subTabOrder);
 
       //unique sub tabs from fact data
       var qUniqueSubTabs = [
@@ -171,13 +196,14 @@ const App = () => {
     getSubTabGroups();
   }
 
-  // useEffect(() => {
-  //   console.log("---primaryTabs", primaryTabs);
-  //   console.log("---primaryTabgroups", primaryTabgroups);
-  //   console.log("--subTabTitles", subTabTitles);
-  //   console.log("---subTabGroups", subTabGroups);
-  //   console.log("---sheetData", sheetData);
-  // }, [primaryTabs, primaryTabgroups, subTabTitles, subTabGroups, sheetData]);
+  useEffect(() => {
+    // console.log("---primaryTabs", primaryTabs);
+    // console.log("---primaryTabgroups", primaryTabgroups);
+    // console.log("--subTabTitles", subTabTitles);
+    // console.log("---subTabGroups", subTabGroups);
+    // console.log("---sheetData", sheetData);
+    // console.log("---activePrimaryTab ", activePrimaryTab);
+  }, [primaryTabs, primaryTabgroups, subTabTitles, subTabGroups, sheetData]);
 
   //Display Loader before data display
   if (
@@ -193,6 +219,7 @@ const App = () => {
   }
   // connectionError.doc.error = "Error";
   // connectionError.session.error = "error";
+  //primaryTabs.length = 0;
 
   var noDataCondition =
     subTabTitles.length === 0 ||
@@ -206,14 +233,15 @@ const App = () => {
 
   return (
     <div className={noDataCondition ? "noAccessBg" : ""}>
-      {accessDenied || connectionError.doc.error !== null ? (
-        <PlaceHolder message="No data available" />
-      ) : connectionError.session.error !== null ? (
+      {connectionError.session.error != null ? (
         <PlaceHolder message="Connection Failed" />
+      ) : noDataCondition ? (
+        <PlaceHolder message="No data available" />
       ) : region === "some region" ? (
         <PlaceHolder message="We are working to update the charts and views on this page. Please go to the Lenovo 360 Incentives page under Programs & Training menu for details of your earnings." />
       ) : (
-        sheetData != null && (
+        sheetData != null &&
+        appData !== null && (
           <div className="">
             <div className="pri-nav-container">
               <ul className="pri-nav pri-nav-tabs nav-justified my-Container">

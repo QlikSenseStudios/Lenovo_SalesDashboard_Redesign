@@ -1,0 +1,32 @@
+.sales-line {
+  /*
+  X-Axis Ticks overrides
+  */
+  /* Y-Axis grid lines */
+  /*
+  Y-Axis Ticks & Domain overrides
+  */
+}
+.sales-line .role-axis-label text {
+  font-family: "Montserrat" !important;
+  fill: black !important;
+}
+.sales-line .mark-group.role-axis:nth-of-type(1) .role-axis-tick {
+  opacity: 0 !important;
+}
+.sales-line .mark-rule.role-axis-grid line {
+  opacity: 0.5 !important;
+  stroke: black !important;
+}
+.sales-line .mark-group.role-axis:nth-of-type(2) .role-axis-tick, .sales-line .mark-group.role-axis:nth-of-type(2) .role-axis-domain {
+  opacity: 0 !important;
+}
+.sales-line .reference-line-marks .mark-line.role-mark path {
+  stroke: black !important;
+}
+.sales-line .marks {
+  width: 100%;
+}
+.sales-line .arc-vega {
+  width: 100% !important;
+}/*# sourceMappingURL=style.css.map */

@@ -1,11 +1,20 @@
-import React, { useCallback, useRef } from "react";
-import { useHyperCubeData, useChartSpec } from "../../hooks/index";
+import React, {
+  useCallback,
+  useRef,
+  useContext,
+  useState,
+  useEffect,
+} from "react";
+import { useChartSpec } from "../../hooks/index";
+import { QlikContext } from "../../hooks/QlikProvider";
 import "./style.css";
-
 import Bar from "./bar";
 
 export default ({ qDef: objDef }) => {
   // console.log("Bar qDef", objDef);
+  const { engineApp } = useContext(QlikContext);
+  const [data, setData] = useState([]);
+
   var debug = false;
   let row = objDef.map((items) => {
     return {
@@ -41,15 +50,33 @@ export default ({ qDef: objDef }) => {
     },
   };
 
-  const { data = {} } = useHyperCubeData({
-    def,
-    dataTransformFunc: useCallback((qHyperCube) => {
-      return qHyperCube;
-    }, []),
-  });
+  // const { dataT = {} } = useHyperCubeData({
+  //   def,
+  //   dataTransformFunc: useCallback((qHyperCube) => {
+  //     return qHyperCube;
+  //   }, []),
+  // });
+
+  useEffect(() => {
+    if (!data.length) fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      console.log("fetch line data");
+      let sessionObj = await engineApp.createSessionObject(def);
+      // setSessionObj(sessionObj);
+      // console.log("sessionObj", sessionObj);
+      const layout = await sessionObj.getLayout();
+      // console.log("layout", layout);
+      setData(layout.qHyperCube);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   var barData = {
-    value: 1190320.0, //row.find((o) => o.kpi_Val_type === "ACTUAL").val,
+    value: row.find((o) => o.kpi_Val_type === "ACTUAL").val, //1190320.0
     target: row.find((o) => o.kpi_Val_type === "TARGET").val,
     targetRounded: row.find((o) => o.kpi_Val_type === "TARGET").f_val,
     tierName: row.find((o) => o.kpi_Val_type === "TARGET TIER NAME").lbl,
@@ -74,6 +101,7 @@ export default ({ qDef: objDef }) => {
 
   // //set state with chart width
   const barChartRef = useRef();
+  console.log("data", data);
   const { width } = useChartSpec(barChartRef, data);
 
   if (!barData) return <div>Loading...</div>;
