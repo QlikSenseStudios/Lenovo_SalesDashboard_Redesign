@@ -1,5 +1,4 @@
-import { useState, useEffect, useCallback, useContext } from "react";
-// import { useHyperCubeData } from "./index";
+import { useState, useEffect, useContext } from "react";
 import drillDownDataDef from "../qDefs/List/drillDownDataDef";
 import { QlikContext } from "./QlikProvider";
 
@@ -15,7 +14,7 @@ export default () => {
 
   const fetchData = async () => {
     try {
-      console.log("fetch tab");
+      // console.log("fetch tab");
       let sessionObj = await engineApp.createSessionObject(drillDownDataDef);
       setSessionObj(sessionObj);
       // console.log("sessionObj", sessionObj);
@@ -35,7 +34,7 @@ export default () => {
     console.log("set tab Layout");
     if (tabDataLayout) {
       let hQube = tabDataLayout.qHyperCube;
-      console.log("hQube", hQube);
+      //console.log("hQube", hQube);
       let sheets = hQube.qDataPages[0].qMatrix;
       // console.log("hqsheet", sheets);
 

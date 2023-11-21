@@ -10,7 +10,7 @@ export default () => {
 
   const fetchData = async () => {
     try {
-      console.log("fetch app data");
+      // console.log("fetch app data");
       let sessionObj = await engineApp.createSessionObject(appDataDef);
       setSessionObj(sessionObj);
       // console.log("sessionObj", sessionObj);
@@ -27,10 +27,10 @@ export default () => {
   }, []);
 
   useEffect(() => {
-    console.log("set app Layout");
+    console.log("set Layout");
     if (appDataLayout) {
       let hQube = appDataLayout.qHyperCube;
-      console.log("hQube", hQube);
+      // console.log("hQube", hQube);
       const qMatrix = hQube.qDataPages[0].qMatrix[0];
       console.log(qMatrix);
 

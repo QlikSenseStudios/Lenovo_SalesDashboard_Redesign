@@ -10,8 +10,6 @@ import PlaceHolder from "./components/PlaceHolder";
 import Loader from "./components/Loader";
 import { QlikContext } from "./hooks/QlikProvider";
 import {
-  // useSession,
-  // useAppData,
   useGetSheetData,
   useTabData,
   useChartControlData,
@@ -80,7 +78,7 @@ const App = () => {
   //2. get primary tabs
   const primaryTabs = useMemo(() => {
     // console.log("****Getting primaryTabs");
-    console.log("tabData", tabData);
+    // console.log("tabData", tabData);
     // console.log("primaryTabOrder", primaryTabOrder);
     //primary tabs form fact data
     let qUniquePrimaryTab = [...new Set(tabData.map((item) => item[1].qText))];
@@ -104,7 +102,6 @@ const App = () => {
     // console.log("activePrimaryTab", activePrimaryTab);
 
     if (primaryTabgroups !== undefined && subTabTitles !== undefined) {
-      console.log("doing**************888");
       return subTabTitles.map((t, i) => {
         return primaryTabgroups[activePrimaryTab].filter((d) => {
           return d[11].qText === t;
@@ -143,10 +140,9 @@ const App = () => {
   //4.get subtab order and reorder titles when active tab is changed
   subTabTitles = useMemo(() => {
     if (primaryTabgroups != undefined) {
-      console.log("****Getting subTabTitles");
-      console.log("activePrimaryTab**", activePrimaryTab);
-      console.log("primaryTabs**", primaryTabs);
-      console.log("sortOrderInfo", sortOrderInfo);
+      // console.log("activePrimaryTab**", activePrimaryTab);
+      // console.log("primaryTabs**", primaryTabs);
+      // console.log("sortOrderInfo", sortOrderInfo);
 
       //get subtab order for the activePrimaryTab
       let subTabOrder = sortOrderInfo
@@ -160,7 +156,7 @@ const App = () => {
             )
         )
         .map((item) => item.sub_tab_name);
-      console.log("subTabOrder", subTabOrder);
+      // console.log("subTabOrder", subTabOrder);
 
       //unique sub tabs from fact data
       var qUniqueSubTabs = [

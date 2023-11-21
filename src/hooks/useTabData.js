@@ -49,7 +49,7 @@ export default () => {
 
   const fetchData = async () => {
     try {
-      console.log("fetch tab");
+      // console.log("fetch tab");
       let sessionObj = await engineApp.createSessionObject(qDef);
       setSessionObj(sessionObj);
       // console.log("sessionObj", sessionObj);
@@ -66,7 +66,7 @@ export default () => {
   }, []);
 
   useEffect(() => {
-    console.log("set tab Layout");
+    //console.log("set tab Layout");
     if (tabDataLayout) {
       let hQube = tabDataLayout.qHyperCube;
       //console.log("hQube", hQube);

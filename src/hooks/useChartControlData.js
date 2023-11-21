@@ -27,7 +27,7 @@ export default () => {
   }, []);
 
   useEffect(() => {
-    console.log("set ChartControl Layout");
+    //console.log("set ChartControl Layout");
     if (chartDataLayout) {
       let hQube = chartDataLayout.qHyperCube;
       //  console.log("hQube", hQube);

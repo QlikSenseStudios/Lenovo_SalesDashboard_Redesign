@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import { Gauge, Kpi, Line, LeapKpi, Bar, Doughnut } from "../components";
 import { usePageData } from "../hooks/index";
 import PlaceHolder from "../components/PlaceHolder";
